@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>점프UP 관리</title>
+<style>
+:root{
+  --bg:#f4f4f1;--card:#fff;--border:#e8e8e4;--text:#1a1a18;--sub:#888;
+  --blue:#1a6ef5;--blue-bg:#e8f0fe;--green:#2e7d32;--green-bg:#e8f5e9;
+  --amber:#854f0b;--amber-bg:#faeeda;--red:#a32d2d;--red-bg:#fcebeb;
+  --radius:14px;--radius-sm:9px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);font-family:-apple-system,'Noto Sans KR',sans-serif;color:var(--text);font-size:15px}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+
+.top-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.top-title{font-size:20px;font-weight:700}
+.top-sub{font-size:11px;color:var(--sub);margin-top:1px}
+.add-btn{width:36px;height:36px;background:var(--blue);border-radius:50%;border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 0 6px;cursor:pointer;color:var(--sub);transition:color .15s;border:none;background:none}
+.tab-item.active{color:var(--blue)}
+.tab-icon{font-size:20px;margin-bottom:2px;line-height:1}
+.tab-label{font-size:10px;font-weight:600}
+
+.page{display:none;flex:1;overflow-y:auto;padding:10px 12px 80px}
+.page.active{display:block}
+
+.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:12px;margin-bottom:8px}
+.card-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.metric{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:10px 12px;text-align:center}
+.metric-label{font-size:11px;color:var(--sub);margin-bottom:3px}
+.metric-value{font-size:24px;font-weight:800;color:var(--text);line-height:1}
+.metric-unit{font-size:13px;font-weight:500}
+.metric-sub{font-size:10px;color:#bbb;margin-top:2px}
+.metric.highlight{border-color:var(--blue);background:var(--blue-bg)}
+.metric.highlight .metric-value{color:var(--blue)}
+
+.member-row{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:6px 14px 6px 20px;margin-bottom:3px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .12s}
+.member-row:active{background:#f5f5f2}
+.avatar{display:none}
+.member-info{flex:1;min-width:0}
+.member-name{font-size:18px;font-weight:600}
+.member-meta{font-size:13px;color:var(--sub);margin-top:1px}
+.member-pay{text-align:right;flex-shrink:0}
+.pay-amount{font-size:18px;font-weight:800;color:var(--green)}
+.pay-label{font-size:12px;color:var(--sub);margin-top:1px}
+
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;vertical-align:middle}
+.badge-A{background:var(--green-bg);color:var(--green)}
+.badge-B{background:var(--amber-bg);color:var(--amber)}
+.badge-C{background:var(--red-bg);color:var(--red)}
+.badge-N{background:#eee;color:#999}
+.badge-rate3{background:#e8f5e9;color:#2e7d32}
+.badge-rate5{background:#faeeda;color:#854f0b}
+.badge-rate7{background:#e8f0fe;color:#1a6ef5}
+.badge-rate0{background:#eee;color:#999}
+
+.panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:flex-end;justify-content:center;padding-bottom:20px}
+.panel-overlay.open{display:flex}
+.panel{background:var(--card);border-radius:16px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;padding:0 0 16px;margin-bottom:20px}
+.panel-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:10px auto 0}
+.panel-header{padding:10px 16px 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:10;border-bottom:1px solid var(--border);padding-bottom:10px}
+.panel-name{font-size:18px;font-weight:800}
+.panel-close{width:28px;height:28px;border-radius:50%;background:#f0f0ee;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--sub)}
+.panel-body{padding:12px 16px 16px}
+
+/* 섹션 */
+.input-section{margin-bottom:8px}
+.input-section-title{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+
+/* 직접입력 행 - 목표/실제 */
+.direct-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)}
+.direct-row:last-child{border-bottom:none}
+.direct-label{font-size:14px;color:var(--text)}
+.direct-sub{font-size:11px;color:var(--sub);margin-top:1px}
+.direct-input{width:90px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none}
+.direct-input:focus{border-color:var(--blue)}
+
+/* 생산율 표시 박스 */
+.rate-display{background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px}
+.rate-big{font-size:20px;font-weight:800;text-align:center;padding:4px 0 2px}
+.rate-lv{text-align:center;font-size:11px;color:var(--sub);margin-bottom:6px}
+.progress-wrap{margin-top:4px}
+.progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--sub);margin-bottom:3px}
+.progress-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .3s}
+.fill-red{background:#EF5350}
+.fill-amber{background:#FFA726}
+.fill-green{background:#66BB6A}
+
+/* 카운터 행 (계약건수용) */
+.counter-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)}
+.counter-row:last-child{border-bottom:none}
+.counter-label{font-size:14px;color:var(--text)}
+.counter-sub{font-size:11px;color:var(--sub)}
+.counter-ctrl{display:flex;align-items:center}
+.cnt-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);font-weight:700;transition:background .12s}
+.cnt-btn:active{background:#e0e0dc}
+.cnt-val{min-width:36px;text-align:center;font-size:17px;font-weight:800}
+
+.result-box{background:var(--bg);border-radius:var(--radius-sm);padding:6px 10px;margin-top:4px}
+.r-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:12px;color:var(--sub)}
+.r-row span:last-child{font-weight:600;color:var(--text)}
+.r-row.r-total{border-top:1px solid var(--border);margin-top:2px;padding-top:5px;font-size:13px;font-weight:800;color:var(--green)}
+.r-row.r-total span:last-child{color:var(--green);font-size:14px}
+
+.del-btn{width:100%;margin-top:12px;padding:11px;border-radius:var(--radius-sm);border:1.5px solid var(--red-bg);background:var(--red-bg);color:var(--red);font-size:14px;font-weight:700;cursor:pointer;transition:all .12s}
+.del-btn:active{background:#f7c1c1}
+
+.add-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:none;align-items:flex-end;justify-content:center;padding-bottom:20px}
+.add-overlay.open{display:flex}
+.add-panel{background:var(--card);border-radius:16px;width:92%;max-width:400px;padding:0 0 16px;max-height:88vh;overflow-y:auto;margin-bottom:20px}
+.add-panel-body{padding:12px 14px}
+.add-title{font-size:16px;font-weight:800;margin-bottom:12px}
+.text-input-row{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.text-input-row label{font-size:12px;color:var(--sub);font-weight:600}
+.text-input-row input{padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--text);background:var(--bg);outline:none;width:100%}
+.text-input-row input:focus{border-color:var(--blue)}
+.input-hint{font-size:11px;color:#bbb;margin-top:1px}
+.add-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:4px}
+.btn-cancel{padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-size:15px;font-weight:700;cursor:pointer;color:var(--sub)}
+.btn-add{padding:12px;border-radius:var(--radius-sm);border:none;background:var(--blue);font-size:15px;font-weight:700;cursor:pointer;color:#fff}
+
+.guide-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.guide-table th{background:var(--bg);padding:4px 8px;font-weight:700;font-size:11px;color:var(--sub);border-bottom:1px solid var(--border);text-align:center}
+.guide-table td{padding:4px 8px;border-bottom:1px solid var(--border);text-align:center;color:var(--text)}
+.guide-table tr:last-child td{border-bottom:none}
+.guide-note{font-size:11px;color:var(--sub);line-height:1.7;margin-top:8px}
+
+.av0,.av1,.av2,.av3,.av4,.av5,.av6,.av7,.av8,.av9{background:transparent}
+
+.empty{text-align:center;padding:50px 20px;color:var(--sub)}
+.empty-icon{font-size:44px;margin-bottom:10px}
+.empty-text{font-size:14px;font-weight:600;margin-bottom:5px}
+.empty-sub{font-size:12px}
+
+.section-header{font-size:12px;font-weight:700;color:var(--sub);margin:12px 0 6px;letter-spacing:.3px}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <div class="top-title">⚡ 점프UP 관리</div>
+    <div class="top-sub">팀장 전용 수당 계산기</div>
+  </div>
+  <button class="add-btn" onclick="openAdd()" aria-label="팀원 추가">+</button>
+</div>
+
+<!-- 점프관리 -->
+<div id="pg-dashboard" class="page active">
+  <div class="summary-grid" id="summaryGrid"></div>
+  <div class="section-header">팀원 현황</div>
+  <div id="memberList"></div>
+</div>
+
+<!-- 안내 -->
+<div id="pg-guide" class="page">
+  <div class="card">
+    <div class="card-title">생산율 계산 방식</div>
+    <p style="font-size:12px;color:var(--sub);line-height:1.8;margin-bottom:6px">
+      생산율 = 실제 점검 ÷ 월 목표 × 100<br>
+      <b style="color:var(--text)">목표는 팀원마다 다르게 설정</b> (팀장 입력)
+    </p>
+    <div style="background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px;color:var(--sub);line-height:1.9">
+      예) 목표 200개 → 3%=6개 / 5%=10개 / 7%=14개<br>
+      예) 목표 100개 → 3%=3개 / 5%=5개 / 7%=7개
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">생산율 점프UP</div>
+    <p style="font-size:11px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
+    <table class="guide-table">
+      <tr><th>환산 건수</th><th><span class="badge badge-rate3">3%</span></th><th><span class="badge badge-rate5">5%</span></th><th><span class="badge badge-rate7">7%</span></th></tr>
+      <tr><td style="color:#bbb">0~6건</td><td colspan="3" style="color:#bbb">미지급</td></tr>
+      <tr><td>7건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
+      <tr><td>11건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
+      <tr><td>15건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
+      <tr><td>20건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
+    </table>
+    <p class="guide-note">※ 건당 단가 × 환산 건수 전체 적용</p>
+  </div>
+  <div class="card">
+    <div class="card-title">3.6.9 점프UP</div>
+    <p style="font-size:11px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
+    <table class="guide-table">
+      <tr><th>환산 건수</th><th>건당 단가</th></tr>
+      <tr><td style="color:#bbb">0~3건</td><td style="color:#bbb">미지급</td></tr>
+      <tr><td>4건 이상</td><td><b>2.7만원</b></td></tr>
+      <tr><td>7건 이상</td><td><b>3.3만원</b></td></tr>
+      <tr><td>11건 이상</td><td><b>3.9만원</b></td></tr>
+      <tr><td>15건 이상</td><td><b>4.5만원</b></td></tr>
+      <tr><td>20건 이상</td><td><b>5.0만원</b></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">환산 기준</div>
+    <table class="guide-table">
+      <tr><th>계약 유형</th><th>환산 비율</th></tr>
+      <tr><td>신규 계약</td><td><b>1.0건</b></td></tr>
+      <tr><td>재렌탈</td><td><b>0.5건</b></td></tr>
+      <tr><td>자가관리 재렌탈</td><td><b>1.0건</b> <span style="font-size:10px;color:var(--sub)">(↑ 상향)</span></td></tr>
+    </table>
+    <p class="guide-note">환산 건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0</p>
+  </div>
+</div>
+
+<!-- 하단 탭 -->
+<nav class="tab-bar">
+  <button class="tab-item active" onclick="switchTab('dashboard')" id="tab-dashboard">
+    <div class="tab-icon">📊</div>
+    <div class="tab-label">점프관리</div>
+  </button>
+  <button class="tab-item" onclick="switchTab('guide')" id="tab-guide">
+    <div class="tab-icon">📋</div>
+    <div class="tab-label">프로모션 안내</div>
+  </button>
+</nav>
+
+<!-- 팀원 상세 패널 -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanelOutside(event)">
+  <div class="panel" id="panel">
+    <div class="panel-handle"></div>
+    <div class="panel-header">
+      <div class="panel-name" id="panelName"></div>
+      <button class="panel-close" onclick="closePanel()">✕</button>
+    </div>
+    <div class="panel-body" id="panelBody"></div>
+  </div>
+</div>
+
+<!-- 팀원 추가 패널 -->
+<div class="add-overlay" id="addOverlay" onclick="closeAddOutside(event)">
+  <div class="add-panel" onclick="event.stopPropagation()">
+    <div class="panel-handle"></div>
+    <div class="add-panel-body">
+      <div class="add-title">팀원 추가</div>
+      <div class="text-input-row">
+        <label>이름</label>
+        <input type="text" id="a_name" placeholder="팀원 이름" maxlength="10">
+      </div>
+      <div class="text-input-row">
+        <label>월 목표 점검 개수 <span style="color:var(--blue);font-size:11px">팀장 설정</span></label>
+        <input type="number" id="a_target" value="0" min="0" placeholder="예) 200" inputmode="numeric">
+        <div class="input-hint">3%기준: <span id="a_hint3">-</span>개 / 5%: <span id="a_hint5">-</span>개 / 7%: <span id="a_hint7">-</span>개</div>
+      </div>
+      <div class="text-input-row">
+        <label>신규 계약 건수</label>
+        <input type="number" id="a_new" value="0" min="0" placeholder="0" inputmode="numeric">
+      </div>
+      <div class="text-input-row">
+        <label>재렌탈 건수</label>
+        <input type="number" id="a_re" value="0" min="0" placeholder="0" inputmode="numeric">
+      </div>
+      <div class="text-input-row">
+        <label>자가관리 재렌탈 건수</label>
+        <input type="number" id="a_self" value="0" min="0" placeholder="0" inputmode="numeric">
+      </div>
+      <div class="text-input-row">
+        <label>당월 실제 점검 개수</label>
+        <input type="number" id="a_check" value="0" min="0" placeholder="예) 10" inputmode="numeric">
+      </div>
+      <div class="add-actions">
+        <button class="btn-cancel" onclick="closeAdd()">취소</button>
+        <button class="btn-add" onclick="addMember()">추가하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let members = JSON.parse(localStorage.getItem('pjump_v4') || 'null');
+if(!members){
+  members=[
+    {id:1,name:'김민준',newCnt:5,reCnt:4,selfReCnt:2,targetCnt:200,checkCnt:10},
+    {id:2,name:'이서연',newCnt:3,reCnt:6,selfReCnt:1,targetCnt:200,checkCnt:6},
+    {id:3,name:'박지훈',newCnt:8,reCnt:2,selfReCnt:0,targetCnt:150,checkCnt:14},
+    {id:4,name:'최유나',newCnt:2,reCnt:2,selfReCnt:0,targetCnt:100,checkCnt:2},
+  ];
+}
+let openMemberId=null;
+
+function save(){localStorage.setItem('pjump_v4',JSON.stringify(members));}
+function hwansan(m){return m.newCnt*1.0+m.reCnt*0.5+m.selfReCnt*1.0;}
+function getProdRate(m){
+  if(!m.targetCnt||m.targetCnt===0)return 0;
+  return Math.round((m.checkCnt/m.targetCnt)*1000)/10;
+}
+function rateLevel(pct){
+  if(pct>=7)return 7;
+  if(pct>=5)return 5;
+  if(pct>=3)return 3;
+  return 0;
+}
+function calc369(h){
+  if(h<4)return{per:0,total:0};
+  let per=h>=20?5.0:h>=15?4.5:h>=11?3.9:h>=7?3.3:2.7;
+  return{per,total:Math.round(per*h*10)/10};
+}
+function calcProd(h,level){
+  if(h<7||level===0)return{per:0,total:0};
+  let per=level===7?4.5:level===5?3.5:2.0;
+  return{per,total:Math.round(per*h*10)/10};
+}
+function tierBadge(h){
+  if(h>=20)return'<span class="badge badge-A">최상위</span>';
+  if(h>=15)return'<span class="badge badge-A">우수</span>';
+  if(h>=11)return'<span class="badge badge-B">양호</span>';
+  if(h>=7)return'<span class="badge badge-B">일반</span>';
+  if(h>=4)return'<span class="badge badge-C">기초</span>';
+  return'<span class="badge badge-N">미달</span>';
+}
+function rateBadgeHtml(pct,level){
+  if(level===0)return`<span class="badge badge-rate0">${pct.toFixed(1)}%</span>`;
+  return`<span class="badge badge-rate${level}">${pct.toFixed(1)}%</span>`;
+}
+function progressColor(pct){
+  if(pct>=7)return'fill-green';
+  if(pct>=3)return'fill-amber';
+  return'fill-red';
+}
+
+function renderDash(){
+  let total=members.length,eligible=0,top=0,totalPay=0;
+  members.forEach(m=>{
+    const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
+    if(h>=4)eligible++;
+    if(h>=15)top++;
+    totalPay+=calc369(h).total+calcProd(h,lv).total;
+  });
+  document.getElementById('summaryGrid').innerHTML=`
+    <div class="metric"><div class="metric-label">총 팀원</div><div class="metric-value">${total}<span class="metric-unit">명</span></div></div>
+    <div class="metric"><div class="metric-label">수당 지급 대상</div><div class="metric-value">${eligible}<span class="metric-unit">명</span></div><div class="metric-sub">환산 4건 이상</div></div>
+    <div class="metric"><div class="metric-label">우수 성과자</div><div class="metric-value">${top}<span class="metric-unit">명</span></div><div class="metric-sub">환산 15건 이상</div></div>
+    <div class="metric highlight"><div class="metric-label">총 예상 지급액</div><div class="metric-value">${totalPay.toFixed(1)}<span class="metric-unit">만</span></div></div>`;
+  const list=document.getElementById('memberList');
+  if(!members.length){
+    list.innerHTML=`<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">팀원이 없습니다</div><div class="empty-sub">+ 버튼을 눌러 팀원을 추가하세요</div></div>`;
+    return;
+  }
+  list.innerHTML=members.map(m=>{
+    const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
+    const tot=(calc369(h).total+calcProd(h,lv).total).toFixed(1);
+    return`<div class="member-row" onclick="openPanel(${m.id})">
+      <div class="avatar"></div>
+      <div class="member-info">
+        <div class="member-name">${m.name} ${tierBadge(h)}</div>
+        <div class="member-meta">환산 ${h.toFixed(1)}건 | 생산율 ${rateBadgeHtml(pct,lv)}</div>
+      </div>
+      <div class="member-pay">
+        <div class="pay-amount">${tot}만</div>
+        <div class="pay-label">예상 수당</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openPanel(id){
+  openMemberId=id;
+  renderPanel();
+  document.getElementById('panelOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function renderPanel(){
+  const m=members.find(x=>x.id===openMemberId);
+  if(!m)return;
+  const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
+  const lvFinal=rateLevel(pct);
+  const r369=calc369(h),rP=calcProd(h,lvFinal);
+  const tot=r369.total+rP.total;
+  const pctBar=Math.min(100,m.targetCnt>0?Math.round((m.checkCnt/m.targetCnt)*100):0);
+  const fillCls=progressColor(pct);
+  const lvLabel=lvFinal===0?'미달 (3% 미만)':lvFinal+'% 구간 적용';
+  const hint3=m.targetCnt?Math.ceil(m.targetCnt*0.03):'-';
+  const hint5=m.targetCnt?Math.ceil(m.targetCnt*0.05):'-';
+  const hint7=m.targetCnt?Math.ceil(m.targetCnt*0.07):'-';
+  const rateColor=lvFinal===7?'var(--blue)':lvFinal>=3?'var(--amber)':'var(--red)';
+
+  document.getElementById('panelName').textContent=m.name;
+  document.getElementById('panelBody').innerHTML=`
+    <div class="input-section">
+      <div class="input-section-title">📋 점검 목표 (팀장 설정)</div>
+      <div class="direct-row">
+        <div>
+          <div class="direct-label">월 목표 점검 개수</div>
+          <div class="direct-sub" id="hintSub">3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개</div>
+        </div>
+        <input class="direct-input" type="number" inputmode="numeric" value="${m.targetCnt}" min="0"
+          onchange="setField(${m.id},'targetCnt',+this.value)"
+          oninput="setField(${m.id},'targetCnt',+this.value)">
+      </div>
+    </div>
+
+    <div class="input-section">
+      <div class="input-section-title">🔍 당월 실제 점검</div>
+      <div class="direct-row">
+        <div>
+          <div class="direct-label">실제 점검 개수</div>
+          <div class="direct-sub">목표 <span id="targetLabel">${m.targetCnt}</span>개 기준</div>
+        </div>
+        <input class="direct-input" type="number" inputmode="numeric" value="${m.checkCnt}" min="0"
+          onchange="setField(${m.id},'checkCnt',+this.value)"
+          oninput="setField(${m.id},'checkCnt',+this.value)">
+      </div>
+      <div class="rate-display">
+        <div class="rate-big" id="rateBig" style="color:${rateColor}">${pct.toFixed(1)}%</div>
+        <div class="rate-lv" id="rateLv">${lvLabel}</div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>0%</span><span>3%</span><span>5%</span><span>7%+</span></div>
+          <div class="progress-bar"><div class="progress-fill ${fillCls}" id="progFill" style="width:${pctBar}%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-section">
+      <div class="input-section-title">📝 계약 건수</div>
+      <div class="counter-row">
+        <div><div class="counter-label">신규 계약</div><div class="counter-sub">1건 → 환산 1.0건</div></div>
+        <div class="counter-ctrl">
+          <button class="cnt-btn" onclick="adj(${m.id},'newCnt',-1)">−</button>
+          <div class="cnt-val" id="v_newCnt">${m.newCnt}</div>
+          <button class="cnt-btn" onclick="adj(${m.id},'newCnt',1)">+</button>
+        </div>
+      </div>
+      <div class="counter-row">
+        <div><div class="counter-label">재렌탈</div><div class="counter-sub">1건 → 환산 0.5건</div></div>
+        <div class="counter-ctrl">
+          <button class="cnt-btn" onclick="adj(${m.id},'reCnt',-1)">−</button>
+          <div class="cnt-val" id="v_reCnt">${m.reCnt}</div>
+          <button class="cnt-btn" onclick="adj(${m.id},'reCnt',1)">+</button>
+        </div>
+      </div>
+      <div class="counter-row">
+        <div><div class="counter-label">자가관리 재렌탈</div><div class="counter-sub">1건 → 환산 1.0건 (상향)</div></div>
+        <div class="counter-ctrl">
+          <button class="cnt-btn" onclick="adj(${m.id},'selfReCnt',-1)">−</button>
+          <div class="cnt-val" id="v_selfReCnt">${m.selfReCnt}</div>
+          <button class="cnt-btn" onclick="adj(${m.id},'selfReCnt',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+      ${resultHTML(m)}
+    </div>
+    <button class="del-btn" onclick="delMember(${m.id})">팀원 삭제</button>`;
+}
+
+function resultHTML(m){
+  const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
+  const r369=calc369(h),rP=calcProd(h,lv);
+  const tot=r369.total+rP.total;
+  const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
+  return`
+    <div class="r-row"><span>환산 건수</span><span>${h.toFixed(1)}건</span></div>
+    <div class="r-row"><span>생산율</span><span>${pct.toFixed(1)}% (${lvLabel})</span></div>
+    <div class="r-row"><span>3.6.9 수당</span><span>${h<4?'미지급':r369.total.toFixed(1)+'만원 ('+r369.per+'×'+h.toFixed(1)+')'}</span></div>
+    <div class="r-row"><span>생산율 수당</span><span>${lv===0||h<7?'미지급':'+'+rP.total.toFixed(1)+'만원 (+'+rP.per+'×'+h.toFixed(1)+')'}</span></div>
+    <div class="r-row r-total"><span>합계</span><span>${tot.toFixed(1)}만원</span></div>`;
+}
+
+// 직접 입력 처리
+function setField(id,field,val){
+  const m=members.find(x=>x.id===id);
+  if(!m)return;
+  m[field]=Math.max(0,isNaN(val)?0:val);
+  save();
+  refreshResult(m);
+  renderDash();
+}
+
+// 카운터 버튼 처리
+function adj(id,field,delta){
+  const m=members.find(x=>x.id===id);
+  if(!m)return;
+  m[field]=Math.max(0,(m[field]||0)+delta);
+  save();
+  const el=document.getElementById('v_'+field);
+  if(el)el.textContent=m[field];
+  refreshResult(m);
+  renderDash();
+}
+
+function refreshResult(m){
+  const pct=getProdRate(m);
+  const lv=rateLevel(pct);
+  const pctBar=Math.min(100,m.targetCnt>0?Math.round((m.checkCnt/m.targetCnt)*100):0);
+  const fillCls=progressColor(pct);
+  const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
+  const rateColor=lv===7?'var(--blue)':lv>=3?'var(--amber)':'var(--red)';
+  const hint3=m.targetCnt?Math.ceil(m.targetCnt*0.03):'-';
+  const hint5=m.targetCnt?Math.ceil(m.targetCnt*0.05):'-';
+  const hint7=m.targetCnt?Math.ceil(m.targetCnt*0.07):'-';
+
+  const rb=document.getElementById('rateBig');
+  if(rb){rb.textContent=pct.toFixed(1)+'%';rb.style.color=rateColor;}
+  const rl=document.getElementById('rateLv');
+  if(rl)rl.textContent=lvLabel;
+  const pf=document.getElementById('progFill');
+  if(pf){pf.style.width=pctBar+'%';pf.className='progress-fill '+fillCls;}
+  const hs=document.getElementById('hintSub');
+  if(hs)hs.textContent=`3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개`;
+  const tl=document.getElementById('targetLabel');
+  if(tl)tl.textContent=m.targetCnt;
+  const box=document.getElementById('resultBox');
+  if(box)box.innerHTML=resultHTML(m);
+}
+
+function closePanel(){
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  openMemberId=null;
+}
+function closePanelOutside(e){
+  if(e.target===document.getElementById('panelOverlay'))closePanel();
+}
+function delMember(id){
+  if(!confirm('정말 삭제하시겠습니까?'))return;
+  members=members.filter(m=>m.id!==id);
+  save();closePanel();renderDash();
+}
+
+function openAdd(){
+  ['a_name','a_new','a_re','a_self'].forEach(id=>{
+    document.getElementById(id).value=id==='a_name'?'':'0';
+  });
+  document.getElementById('a_target').value='0';
+  document.getElementById('a_check').value='0';
+  updateAddHint();
+  document.getElementById('addOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('a_name').focus(),200);
+  document.getElementById('a_target').addEventListener('input',updateAddHint);
+}
+function updateAddHint(){
+  const t=+document.getElementById('a_target').value||0;
+  document.getElementById('a_hint3').textContent=t?Math.ceil(t*0.03):'-';
+  document.getElementById('a_hint5').textContent=t?Math.ceil(t*0.05):'-';
+  document.getElementById('a_hint7').textContent=t?Math.ceil(t*0.07):'-';
+}
+function closeAdd(){
+  document.getElementById('addOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeAddOutside(e){
+  if(e.target===document.getElementById('addOverlay'))closeAdd();
+}
+function addMember(){
+  const name=document.getElementById('a_name').value.trim();
+  if(!name){alert('이름을 입력하세요');return;}
+  const newId=members.length?Math.max(...members.map(m=>m.id))+1:1;
+  members.push({id:newId,name,
+    newCnt:Math.max(0,+document.getElementById('a_new').value||0),
+    reCnt:Math.max(0,+document.getElementById('a_re').value||0),
+    selfReCnt:Math.max(0,+document.getElementById('a_self').value||0),
+    targetCnt:Math.max(0,+document.getElementById('a_target').value||0),
+    checkCnt:Math.max(0,+document.getElementById('a_check').value||0),
+  });
+  save();closeAdd();renderDash();
+}
+function switchTab(tab){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pg-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+renderDash();
+</script>
+</body>
+</html>
