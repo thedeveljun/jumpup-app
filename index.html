@@ -16,8 +16,10 @@ html,body{height:100%;background:var(--bg);font-family:-apple-system,'Noto Sans 
 body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
 
 .top-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.top-title{font-size:20px;font-weight:700}
-.top-sub{font-size:11px;color:var(--sub);margin-top:1px}
+/* 점프UP 관리 > 3포인트 크게: 20px → 23px */
+.top-title{font-size:23px;font-weight:700}
+/* 팀장 전용 수당 계산기 > 2포인트 크게: 11px → 13px */
+.top-sub{font-size:13px;color:var(--sub);margin-top:1px}
 .add-btn{width:36px;height:36px;background:var(--blue);border-radius:50%;border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
@@ -30,14 +32,23 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .page.active{display:block}
 
 .card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:12px;margin-bottom:8px}
-.card-title{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.card-title{font-size:14px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+/* 생산율 계산 방식, 환산 기준: +2pt → 16px */
+.card-title-md{font-size:16px;font-weight:700;color:var(--sub);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+/* 생산율 점프UP, 3.6.9 점프UP: +3pt → 17px */
+.card-title-lg{font-size:17px;font-weight:700;color:var(--blue);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+/* 테이블 헤더 안 배지 크기 +2pt: 10px → 12px */
+.badge-th{font-size:12px}
 
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
 .metric{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:10px 12px;text-align:center}
-.metric-label{font-size:11px;color:var(--sub);margin-bottom:3px}
-.metric-value{font-size:24px;font-weight:800;color:var(--text);line-height:1}
+/* 총 팀원 등 레이블 > 2포인트 크게: 11px → 13px */
+.metric-label{font-size:13px;color:var(--sub);margin-bottom:3px}
+/* 숫자 값 > 2포인트 크게: 24px → 26px */
+.metric-value{font-size:26px;font-weight:800;color:var(--text);line-height:1}
 .metric-unit{font-size:13px;font-weight:500}
-.metric-sub{font-size:10px;color:#bbb;margin-top:2px}
+/* 환산 15건 이상 > 1포인트 크고 진하게: 10px → 11px + bold */
+.metric-sub{font-size:11px;font-weight:700;color:#bbb;margin-top:2px}
 .metric.highlight{border-color:var(--blue);background:var(--blue-bg)}
 .metric.highlight .metric-value{color:var(--blue)}
 
@@ -45,11 +56,15 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .member-row:active{background:#f5f5f2}
 .avatar{display:none}
 .member-info{flex:1;min-width:0}
-.member-name{font-size:18px;font-weight:600}
-.member-meta{font-size:13px;color:var(--sub);margin-top:1px}
+/* 김민준 > 1포인트 크게: 18px → 19px */
+.member-name{font-size:19px;font-weight:600}
+/* 환산 9.0건 | 생산율 5.0% > 1포인트 크고 진하게: 13px → 14px + bold */
+.member-meta{font-size:14px;font-weight:700;color:var(--sub);margin-top:1px}
 .member-pay{text-align:right;flex-shrink:0}
-.pay-amount{font-size:18px;font-weight:800;color:var(--green)}
-.pay-label{font-size:12px;color:var(--sub);margin-top:1px}
+/* 예상 수당 금액 > 2포인트 크게: 18px → 20px */
+.pay-amount{font-size:20px;font-weight:800;color:var(--green)}
+/* 예상 수당 라벨 > 2포인트 크게: 12px → 14px */
+.pay-label{font-size:14px;color:var(--sub);margin-top:1px}
 
 .badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;vertical-align:middle}
 .badge-A{background:var(--green-bg);color:var(--green)}
@@ -70,11 +85,9 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .panel-close{width:28px;height:28px;border-radius:50%;background:#f0f0ee;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--sub)}
 .panel-body{padding:12px 16px 16px}
 
-/* 섹션 */
 .input-section{margin-bottom:8px}
 .input-section-title{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
 
-/* 직접입력 행 - 목표/실제 */
 .direct-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)}
 .direct-row:last-child{border-bottom:none}
 .direct-label{font-size:14px;color:var(--text)}
@@ -82,7 +95,6 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .direct-input{width:90px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none}
 .direct-input:focus{border-color:var(--blue)}
 
-/* 생산율 표시 박스 */
 .rate-display{background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px}
 .rate-big{font-size:20px;font-weight:800;text-align:center;padding:4px 0 2px}
 .rate-lv{text-align:center;font-size:11px;color:var(--sub);margin-bottom:6px}
@@ -94,7 +106,6 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .fill-amber{background:#FFA726}
 .fill-green{background:#66BB6A}
 
-/* 카운터 행 (계약건수용) */
 .counter-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)}
 .counter-row:last-child{border-bottom:none}
 .counter-label{font-size:14px;color:var(--text)}
@@ -127,11 +138,11 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .btn-cancel{padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-size:15px;font-weight:700;cursor:pointer;color:var(--sub)}
 .btn-add{padding:12px;border-radius:var(--radius-sm);border:none;background:var(--blue);font-size:15px;font-weight:700;cursor:pointer;color:#fff}
 
-.guide-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
-.guide-table th{background:var(--bg);padding:4px 8px;font-weight:700;font-size:11px;color:var(--sub);border-bottom:1px solid var(--border);text-align:center}
+.guide-table{width:100%;border-collapse:collapse;font-size:15px;margin-top:6px}
+.guide-table th{background:var(--bg);padding:4px 8px;font-weight:700;font-size:13px;color:var(--sub);border-bottom:1px solid var(--border);text-align:center}
 .guide-table td{padding:4px 8px;border-bottom:1px solid var(--border);text-align:center;color:var(--text)}
 .guide-table tr:last-child td{border-bottom:none}
-.guide-note{font-size:11px;color:var(--sub);line-height:1.7;margin-top:8px}
+.guide-note{font-size:13px;color:var(--sub);line-height:1.7;margin-top:8px}
 
 .av0,.av1,.av2,.av3,.av4,.av5,.av6,.av7,.av8,.av9{background:transparent}
 
@@ -140,7 +151,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .empty-text{font-size:14px;font-weight:600;margin-bottom:5px}
 .empty-sub{font-size:12px}
 
-.section-header{font-size:12px;font-weight:700;color:var(--sub);margin:12px 0 6px;letter-spacing:.3px}
+/* 팀원 현황 > 2포인트 크게: 12px → 14px */
+.section-header{font-size:14px;font-weight:700;color:var(--sub);margin:12px 0 6px;letter-spacing:.3px}
 </style>
 </head>
 <body>
@@ -163,21 +175,21 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 <!-- 안내 -->
 <div id="pg-guide" class="page">
   <div class="card">
-    <div class="card-title">생산율 계산 방식</div>
-    <p style="font-size:12px;color:var(--sub);line-height:1.8;margin-bottom:6px">
+    <div class="card-title-md">생산율 계산 방식</div>
+    <p style="font-size:14px;color:var(--sub);line-height:1.8;margin-bottom:6px">
       생산율 = 실제 점검 ÷ 월 목표 × 100<br>
       <b style="color:var(--text)">목표는 팀원마다 다르게 설정</b> (팀장 입력)
     </p>
-    <div style="background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px;color:var(--sub);line-height:1.9">
+    <div style="background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;font-size:14px;color:var(--sub);line-height:1.9">
       예) 목표 200개 → 3%=6개 / 5%=10개 / 7%=14개<br>
       예) 목표 100개 → 3%=3개 / 5%=5개 / 7%=7개
     </div>
   </div>
   <div class="card">
-    <div class="card-title">생산율 점프UP</div>
-    <p style="font-size:11px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
+    <div class="card-title-lg">생산율 점프UP</div>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
     <table class="guide-table">
-      <tr><th>환산 건수</th><th><span class="badge badge-rate3">3%</span></th><th><span class="badge badge-rate5">5%</span></th><th><span class="badge badge-rate7">7%</span></th></tr>
+      <tr><th>환산 건수</th><th><span class="badge badge-rate3 badge-th">3%</span></th><th><span class="badge badge-rate5 badge-th">5%</span></th><th><span class="badge badge-rate7 badge-th">7%</span></th></tr>
       <tr><td style="color:#bbb">0~6건</td><td colspan="3" style="color:#bbb">미지급</td></tr>
       <tr><td>7건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
       <tr><td>11건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
@@ -187,8 +199,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
     <p class="guide-note">※ 건당 단가 × 환산 건수 전체 적용</p>
   </div>
   <div class="card">
-    <div class="card-title">3.6.9 점프UP</div>
-    <p style="font-size:11px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
+    <div class="card-title-lg">3.6.9 점프UP</div>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:8px">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
     <table class="guide-table">
       <tr><th>환산 건수</th><th>건당 단가</th></tr>
       <tr><td style="color:#bbb">0~3건</td><td style="color:#bbb">미지급</td></tr>
@@ -200,12 +212,12 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
     </table>
   </div>
   <div class="card">
-    <div class="card-title">환산 기준</div>
+    <div class="card-title-md">환산 기준</div>
     <table class="guide-table">
       <tr><th>계약 유형</th><th>환산 비율</th></tr>
       <tr><td>신규 계약</td><td><b>1.0건</b></td></tr>
       <tr><td>재렌탈</td><td><b>0.5건</b></td></tr>
-      <tr><td>자가관리 재렌탈</td><td><b>1.0건</b> <span style="font-size:10px;color:var(--sub)">(↑ 상향)</span></td></tr>
+      <tr><td>자가관리 재렌탈</td><td><b>1.0건</b> <span style="font-size:12px;color:var(--sub)">(↑ 상향)</span></td></tr>
     </table>
     <p class="guide-note">환산 건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0</p>
   </div>
@@ -466,7 +478,6 @@ function resultHTML(m){
     <div class="r-row r-total"><span>합계</span><span>${tot.toFixed(1)}만원</span></div>`;
 }
 
-// 직접 입력 처리
 function setField(id,field,val){
   const m=members.find(x=>x.id===id);
   if(!m)return;
@@ -476,7 +487,6 @@ function setField(id,field,val){
   renderDash();
 }
 
-// 카운터 버튼 처리
 function adj(id,field,delta){
   const m=members.find(x=>x.id===id);
   if(!m)return;
