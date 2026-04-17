@@ -64,10 +64,10 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 /* ── 요약 그리드 ── */
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
 .metric{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:8px 8px 6px;text-align:center;box-shadow:var(--shadow)}
-.metric-label{font-size:13px;color:var(--sub);margin-bottom:2px;font-weight:500}
+.metric-label{font-size:15px;color:var(--sub);margin-bottom:2px;font-weight:500}
 .metric-value{font-size:30px;font-weight:800;color:var(--text);line-height:1.1}
-.metric-unit{font-size:16px;font-weight:600}
-.metric-sub{font-size:13px;font-weight:600;color:var(--sub2);margin-top:1px}
+.metric-unit{font-size:18px;font-weight:600}
+.metric-sub{font-size:15px;font-weight:600;color:var(--sub2);margin-top:1px}
 .metric.highlight{border-color:var(--cw-blue);background:linear-gradient(135deg,#0F6FBF,#1484D6);box-shadow:0 4px 16px rgba(15,111,191,.28)}
 .metric.highlight .metric-label{color:rgba(255,255,255,.8)}
 .metric.highlight .metric-value{color:#fff}
@@ -83,7 +83,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .avatar{display:none}
 .member-info{flex:1;min-width:0}
 .member-name{font-size:20px;font-weight:700;line-height:1.2}
-.member-meta{font-size:15px;font-weight:400;color:var(--sub);margin-top:1px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.member-meta{font-size:14px;font-weight:400;color:var(--sub);margin-top:1px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .member-pay{text-align:right;flex-shrink:0}
 .pay-amount{font-size:20px;font-weight:800;color:var(--cw-blue);line-height:1.2}
 .pay-label{font-size:12px;color:var(--sub);margin-top:0px;font-weight:500}
@@ -116,8 +116,13 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .direct-row:last-child{border-bottom:none}
 .direct-label{font-size:16px;color:var(--text);font-weight:500}
 .direct-sub{font-size:13px;color:var(--sub);margin-top:1px}
-.direct-input{width:90px;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:18px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
+.direct-input{width:63px;padding:5px 4px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:18px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit;display:block;-moz-appearance:textfield}
+.direct-input::-webkit-outer-spin-button,.direct-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .direct-input:focus{border-color:var(--cw-blue)}
+
+.cnt-input{width:63px;padding:5px 4px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:18px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit;display:block;-moz-appearance:textfield}
+.cnt-input::-webkit-outer-spin-button,.cnt-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cnt-input:focus{border-color:var(--cw-blue)}
 
 .rate-display{background:var(--cw-blue-bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px;border:1px solid var(--cw-blue-light)}
 .rate-big{font-size:22px;font-weight:800;text-align:center;padding:2px 0 1px}
@@ -138,8 +143,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .cnt-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--cw-blue);font-weight:700;transition:all .12s}
 .cnt-btn:active{background:var(--cw-blue-light);border-color:var(--cw-blue)}
 .cnt-val{min-width:38px;text-align:center;font-size:18px;font-weight:800}
-.cnt-input{width:76px;padding:6px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:20px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
-.cnt-input:focus{border-color:var(--cw-blue)}
+
 
 .result-box{background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px;border:1px solid var(--border)}
 .r-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:15px;color:var(--sub)}
@@ -158,7 +162,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .add-title{font-size:19px;font-weight:800;margin-bottom:10px}
 .text-input-row{display:flex;flex-direction:column;gap:3px;margin-bottom:7px}
 .text-input-row label{font-size:14px;color:var(--sub);font-weight:700;letter-spacing:.3px}
-.text-input-row input{padding:7px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;color:var(--text);background:var(--bg);outline:none;width:100%;font-family:inherit}
+.text-input-row input{padding:7px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;color:var(--text);background:var(--bg);outline:none;width:100%;font-family:inherit;-moz-appearance:textfield}
+.text-input-row input::-webkit-outer-spin-button,.text-input-row input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .text-input-row input:focus{border-color:var(--cw-blue)}
 .input-hint{font-size:13px;color:var(--sub2);margin-top:1px}
 .add-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:6px}
@@ -387,7 +392,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
    - 사용자 본인이 앱 안에서 비밀번호 변경 가능
      (변경 후엔 새 비밀번호로 신규 사용자 검증)
 ══════════════════════════════════════════ */
-const MASTER_PW  = '040722'; // ★ 개발자 배포용 초기 비밀번호
+const MASTER_PW  = '981127'; // ★ 개발자 배포용 초기 비밀번호
 const UNLOCK_KEY = 'pjump_unlocked';
 const USER_PW_KEY= 'pjump_user_pw';
 
