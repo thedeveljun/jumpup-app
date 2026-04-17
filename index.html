@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>점프UP 관리</title>
-<link rel="manifest" href="manifest.json">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
 :root{
@@ -40,7 +39,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 }
 .top-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px;display:flex;align-items:center;gap:7px}
 .logo-badge{background:rgba(255,255,255,.22);border-radius:8px;padding:2px 9px;font-size:12px;font-weight:700;color:#fff;letter-spacing:.5px}
-.top-sub{font-size:12px;color:rgba(255,255,255,.72);margin-top:3px;font-weight:500}
+.top-sub{font-size:12px;color:rgba(255,255,255,.72);margin-top:3px;font-weight:500;padding-left:30px}
 .add-btn{width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:50%;border:1.5px solid rgba(255,255,255,.38);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
 .add-btn:active{background:rgba(255,255,255,.35)}
 
@@ -63,31 +62,31 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .badge-th{font-size:13px !important}
 
 /* ── 요약 그리드 ── */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.metric{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:14px 12px;text-align:center;box-shadow:var(--shadow)}
-.metric-label{font-size:13px;color:var(--sub);margin-bottom:5px;font-weight:500}
-.metric-value{font-size:28px;font-weight:800;color:var(--text);line-height:1}
-.metric-unit{font-size:14px;font-weight:600}
-.metric-sub{font-size:12px;font-weight:600;color:var(--sub2);margin-top:3px}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.metric{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:8px 8px 6px;text-align:center;box-shadow:var(--shadow)}
+.metric-label{font-size:13px;color:var(--sub);margin-bottom:2px;font-weight:500}
+.metric-value{font-size:30px;font-weight:800;color:var(--text);line-height:1.1}
+.metric-unit{font-size:16px;font-weight:600}
+.metric-sub{font-size:13px;font-weight:600;color:var(--sub2);margin-top:1px}
 .metric.highlight{border-color:var(--cw-blue);background:linear-gradient(135deg,#0F6FBF,#1484D6);box-shadow:0 4px 16px rgba(15,111,191,.28)}
 .metric.highlight .metric-label{color:rgba(255,255,255,.8)}
 .metric.highlight .metric-value{color:#fff}
 .metric.highlight .metric-unit{color:rgba(255,255,255,.9)}
 
 /* ── 섹션 헤더 ── */
-.section-header{font-size:15px;font-weight:700;color:var(--sub);margin:4px 0 8px;display:flex;align-items:center;gap:7px}
-.section-header::before{content:'';display:inline-block;width:3px;height:15px;background:var(--cw-blue);border-radius:2px}
+.section-header{font-size:19px;font-weight:600;color:var(--sub);margin:4px 0 5px;display:flex;align-items:center;gap:7px}
+.section-header::before{content:'';display:inline-block;width:3px;height:19px;background:var(--cw-blue);border-radius:2px}
 
 /* ── 팀원 행 ── */
-.member-row{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;margin-bottom:6px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.member-row{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:6px 14px 6px 20px;margin-bottom:2px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
 .member-row:active{background:var(--cw-blue-bg);border-color:var(--cw-blue-light)}
-.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cw-blue-light),#c8e6f7);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--cw-blue);flex-shrink:0}
+.avatar{display:none}
 .member-info{flex:1;min-width:0}
-.member-name{font-size:18px;font-weight:700}
-.member-meta{font-size:13px;font-weight:600;color:var(--sub);margin-top:3px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.member-name{font-size:20px;font-weight:700;line-height:1.2}
+.member-meta{font-size:15px;font-weight:400;color:var(--sub);margin-top:1px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .member-pay{text-align:right;flex-shrink:0}
-.pay-amount{font-size:20px;font-weight:800;color:var(--cw-blue)}
-.pay-label{font-size:12px;color:var(--sub);margin-top:2px;font-weight:500}
+.pay-amount{font-size:20px;font-weight:800;color:var(--cw-blue);line-height:1.2}
+.pay-label{font-size:12px;color:var(--sub);margin-top:0px;font-weight:500}
 
 /* ── 배지 ── */
 .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;vertical-align:middle}
@@ -150,26 +149,26 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .del-btn:active{background:#f7c1c1}
 
 /* ── 추가 패널 ── */
-.add-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.add-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:300;display:none;align-items:flex-end;justify-content:center;padding-bottom:20px}
 .add-overlay.open{display:flex}
-.add-panel{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:480px;padding:0 0 20px;max-height:92vh;overflow-y:auto}
-.add-panel-body{padding:14px 18px}
-.add-title{font-size:17px;font-weight:800;margin-bottom:14px}
-.text-input-row{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.text-input-row label{font-size:12px;color:var(--sub);font-weight:700;letter-spacing:.3px}
-.text-input-row input{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--text);background:var(--bg);outline:none;width:100%;font-family:inherit}
+.add-panel{background:var(--card);border-radius:22px;width:88%;max-width:400px;padding:0 0 16px;max-height:88vh;overflow-y:auto}
+.add-panel-body{padding:12px 16px}
+.add-title{font-size:19px;font-weight:800;margin-bottom:10px}
+.text-input-row{display:flex;flex-direction:column;gap:3px;margin-bottom:7px}
+.text-input-row label{font-size:14px;color:var(--sub);font-weight:700;letter-spacing:.3px}
+.text-input-row input{padding:7px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;color:var(--text);background:var(--bg);outline:none;width:100%;font-family:inherit}
 .text-input-row input:focus{border-color:var(--cw-blue)}
-.input-hint{font-size:11px;color:var(--sub2);margin-top:2px}
-.add-actions{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-top:6px}
-.btn-cancel{padding:13px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-size:15px;font-weight:700;cursor:pointer;color:var(--sub);font-family:inherit}
-.btn-add{padding:13px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--cw-blue),var(--cw-blue2));font-size:15px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit;box-shadow:0 3px 12px rgba(15,111,191,.3)}
+.input-hint{font-size:13px;color:var(--sub2);margin-top:1px}
+.add-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:6px}
+.btn-cancel{padding:11px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-size:17px;font-weight:700;cursor:pointer;color:var(--sub);font-family:inherit}
+.btn-add{padding:11px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--cw-blue),var(--cw-blue2));font-size:17px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit;box-shadow:0 3px 12px rgba(15,111,191,.3)}
 
 /* ── 프로모션 안내 ── */
-.guide-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
-.guide-table th{background:var(--cw-blue-bg);padding:8px 10px;font-weight:700;font-size:12px;color:var(--cw-blue);border-bottom:1.5px solid var(--cw-blue-light);text-align:center}
-.guide-table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;color:var(--text)}
+.guide-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.guide-table th{background:var(--cw-blue-bg);padding:5px 10px;font-weight:700;font-size:14px;color:var(--cw-blue);border-bottom:1.5px solid var(--cw-blue-light);text-align:center}
+.guide-table td{padding:5px 10px;border-bottom:1px solid var(--border);text-align:center;color:var(--text)}
 .guide-table tr:last-child td{border-bottom:none}
-.guide-note{font-size:12px;color:var(--sub);line-height:1.8;margin-top:10px;padding:8px 12px;background:var(--bg);border-radius:8px}
+.guide-note{font-size:13px;font-weight:700;color:var(--sub);line-height:1.5;margin-top:8px;padding:6px 12px;background:var(--bg);border-radius:8px}
 
 .empty{text-align:center;padding:50px 20px;color:var(--sub)}
 .empty-icon{font-size:48px;margin-bottom:12px}
@@ -285,18 +284,14 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 <div id="pg-guide" class="page">
   <div class="card">
     <div class="card-title-md">📐 생산율 계산 방식</div>
-    <p style="font-size:14px;color:var(--sub);line-height:1.9;margin-bottom:10px">
+    <p style="font-size:14px;color:var(--sub);line-height:1.5;margin-bottom:0">
       생산율 = 실제 점검 ÷ 월 목표 × 100<br>
       <b style="color:var(--text)">목표는 팀원마다 다르게 설정</b> (팀장 입력)
     </p>
-    <div style="background:var(--cw-blue-bg);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--sub);line-height:2;border:1px solid var(--cw-blue-light)">
-      예) 목표 200개 → 3%=6개 / 5%=10개 / 7%=14개<br>
-      예) 목표 100개 → 3%=3개 / 5%=5개 / 7%=7개
-    </div>
   </div>
   <div class="card">
-    <div class="card-title-lg">📈 생산율 점프UP</div>
-    <p style="font-size:14px;color:var(--sub);margin-bottom:10px;font-weight:500">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
+    <div class="card-title-lg" style="font-size:18px">📈 생산율 점프UP</div>
+    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
     <table class="guide-table">
       <tr><th>환산 건수</th><th><span class="badge badge-rate3 badge-th">3%</span></th><th><span class="badge badge-rate5 badge-th">5%</span></th><th><span class="badge badge-rate7 badge-th">7%</span></th></tr>
       <tr><td style="color:var(--sub2)">0~6건</td><td colspan="3" style="color:var(--sub2)">미지급</td></tr>
@@ -308,8 +303,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
     <p class="guide-note">※ 건당 단가 × 환산 건수 전체 적용</p>
   </div>
   <div class="card">
-    <div class="card-title-lg">📊 3.6.9 점프UP</div>
-    <p style="font-size:14px;color:var(--sub);margin-bottom:10px;font-weight:500">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
+    <div class="card-title-lg" style="font-size:18px">📊 3.6.9 점프UP</div>
+    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
     <table class="guide-table">
       <tr><th>환산 건수</th><th>건당 단가</th></tr>
       <tr><td style="color:var(--sub2)">0~3건</td><td style="color:var(--sub2)">미지급</td></tr>
