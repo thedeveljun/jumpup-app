@@ -339,7 +339,15 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
   <div class="panel" id="panel">
     <div class="panel-handle"></div>
     <div class="panel-header">
-      <div class="panel-name" id="panelName"></div>
+      <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0">
+        <input id="panelNameInput"
+          style="font-size:19px;font-weight:800;color:var(--text);border:none;border-bottom:2px solid transparent;background:transparent;outline:none;font-family:inherit;width:100%;min-width:0;padding:2px 0"
+          onfocus="this.style.borderBottomColor='var(--cw-blue)'"
+          onblur="saveName(this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()"
+          maxlength="10" placeholder="이름 입력">
+        <span style="font-size:11px;color:var(--sub2);white-space:nowrap">✏️ 수정</span>
+      </div>
       <button class="panel-close" onclick="closePanel()">✕</button>
     </div>
     <div class="panel-body" id="panelBody"></div>
@@ -508,7 +516,7 @@ function renderPanel(){
   const hint5=m.targetCnt?Math.ceil(m.targetCnt*0.05):'-';
   const hint7=m.targetCnt?Math.ceil(m.targetCnt*0.07):'-';
   const rateColor=lv===7?'var(--cw-blue)':lv>=3?'var(--amber)':'var(--red)';
-  document.getElementById('panelName').textContent=m.name;
+  document.getElementById('panelNameInput').value=m.name;
   document.getElementById('panelBody').innerHTML=`
     <div class="input-section">
       <div class="input-section-title">📋 점검 목표 (팀장 설정)</div>
@@ -597,6 +605,15 @@ function openPanel(id){
   document.getElementById('panelOverlay').classList.add('open');
   document.body.style.overflow='hidden';
   history.pushState({panel:'detail'},'');
+}
+function saveName(val){
+  const name=val.trim();
+  if(!name||!openMemberId)return;
+  const m=members.find(x=>x.id===openMemberId);
+  if(!m)return;
+  m.name=name;
+  document.getElementById('panelNameInput').style.borderBottomColor='transparent';
+  save();renderDash();
 }
 function closePanel(){
   document.getElementById('panelOverlay').classList.remove('open');
