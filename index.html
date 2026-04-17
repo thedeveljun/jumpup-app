@@ -166,7 +166,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .btn-add{padding:11px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--cw-blue),var(--cw-blue2));font-size:17px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit;box-shadow:0 3px 12px rgba(15,111,191,.3)}
 
 /* ── 프로모션 안내 ── */
-.guide-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.guide-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
 .guide-table th{background:var(--cw-blue-bg);padding:5px 10px;font-weight:700;font-size:14px;color:var(--cw-blue);border-bottom:1.5px solid var(--cw-blue-light);text-align:center}
 .guide-table td{padding:5px 10px;border-bottom:1px solid var(--border);text-align:center;color:var(--text)}
 .guide-table tr:last-child td{border-bottom:none}
@@ -263,8 +263,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
     <div class="top-sub">팀장 전용 수당 계산기</div>
   </div>
   <div style="display:flex;align-items:center;gap:8px">
-    <button class="add-btn" style="font-size:18px" onclick="openPwChange()" aria-label="설정">⚙️</button>
-    <button class="add-btn" onclick="openAdd()" aria-label="팀원 추가">+</button>
+    <button class="add-btn" style="font-size:20px;background:rgba(255,255,255,.32);border-color:rgba(255,255,255,.7)" onclick="openPwChange()" aria-label="설정">⚙️</button>
+    <button class="add-btn" style="font-size:26px;background:rgba(255,255,255,.32);border-color:rgba(255,255,255,.7)" onclick="openAdd()" aria-label="팀원 추가">+</button>
   </div>
 </div>
 
@@ -286,22 +286,22 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
   </div>
   <div class="card">
     <div class="card-title-lg" style="font-size:18px">📈 생산율 점프UP</div>
-    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산 건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
+    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
     <table class="guide-table">
-      <tr><th>환산 건수</th><th><span class="badge badge-rate3 badge-th">3%</span></th><th><span class="badge badge-rate5 badge-th">5%</span></th><th><span class="badge badge-rate7 badge-th">7%</span></th></tr>
+      <tr><th>환산건수</th><th><span class="badge badge-rate3 badge-th">3%</span></th><th><span class="badge badge-rate5 badge-th">5%</span></th><th><span class="badge badge-rate7 badge-th">7%</span></th></tr>
       <tr><td style="color:var(--sub2)">0~6건</td><td colspan="3" style="color:var(--sub2)">미지급</td></tr>
       <tr><td>7건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
       <tr><td>11건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
       <tr><td>15건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
       <tr><td>20건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
     </table>
-    <p class="guide-note">※ 건당 단가 × 환산 건수 전체 적용</p>
+    <p class="guide-note">※ 건당 단가 × 환산건수 전체 적용</p>
   </div>
   <div class="card">
     <div class="card-title-lg" style="font-size:18px">📊 3.6.9 점프UP</div>
-    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산 건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
+    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
     <table class="guide-table">
-      <tr><th>환산 건수</th><th>건당 단가</th></tr>
+      <tr><th>환산건수</th><th>건당 단가</th></tr>
       <tr><td style="color:var(--sub2)">0~3건</td><td style="color:var(--sub2)">미지급</td></tr>
       <tr><td>4건 이상</td><td><b>2.7만원</b></td></tr>
       <tr><td>7건 이상</td><td><b>3.3만원</b></td></tr>
@@ -318,7 +318,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
       <tr><td>재렌탈</td><td><b>0.5건</b></td></tr>
       <tr><td>자가관리 재렌탈</td><td><b>1.0건</b> <span style="font-size:11px;color:var(--cw-blue);font-weight:700">↑ 상향</span></td></tr>
     </table>
-    <p class="guide-note">환산 건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0</p>
+    <p class="guide-note">환산건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0</p>
   </div>
 </div>
 
@@ -561,7 +561,7 @@ function resultHTML(m){
   const r369=calc369(h),rP=calcProd(h,lv),tot=r369.total+rP.total;
   const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
   return`
-    <div class="r-row"><span>환산 건수</span><span>${h.toFixed(1)}건</span></div>
+    <div class="r-row"><span>환산건수</span><span>${h.toFixed(1)}건</span></div>
     <div class="r-row"><span>생산율</span><span>${pct.toFixed(1)}% (${lvLabel})</span></div>
     <div class="r-row"><span>3.6.9 수당</span><span>${h<4?'미지급':r369.total.toFixed(1)+'만원 ('+r369.per+'×'+h.toFixed(1)+')'}</span></div>
     <div class="r-row"><span>생산율 수당</span><span>${lv===0||h<7?'미지급':'+'+rP.total.toFixed(1)+'만원 (+'+rP.per+'×'+h.toFixed(1)+')'}</span></div>
