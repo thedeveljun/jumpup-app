@@ -175,29 +175,39 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .empty-text{font-size:15px;font-weight:700;margin-bottom:6px}
 .empty-sub{font-size:13px;color:var(--sub2)}
 
-/* ── 잠금/설정 화면 공통 ── */
+/* ── 잠금 화면 ── */
 .lock-screen{position:fixed;inset:0;background:linear-gradient(160deg,#0F6FBF 0%,#0D4F90 50%,#0A3568 100%);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px}
 .lock-screen.hidden{display:none}
 .lock-logo{width:72px;height:72px;border-radius:20px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:16px;border:1.5px solid rgba(255,255,255,.28)}
 .lock-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.2px;text-align:center}
-.lock-sub{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:36px;font-weight:500;text-align:center;line-height:1.6}
-.lock-dots{display:flex;gap:12px;margin-bottom:32px}
-.lock-dot{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);transition:all .15s}
-.lock-dot.filled{background:#fff;border-color:#fff;box-shadow:0 0 8px rgba(255,255,255,.6)}
-.lock-dot.error{background:#FF6B6B;border-color:#FF6B6B}
-.lock-dot.success{background:#4CD964;border-color:#4CD964;box-shadow:0 0 8px rgba(76,217,100,.6)}
-.lock-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:280px}
-.lock-key{height:66px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);font-size:24px;font-weight:700;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .1s;-webkit-tap-highlight-color:transparent;line-height:1}
-.lock-key:active{background:rgba(255,255,255,.28)}
-.lock-key-sub{font-size:9px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:1.5px;margin-top:3px}
-.lock-key.del-key{background:rgba(255,255,255,.08);font-size:20px}
-.lock-key.empty-key{background:transparent;border-color:transparent;cursor:default}
+.lock-sub{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:28px;font-weight:500;text-align:center;line-height:1.6}
+.lock-input-wrap{width:100%;max-width:300px;margin-bottom:14px;position:relative}
+.lock-input{
+  width:100%;padding:16px 20px;
+  background:rgba(255,255,255,.15);
+  border:1.5px solid rgba(255,255,255,.35);
+  border-radius:14px;
+  font-size:28px;font-weight:700;
+  color:#fff;text-align:center;
+  letter-spacing:10px;
+  outline:none;
+  font-family:inherit;
+  -webkit-text-security:disc;
+}
+.lock-input::placeholder{color:rgba(255,255,255,.35);letter-spacing:4px;font-size:16px;font-weight:400}
+.lock-input:focus{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.2)}
+.lock-confirm-btn{
+  width:100%;max-width:300px;
+  padding:15px;border-radius:14px;border:none;
+  background:#fff;color:var(--cw-blue);
+  font-size:17px;font-weight:800;
+  cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+  transition:opacity .15s;
+}
+.lock-confirm-btn:active{opacity:.85}
 .lock-error-msg{font-size:13px;color:#FF9999;font-weight:600;margin-top:14px;min-height:20px;text-align:center}
-.lock-success-msg{font-size:13px;color:#4CD964;font-weight:600;margin-top:14px;min-height:20px;text-align:center}
-.lock-step-indicator{display:flex;gap:6px;margin-bottom:28px}
-.lock-step{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s}
-.lock-step.active{background:#fff;transform:scale(1.2)}
-.lock-change-btn{margin-top:28px;font-size:13px;color:rgba(255,255,255,.55);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;font-family:inherit}
+.lock-change-btn{margin-top:24px;font-size:13px;color:rgba(255,255,255,.55);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;font-family:inherit}
 
 /* ── 비밀번호 변경 ── */
 .pw-change-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
@@ -217,32 +227,15 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 <!-- 잠금 / 최초인증 화면 -->
 <div class="lock-screen" id="lockScreen">
   <div class="lock-logo">⚡</div>
-  <div class="lock-title" id="lockTitle">점프UP 관리</div>
-  <div class="lock-sub" id="lockSub">비밀번호 6자리를 입력하세요</div>
-  <div class="lock-dots" id="lockDots">
-    <div class="lock-dot" id="d0"></div>
-    <div class="lock-dot" id="d1"></div>
-    <div class="lock-dot" id="d2"></div>
-    <div class="lock-dot" id="d3"></div>
-    <div class="lock-dot" id="d4"></div>
-    <div class="lock-dot" id="d5"></div>
+  <div class="lock-title">점프UP 관리</div>
+  <div class="lock-sub" id="lockSub">비밀번호를 입력하세요<br>최초 1회 입력 후 자동으로 잠금 해제됩니다</div>
+  <div class="lock-input-wrap">
+    <input class="lock-input" type="password" id="lockInputField"
+      inputmode="numeric" maxlength="6" placeholder="비밀번호 입력"
+      onkeydown="if(event.key==='Enter')checkLogin()">
   </div>
-  <div class="lock-keypad">
-    <button class="lock-key" onclick="pressKey('1')">1<span class="lock-key-sub"></span></button>
-    <button class="lock-key" onclick="pressKey('2')">2<span class="lock-key-sub">ABC</span></button>
-    <button class="lock-key" onclick="pressKey('3')">3<span class="lock-key-sub">DEF</span></button>
-    <button class="lock-key" onclick="pressKey('4')">4<span class="lock-key-sub">GHI</span></button>
-    <button class="lock-key" onclick="pressKey('5')">5<span class="lock-key-sub">JKL</span></button>
-    <button class="lock-key" onclick="pressKey('6')">6<span class="lock-key-sub">MNO</span></button>
-    <button class="lock-key" onclick="pressKey('7')">7<span class="lock-key-sub">PQRS</span></button>
-    <button class="lock-key" onclick="pressKey('8')">8<span class="lock-key-sub">TUV</span></button>
-    <button class="lock-key" onclick="pressKey('9')">9<span class="lock-key-sub">WXYZ</span></button>
-    <div class="lock-key empty-key"></div>
-    <button class="lock-key" onclick="pressKey('0')">0</button>
-    <button class="lock-key del-key" onclick="pressDelete()">⌫</button>
-  </div>
+  <button class="lock-confirm-btn" onclick="checkLogin()">확인</button>
   <div class="lock-error-msg" id="lockErrorMsg"></div>
-  <button class="lock-change-btn" id="lockChangeBtn" onclick="openPwChange()" style="display:none">비밀번호 변경</button>
 </div>
 
 <!-- 비밀번호 변경 패널 -->
@@ -384,68 +377,42 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
    - 사용자 본인이 앱 안에서 비밀번호 변경 가능
      (변경 후엔 새 비밀번호로 신규 사용자 검증)
 ══════════════════════════════════════════ */
-const MASTER_PW  = '123456'; // ★ 개발자 배포용 초기 비밀번호 (신규 사용자에게 알려줄 번호)
-const UNLOCK_KEY = 'pjump_unlocked'; // 영구 해제 플래그
-const USER_PW_KEY= 'pjump_user_pw';  // 사용자가 변경한 비밀번호
+const MASTER_PW  = '981127'; // ★ 개발자 배포용 초기 비밀번호
+const UNLOCK_KEY = 'pjump_unlocked';
+const USER_PW_KEY= 'pjump_user_pw';
 
-/* 현재 유효한 비밀번호: 사용자가 변경했으면 그 값, 아니면 MASTER_PW */
 function getActivePw(){ return localStorage.getItem(USER_PW_KEY) || MASTER_PW; }
-/* 이 기기에서 이미 1회 인증 완료했는지 */
 function isUnlocked(){ return localStorage.getItem(UNLOCK_KEY) === '1'; }
-/* 영구 해제 저장 */
 function setUnlocked(){ localStorage.setItem(UNLOCK_KEY, '1'); }
 
-let lockInput = '';
-let lockFail  = 0;
+let lockFail = 0;
 
 function initLock(){
   if(isUnlocked()){
-    // 이미 해제된 기기 → 바로 진입
     document.getElementById('lockScreen').classList.add('hidden');
     return;
   }
-  // 신규 기기 → 비밀번호 입력 화면
-  document.getElementById('lockTitle').textContent = '점프UP 관리';
-  document.getElementById('lockSub').textContent   = '비밀번호 6자리를 입력하세요';
-  document.getElementById('lockChangeBtn').style.display = 'none';
-}
-
-function pressKey(n){
-  if(lockInput.length >= 6) return;
-  lockInput += n;
-  updateDots(false);
-  if(lockInput.length === 6) setTimeout(checkLogin, 120);
-}
-function pressDelete(){
-  if(!lockInput.length) return;
-  lockInput = lockInput.slice(0,-1);
-  updateDots(false);
-  document.getElementById('lockErrorMsg').textContent = '';
-}
-function updateDots(error){
-  for(let i=0;i<6;i++){
-    const d = document.getElementById('d'+i);
-    d.className = 'lock-dot';
-    if(error)                d.classList.add('error');
-    else if(i<lockInput.length) d.classList.add('filled');
-  }
+  setTimeout(()=>{ document.getElementById('lockInputField').focus(); }, 300);
 }
 
 function checkLogin(){
-  if(lockInput === getActivePw()){
-    // ✅ 인증 성공 → 이 기기 영구 해제
+  const input = document.getElementById('lockInputField').value.trim();
+  const msg   = document.getElementById('lockErrorMsg');
+  if(!input){ msg.textContent='비밀번호를 입력해 주세요'; return; }
+  if(input === getActivePw()){
     setUnlocked();
-    for(let i=0;i<6;i++) document.getElementById('d'+i).className='lock-dot success';
-    document.getElementById('lockErrorMsg').style.color = '#4CD964';
-    document.getElementById('lockErrorMsg').textContent = '인증되었습니다 ✓';
+    msg.style.color = '#4CD964';
+    msg.textContent = '인증되었습니다 ✓';
+    document.getElementById('lockInputField').disabled = true;
     setTimeout(()=>{ document.getElementById('lockScreen').classList.add('hidden'); }, 700);
   } else {
     lockFail++;
-    updateDots(true);
-    document.getElementById('lockErrorMsg').style.color = '';
-    document.getElementById('lockErrorMsg').textContent =
-      lockFail >= 5 ? `비밀번호가 틀렸습니다 (${lockFail}회 실패)` : `비밀번호가 틀렸습니다 (${lockFail}/5)`;
-    setTimeout(()=>{ lockInput=''; updateDots(false); }, 600);
+    msg.style.color = '';
+    msg.textContent = lockFail >= 5
+      ? `비밀번호가 틀렸습니다 (${lockFail}회 실패)`
+      : `비밀번호가 틀렸습니다 (${lockFail}/5)`;
+    document.getElementById('lockInputField').value = '';
+    document.getElementById('lockInputField').focus();
   }
 }
 
