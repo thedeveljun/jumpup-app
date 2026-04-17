@@ -100,52 +100,54 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .badge-rate0{background:#F0F2F5;color:#7A8899}
 
 /* ── 상세 패널 ── */
-.panel-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.panel-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:200;display:none;align-items:flex-end;justify-content:center;padding-bottom:20px}
 .panel-overlay.open{display:flex}
-.panel{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:0 0 20px}
-.panel-handle{width:40px;height:4px;background:#D0D8E4;border-radius:2px;margin:12px auto 0}
-.panel-header{padding:12px 18px 10px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:10;border-bottom:1px solid var(--border)}
+.panel{background:var(--card);border-radius:22px;width:88%;max-width:400px;max-height:88vh;overflow-y:auto;padding:0 0 14px}
+.panel-handle{width:40px;height:4px;background:#D0D8E4;border-radius:2px;margin:10px auto 0}
+.panel-header{padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:10;border-bottom:1px solid var(--border)}
 .panel-name{font-size:19px;font-weight:800}
 .panel-close{width:30px;height:30px;border-radius:50%;background:#F0F2F5;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--sub)}
-.panel-body{padding:14px 18px 16px}
+.panel-body{padding:10px 16px 12px}
 
-.input-section{margin-bottom:12px}
-.input-section-title{font-size:12px;font-weight:700;color:var(--cw-blue);margin-bottom:8px;letter-spacing:.4px;display:flex;align-items:center;gap:5px}
+.input-section{margin-bottom:8px}
+.input-section-title{font-size:14px;font-weight:700;color:var(--cw-blue);margin-bottom:5px;letter-spacing:.3px;display:flex;align-items:center;gap:5px}
 
-.direct-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.direct-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
 .direct-row:last-child{border-bottom:none}
-.direct-label{font-size:14px;color:var(--text);font-weight:500}
-.direct-sub{font-size:11px;color:var(--sub);margin-top:2px}
-.direct-input{width:90px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
+.direct-label{font-size:16px;color:var(--text);font-weight:500}
+.direct-sub{font-size:13px;color:var(--sub);margin-top:1px}
+.direct-input{width:90px;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:18px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
 .direct-input:focus{border-color:var(--cw-blue)}
 
-.rate-display{background:var(--cw-blue-bg);border-radius:var(--radius-sm);padding:12px 14px;margin-top:8px;border:1px solid var(--cw-blue-light)}
-.rate-big{font-size:22px;font-weight:800;text-align:center;padding:4px 0 2px}
-.rate-lv{text-align:center;font-size:12px;color:var(--sub);margin-bottom:8px;font-weight:500}
-.progress-wrap{margin-top:4px}
-.progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--sub2);margin-bottom:4px}
+.rate-display{background:var(--cw-blue-bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px;border:1px solid var(--cw-blue-light)}
+.rate-big{font-size:22px;font-weight:800;text-align:center;padding:2px 0 1px}
+.rate-lv{text-align:center;font-size:12px;color:var(--sub);margin-bottom:5px;font-weight:500}
+.progress-wrap{margin-top:3px}
+.progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--sub2);margin-bottom:3px}
 .progress-bar{height:7px;background:#D8E6F2;border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;border-radius:4px;transition:width .4s}
 .fill-red{background:#EF5350}
 .fill-amber{background:#FFA726}
 .fill-green{background:#43A047}
 
-.counter-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.counter-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
 .counter-row:last-child{border-bottom:none}
-.counter-label{font-size:14px;color:var(--text);font-weight:500}
-.counter-sub{font-size:11px;color:var(--sub);margin-top:2px}
+.counter-label{font-size:16px;color:var(--text);font-weight:500}
+.counter-sub{font-size:13px;color:var(--sub);margin-top:1px}
 .counter-ctrl{display:flex;align-items:center;gap:2px}
 .cnt-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--cw-blue);font-weight:700;transition:all .12s}
 .cnt-btn:active{background:var(--cw-blue-light);border-color:var(--cw-blue)}
 .cnt-val{min-width:38px;text-align:center;font-size:18px;font-weight:800}
+.cnt-input{width:76px;padding:6px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:20px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit}
+.cnt-input:focus{border-color:var(--cw-blue)}
 
-.result-box{background:var(--bg);border-radius:var(--radius-sm);padding:10px 14px;margin-top:8px;border:1px solid var(--border)}
-.r-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:13px;color:var(--sub)}
+.result-box{background:var(--bg);border-radius:var(--radius-sm);padding:8px 12px;margin-top:6px;border:1px solid var(--border)}
+.r-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:15px;color:var(--sub)}
 .r-row span:last-child{font-weight:600;color:var(--text)}
-.r-row.r-total{border-top:1px solid var(--border);margin-top:4px;padding-top:8px;font-size:14px;font-weight:800;color:var(--cw-blue)}
-.r-row.r-total span:last-child{color:var(--cw-blue);font-size:16px}
+.r-row.r-total{border-top:1px solid var(--border);margin-top:3px;padding-top:6px;font-size:16px;font-weight:800;color:var(--cw-blue)}
+.r-row.r-total span:last-child{color:var(--cw-blue);font-size:17px}
 
-.del-btn{width:100%;margin-top:14px;padding:13px;border-radius:var(--radius-sm);border:1.5px solid #FDECEB;background:#FDECEB;color:var(--red);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .12s}
+.del-btn{width:100%;margin-top:10px;padding:11px;border-radius:var(--radius-sm);border:1.5px solid #FDECEB;background:#FDECEB;color:var(--red);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .12s}
 .del-btn:active{background:#f7c1c1}
 
 /* ── 추가 패널 ── */
@@ -534,27 +536,21 @@ function renderPanel(){
       <div class="input-section-title">📝 계약 건수</div>
       <div class="counter-row">
         <div><div class="counter-label">신규 계약</div><div class="counter-sub">1건 → 환산 1.0건</div></div>
-        <div class="counter-ctrl">
-          <button class="cnt-btn" onclick="adj(${m.id},'newCnt',-1)">−</button>
-          <div class="cnt-val" id="v_newCnt">${m.newCnt}</div>
-          <button class="cnt-btn" onclick="adj(${m.id},'newCnt',1)">+</button>
-        </div>
+        <input class="cnt-input" type="number" inputmode="numeric" min="0" value="${m.newCnt}"
+          onchange="setField(${m.id},'newCnt',+this.value)"
+          oninput="setField(${m.id},'newCnt',+this.value)">
       </div>
       <div class="counter-row">
         <div><div class="counter-label">재렌탈</div><div class="counter-sub">1건 → 환산 0.5건</div></div>
-        <div class="counter-ctrl">
-          <button class="cnt-btn" onclick="adj(${m.id},'reCnt',-1)">−</button>
-          <div class="cnt-val" id="v_reCnt">${m.reCnt}</div>
-          <button class="cnt-btn" onclick="adj(${m.id},'reCnt',1)">+</button>
-        </div>
+        <input class="cnt-input" type="number" inputmode="numeric" min="0" value="${m.reCnt}"
+          onchange="setField(${m.id},'reCnt',+this.value)"
+          oninput="setField(${m.id},'reCnt',+this.value)">
       </div>
       <div class="counter-row">
         <div><div class="counter-label">자가관리 재렌탈</div><div class="counter-sub">1건 → 환산 1.0건 (상향)</div></div>
-        <div class="counter-ctrl">
-          <button class="cnt-btn" onclick="adj(${m.id},'selfReCnt',-1)">−</button>
-          <div class="cnt-val" id="v_selfReCnt">${m.selfReCnt}</div>
-          <button class="cnt-btn" onclick="adj(${m.id},'selfReCnt',1)">+</button>
-        </div>
+        <input class="cnt-input" type="number" inputmode="numeric" min="0" value="${m.selfReCnt}"
+          onchange="setField(${m.id},'selfReCnt',+this.value)"
+          oninput="setField(${m.id},'selfReCnt',+this.value)">
       </div>
     </div>
     <div class="result-box" id="resultBox">${resultHTML(m)}</div>
@@ -596,13 +592,23 @@ function refreshResult(m){
   const tl=document.getElementById('targetLabel');if(tl)tl.textContent=m.targetCnt;
   const box=document.getElementById('resultBox');if(box)box.innerHTML=resultHTML(m);
 }
-function closePanel(){document.getElementById('panelOverlay').classList.remove('open');document.body.style.overflow='';openMemberId=null;}
+function openPanel(id){
+  openMemberId=id;renderPanel();
+  document.getElementById('panelOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  history.pushState({panel:'detail'},'');
+}
+function closePanel(){
+  document.getElementById('panelOverlay').classList.remove('open');
+  document.body.style.overflow='';openMemberId=null;
+}
 function closePanelOutside(e){if(e.target===document.getElementById('panelOverlay'))closePanel();}
 function delMember(id){if(!confirm('정말 삭제하시겠습니까?'))return;members=members.filter(m=>m.id!==id);save();closePanel();renderDash();}
 function openAdd(){
   ['a_name','a_new','a_re','a_self'].forEach(id=>{document.getElementById(id).value=id==='a_name'?'':'0';});
   document.getElementById('a_target').value='0';document.getElementById('a_check').value='0';
   updateAddHint();document.getElementById('addOverlay').classList.add('open');document.body.style.overflow='hidden';
+  history.pushState({panel:'add'},'');
   setTimeout(()=>document.getElementById('a_name').focus(),200);
   document.getElementById('a_target').addEventListener('input',updateAddHint);
 }
@@ -614,6 +620,19 @@ function updateAddHint(){
 }
 function closeAdd(){document.getElementById('addOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeAddOutside(e){if(e.target===document.getElementById('addOverlay'))closeAdd();}
+
+/* 뒤로가기 버튼 처리 */
+window.addEventListener('popstate', function(e){
+  if(document.getElementById('panelOverlay').classList.contains('open')){
+    closePanel(); return;
+  }
+  if(document.getElementById('addOverlay').classList.contains('open')){
+    closeAdd(); return;
+  }
+  if(document.getElementById('pwChangeOverlay').classList.contains('open')){
+    closePwChange(); return;
+  }
+});
 function addMember(){
   const name=document.getElementById('a_name').value.trim();
   if(!name){alert('이름을 입력하세요');return;}
