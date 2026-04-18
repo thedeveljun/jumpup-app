@@ -116,17 +116,20 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .panel{background:var(--card);border-radius:22px;width:88%;max-width:400px;max-height:88vh;overflow-y:auto;padding:0 0 14px}
 .panel-handle{width:40px;height:4px;background:#D0D8E4;border-radius:2px;margin:10px auto 0}
 .panel-header{padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:10;border-bottom:1px solid var(--border)}
-.panel-name{font-size:19px;font-weight:800}
+/* 1) 이름 +2pt: 19px → 21px */
+.panel-name{font-size:21px;font-weight:800}
 .panel-close{width:30px;height:30px;border-radius:50%;background:#F0F2F5;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--sub)}
 .panel-body{padding:10px 16px 12px}
 
 .input-section{margin-bottom:8px}
-.input-section-title{font-size:14px;font-weight:700;color:var(--cw-blue);margin-bottom:5px;letter-spacing:.3px;display:flex;align-items:center;gap:5px}
+/* 2) 섹션타이틀 +4pt: 13px → 17px, 검정색 */
+.input-section-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:.3px;display:flex;align-items:center;gap:5px}
 
 .direct-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
 .direct-row:last-child{border-bottom:none}
-.direct-label{font-size:16px;color:var(--text);font-weight:500}
-.direct-sub{font-size:13px;color:var(--sub);margin-top:1px}
+/* 3) direct-label +1pt, 검정색 */
+.direct-label{font-size:17px;color:var(--text);font-weight:500}
+.direct-sub{font-size:15px;color:var(--text);margin-top:1px}
 .direct-input{width:63px;padding:5px 4px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:18px;font-weight:700;text-align:center;color:var(--text);background:var(--bg);outline:none;font-family:inherit;display:block;-moz-appearance:textfield}
 .direct-input::-webkit-outer-spin-button,.direct-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .direct-input:focus{border-color:var(--cw-blue)}
@@ -148,8 +151,9 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 
 .counter-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
 .counter-row:last-child{border-bottom:none}
-.counter-label{font-size:16px;color:var(--text);font-weight:500}
-.counter-sub{font-size:13px;color:var(--sub);margin-top:1px}
+/* 3) counter-label +1pt, 검정색 */
+.counter-label{font-size:18px;color:var(--text);font-weight:500}
+.counter-sub{font-size:15px;color:var(--text);margin-top:1px}
 .counter-ctrl{display:flex;align-items:center;gap:2px}
 .cnt-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--cw-blue);font-weight:700;transition:all .12s}
 .cnt-btn:active{background:var(--cw-blue-light);border-color:var(--cw-blue)}
@@ -293,49 +297,92 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 
 <!-- 안내 -->
 <div id="pg-guide" class="page">
+
+  <!-- 생산율 점프UP -->
   <div class="card">
-    <div class="card-title-md">📐 생산율 계산 방식</div>
-    <p style="font-size:14px;color:var(--sub);line-height:1.5;margin-bottom:0">
-      생산율 = 실제 점검 ÷ 월 목표 × 100<br>
-      <b style="color:var(--text)">목표는 팀원마다 다르게 설정</b> (팀장 입력)
-    </p>
-  </div>
-  <div class="card">
-    <div class="card-title-lg" style="font-size:18px">📈 생산율 점프UP</div>
-    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산건수 <b style="color:var(--text)">7건 이상</b>부터 지급</p>
+    <div class="card-title-lg" style="font-size:18px;margin-bottom:6px">📈 생산율 점프UP 프로모션</div>
+
+    <!-- 조건 설명 -->
+    <div style="background:var(--cw-blue-bg);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--sub);line-height:2;border:1px solid var(--cw-blue-light);margin-bottom:10px">
+      ① 팀장이 입력한 <b style="color:var(--text)">월 목표 점검 개수</b> 기준<br>
+      ② 실제 점검 ÷ 목표 × 100 = <b style="color:var(--text)">생산율(%)</b> 산출<br>
+      ③ 생산율 구간(3% / 5% / 7%)에 따라 <b style="color:var(--text)">건당 단가</b> 결정<br>
+      ④ 환산건수 <b style="color:var(--cw-blue)">7건 이상</b>부터 지급
+    </div>
+
+    <!-- 테이블 -->
     <table class="guide-table">
-      <tr><th>환산건수</th><th><span class="badge badge-rate3 badge-th">3%</span></th><th><span class="badge badge-rate5 badge-th">5%</span></th><th><span class="badge badge-rate7 badge-th">7%</span></th></tr>
-      <tr><td style="color:var(--sub2)">0~6건</td><td colspan="3" style="color:var(--sub2)">미지급</td></tr>
-      <tr><td>7건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
-      <tr><td>11건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
-      <tr><td>15건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
-      <tr><td>20건 이상</td><td>+2.0만원</td><td>+3.5만원</td><td>+4.5만원</td></tr>
+      <thead>
+        <tr>
+          <th rowspan="2" style="vertical-align:middle;font-size:13px">환산 건</th>
+          <th colspan="3" style="font-size:13px;border-bottom:1px solid var(--cw-blue-light)">환산 생산율 구간</th>
+        </tr>
+        <tr>
+          <th><span class="badge badge-rate3 badge-th">3%</span></th>
+          <th><span class="badge badge-rate5 badge-th">5%</span></th>
+          <th><span class="badge badge-rate7 badge-th">7%</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0~6건</td><td colspan="3" style="color:var(--sub2)">미지급</td></tr>
+        <tr style="background:var(--cw-blue-bg)">
+          <td style="font-weight:700">7건 이상</td>
+          <td rowspan="4" style="font-weight:800;color:#1E8C4A;font-size:14px">건당<br>+2.0만</td>
+          <td rowspan="4" style="font-weight:800;color:#C47A00;font-size:14px">건당<br>+3.5만</td>
+          <td rowspan="4" style="font-weight:800;color:var(--cw-blue);font-size:14px">건당<br>+4.5만</td>
+        </tr>
+        <tr style="background:var(--cw-blue-bg)"><td style="font-weight:700">11건 이상</td></tr>
+        <tr style="background:var(--cw-blue-bg)"><td style="font-weight:700">15건 이상</td></tr>
+        <tr style="background:var(--cw-blue-bg)"><td style="font-weight:700">20건 이상</td></tr>
+      </tbody>
     </table>
-    <p class="guide-note">※ 건당 단가 × 환산건수 전체 적용</p>
+    <p class="guide-note">※ 건당 단가 × 환산건수 전체에 적용<br>예) 목표200개, 실적10개 → 생산율5% → 환산9건일때<br>&nbsp;&nbsp;&nbsp;&nbsp;→ 3.5만 × 9건 = <b style="color:var(--text)">31.5만원</b></p>
   </div>
+
+  <!-- 3.6.9 점프UP -->
   <div class="card">
-    <div class="card-title-lg" style="font-size:18px">📊 3.6.9 점프UP</div>
-    <p style="font-size:16px;color:var(--sub);margin-bottom:8px;font-weight:500">환산건수 <b style="color:var(--text)">4건 이상</b>부터 지급</p>
+    <div class="card-title-lg" style="font-size:18px;margin-bottom:6px">📊 3.6.9 점프UP 프로모션</div>
+
+    <!-- 조건 설명 -->
+    <div style="background:var(--cw-blue-bg);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--sub);line-height:2;border:1px solid var(--cw-blue-light);margin-bottom:10px">
+      ① 신규·재렌탈·자가관리재렌탈 <b style="color:var(--text)">환산건수</b> 합산<br>
+      ② 환산건수 <b style="color:var(--cw-blue)">4건 이상</b>부터 지급<br>
+      ③ 건수 구간에 따라 <b style="color:var(--text)">건당 단가</b> 결정 후 전체 건에 적용
+    </div>
+
+    <!-- 테이블 -->
     <table class="guide-table">
-      <tr><th>환산건수</th><th>건당 단가</th></tr>
-      <tr><td style="color:var(--sub2)">0~3건</td><td style="color:var(--sub2)">미지급</td></tr>
-      <tr><td>4건 이상</td><td><b>2.7만원</b></td></tr>
-      <tr><td>7건 이상</td><td><b>3.3만원</b></td></tr>
-      <tr><td>11건 이상</td><td><b>3.9만원</b></td></tr>
-      <tr><td>15건 이상</td><td><b>4.5만원</b></td></tr>
-      <tr><td>20건 이상</td><td><b>5.0만원</b></td></tr>
+      <thead>
+        <tr>
+          <th style="font-size:13px">환산 건</th>
+          <th style="font-size:13px">건당 단가</th>
+          <th style="font-size:13px">지급 예시</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0~3건</td><td style="color:var(--sub2)">미지급</td><td style="color:var(--sub2)">－</td></tr>
+        <tr><td><b>4건 이상</b></td><td><b style="color:#1E8C4A">2.7만원</b></td><td style="font-size:11px;color:var(--sub)">4건×2.7=10.8만</td></tr>
+        <tr><td><b>7건 이상</b></td><td><b style="color:#1E8C4A">3.3만원</b></td><td style="font-size:11px;color:var(--sub)">7건×3.3=23.1만</td></tr>
+        <tr><td><b>11건 이상</b></td><td><b style="color:#C47A00">3.9만원</b></td><td style="font-size:11px;color:var(--sub)">11건×3.9=42.9만</td></tr>
+        <tr><td><b>15건 이상</b></td><td><b style="color:var(--cw-blue)">4.5만원</b></td><td style="font-size:11px;color:var(--sub)">15건×4.5=67.5만</td></tr>
+        <tr><td><b>20건 이상</b></td><td><b style="color:var(--cw-blue)">5.0만원</b></td><td style="font-size:11px;color:var(--sub)">20건×5.0=100만</td></tr>
+      </tbody>
     </table>
+    <p class="guide-note">※ 건당 단가 × 환산건수 전체에 적용</p>
   </div>
+
+  <!-- 환산 기준 -->
   <div class="card">
-    <div class="card-title-md">🔄 환산 기준</div>
+    <div class="card-title-md">🔄 환산건수 계산 기준</div>
     <table class="guide-table">
       <tr><th>계약 유형</th><th>환산 비율</th></tr>
       <tr><td>신규 계약</td><td><b>1.0건</b></td></tr>
       <tr><td>재렌탈</td><td><b>0.5건</b></td></tr>
       <tr><td>자가관리 재렌탈</td><td><b>1.0건</b> <span style="font-size:11px;color:var(--cw-blue);font-weight:700">↑ 상향</span></td></tr>
     </table>
-    <p class="guide-note">환산건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0</p>
+    <p class="guide-note">환산건수 = 신규×1.0 + 재렌탈×0.5 + 자가관리재렌탈×1.0<br>기존 자가관리재렌탈 0.5건 → 상향 <b style="color:var(--cw-blue)">1.0건</b> 인정</p>
   </div>
+
 </div>
 
 <!-- 하단 탭 -->
@@ -357,7 +404,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
     <div class="panel-header">
       <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0">
         <input id="panelNameInput"
-          style="font-size:19px;font-weight:800;color:var(--text);border:none;border-bottom:2px solid transparent;background:transparent;outline:none;font-family:inherit;width:100%;min-width:0;padding:2px 0"
+          style="font-size:22px;font-weight:800;color:var(--text);border:none;border-bottom:2px solid transparent;background:transparent;outline:none;font-family:inherit;width:100%;min-width:0;padding:2px 0"
           onfocus="this.style.borderBottomColor='var(--cw-blue)'"
           onblur="saveName(this.value)"
           onkeydown="if(event.key==='Enter')this.blur()"
@@ -467,10 +514,10 @@ function changePassword(){
 /* ── 앱 로직 ── */
 let members=JSON.parse(localStorage.getItem('pjump_v4')||'null');
 if(!members){members=[
-  {id:1,name:'김민준',newCnt:5,reCnt:4,selfReCnt:2,targetCnt:200,checkCnt:10},
-  {id:2,name:'이서연',newCnt:3,reCnt:6,selfReCnt:1,targetCnt:200,checkCnt:6},
-  {id:3,name:'박지훈',newCnt:8,reCnt:2,selfReCnt:0,targetCnt:150,checkCnt:14},
-  {id:4,name:'최유나',newCnt:2,reCnt:2,selfReCnt:0,targetCnt:100,checkCnt:2},
+  {id:1,name:'김민준',newCnt:5,reCnt:4,selfReCnt:2,targetCnt:200,checkCnt:0},
+  {id:2,name:'이서연',newCnt:3,reCnt:6,selfReCnt:1,targetCnt:200,checkCnt:0},
+  {id:3,name:'박지훈',newCnt:8,reCnt:2,selfReCnt:0,targetCnt:150,checkCnt:0},
+  {id:4,name:'최유나',newCnt:2,reCnt:2,selfReCnt:0,targetCnt:100,checkCnt:0},
 ];}
 let openMemberId=null;
 function save(){localStorage.setItem('pjump_v4',JSON.stringify(members));}
@@ -514,7 +561,7 @@ function renderDash(){
       <div class="avatar">${getInitial(m.name)}</div>
       <div class="member-info">
         <div class="member-name">${m.name} ${tierBadge(h)}</div>
-        <div class="member-meta">환산 ${h.toFixed(1)}건 &nbsp;|&nbsp; 생산율 ${rateBadgeHtml(pct,lv)}</div>
+        <div class="member-meta">환산 ${h.toFixed(1)}건</div>
       </div>
       <div class="member-pay"><div class="pay-amount">${tot}만</div><div class="pay-label">예상 수당</div></div>
     </div>`;
@@ -526,45 +573,68 @@ function renderPanel(){
   const m=members.find(x=>x.id===openMemberId);if(!m)return;
   const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
   const r369=calc369(h),rP=calcProd(h,lv),tot=r369.total+rP.total;
-  const pctBar=Math.min(100,m.targetCnt>0?Math.round((m.checkCnt/m.targetCnt)*100):0);
-  const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
-  const hint3=m.targetCnt?Math.ceil(m.targetCnt*0.03):'-';
-  const hint5=m.targetCnt?Math.ceil(m.targetCnt*0.05):'-';
-  const hint7=m.targetCnt?Math.ceil(m.targetCnt*0.07):'-';
-  const rateColor=lv===7?'var(--cw-blue)':lv>=3?'var(--amber)':'var(--red)';
+  const hint3=m.targetCnt?(m.targetCnt*0.03).toFixed(1):'-';
+  const hint5=m.targetCnt?(m.targetCnt*0.05).toFixed(1):'-';
+  const hint7=m.targetCnt?(m.targetCnt*0.07).toFixed(1):'-';
+  const prodOK=lv>0&&h>=7;
+  const prodAmt=prodOK?rP.total.toFixed(1)+'만원':'미지급';
+  const prodSub=prodOK?`(${h.toFixed(1)}건×${rP.per}만)`:(h<7?'(환산7건 미만)':'(생산율3%미만)');
+  const lvTxt=lv===0?'미달':lv+'%단가';
+
+  // 3.6.9 점프UP
+  const d369OK=h>=4;
+  const d369Amt=d369OK?r369.total.toFixed(1)+'만원':'미지급';
+  const d369Sub=d369OK?`(${h.toFixed(1)}건×${r369.per}만)`:'(환산4건 미만)';
+
   document.getElementById('panelNameInput').value=m.name;
   document.getElementById('panelBody').innerHTML=`
-    <div class="input-section">
-      <div class="input-section-title">📋 점검 목표 (팀장 설정)</div>
+
+    <!-- 생산율 점프UP 섹션 -->
+    <div style="background:var(--card);border-radius:var(--radius-sm);border:2px solid #4A90D9;padding:10px 12px;margin-bottom:8px">
+      <div style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px">📋 생산율 점프UP</div>
+
+      <!-- 관리개정 입력 -->
       <div class="direct-row">
-        <div><div class="direct-label">월 목표 점검 개수</div><div class="direct-sub" id="hintSub">3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개</div></div>
-        <input class="direct-input" type="number" inputmode="numeric" value="${m.targetCnt}" min="0" onchange="setField(${m.id},'targetCnt',+this.value)" oninput="setField(${m.id},'targetCnt',+this.value)">
+        <div>
+          <div class="direct-label">관리개정 <span style="font-size:15px;font-weight:400;color:var(--sub)">(팀장 숫자 입력)</span></div>
+          <div class="direct-sub" id="hintSub">3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개</div>
+        </div>
+        <input class="direct-input" type="number" inputmode="numeric" value="${m.targetCnt}" min="0"
+          onchange="setField(${m.id},'targetCnt',+this.value)"
+          oninput="setField(${m.id},'targetCnt',+this.value)">
       </div>
-    </div>
-    <div class="input-section">
-      <div class="input-section-title">🔍 당월 실제 점검</div>
-      <div class="direct-row">
-        <div><div class="direct-label">실제 점검 개수</div><div class="direct-sub">목표 <span id="targetLabel">${m.targetCnt}</span>개 기준</div></div>
-        <input class="direct-input" type="number" inputmode="numeric" value="${m.checkCnt}" min="0" onchange="setField(${m.id},'checkCnt',+this.value)" oninput="setField(${m.id},'checkCnt',+this.value)">
-      </div>
-      <div class="rate-display">
-        <div class="rate-big" id="rateBig" style="color:${rateColor}">${pct.toFixed(1)}%</div>
-        <div class="rate-lv" id="rateLv">${lvLabel}</div>
-        <div class="progress-wrap">
-          <div class="progress-label"><span>0%</span><span>3%</span><span>5%</span><span>7%+</span></div>
-          <div class="progress-bar"><div class="progress-fill ${progressColor(pct)}" id="progFill" style="width:${pctBar}%"></div></div>
+
+      <!-- 생산율 계산 결과 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 0">
+        <div style="font-size:15px;color:var(--text)">환산${h.toFixed(1)}건 × ${lvTxt}</div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:800;color:${prodOK?'var(--cw-blue)':'var(--sub2)'};" id="prodAmt">${prodAmt}</div>
+          <div style="font-size:13px;color:var(--text)" id="prodSub">${prodSub}</div>
         </div>
       </div>
     </div>
-    <div class="input-section">
-      <div class="input-section-title">📝 계약 건수</div>
-      <div class="counter-row">
+
+    <!-- 3.6.9 점프UP 섹션 -->
+    <div style="background:var(--card);border-radius:var(--radius-sm);border:2px solid #4A90D9;padding:10px 12px;margin-bottom:8px">
+      <div style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px">📊 3.6.9 점프UP</div>
+
+      <!-- 3.6.9 계산 결과 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:6px">
+        <div style="font-size:15px;color:var(--text)">환산${h.toFixed(1)}건 × 건당${r369.per>0?r369.per+'만':'–'}</div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:800;color:${d369OK?'var(--cw-blue)':'var(--sub2)'};" id="d369Amt">${d369Amt}</div>
+          <div style="font-size:13px;color:var(--text)" id="d369Sub">${d369Sub}</div>
+        </div>
+      </div>
+
+      <!-- 계약 건수 입력 -->
+      <div class="counter-row" style="border-bottom:1px solid var(--border)">
         <div><div class="counter-label">신규 계약</div><div class="counter-sub">1건 → 환산 1.0건</div></div>
         <input class="cnt-input" type="number" inputmode="numeric" min="0" value="${m.newCnt}"
           onchange="setField(${m.id},'newCnt',+this.value)"
           oninput="setField(${m.id},'newCnt',+this.value)">
       </div>
-      <div class="counter-row">
+      <div class="counter-row" style="border-bottom:1px solid var(--border)">
         <div><div class="counter-label">재렌탈</div><div class="counter-sub">1건 → 환산 0.5건</div></div>
         <input class="cnt-input" type="number" inputmode="numeric" min="0" value="${m.reCnt}"
           onchange="setField(${m.id},'reCnt',+this.value)"
@@ -577,20 +647,17 @@ function renderPanel(){
           oninput="setField(${m.id},'selfReCnt',+this.value)">
       </div>
     </div>
-    <div class="result-box" id="resultBox">${resultHTML(m)}</div>
+
+    <!-- 합계 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--cw-blue-bg);border-radius:var(--radius-sm);border:1.5px solid var(--cw-blue-light);margin-bottom:10px">
+      <span style="font-size:18px;font-weight:800;color:var(--text)">합계</span>
+      <span style="font-size:22px;font-weight:800;color:var(--cw-blue)" id="totalAmt">${tot.toFixed(1)}만원</span>
+    </div>
+
     <button class="del-btn" onclick="delMember(${m.id})">팀원 삭제</button>`;
 }
-function resultHTML(m){
-  const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
-  const r369=calc369(h),rP=calcProd(h,lv),tot=r369.total+rP.total;
-  const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
-  return`
-    <div class="r-row"><span>환산건수</span><span>${h.toFixed(1)}건</span></div>
-    <div class="r-row"><span>생산율</span><span>${pct.toFixed(1)}% (${lvLabel})</span></div>
-    <div class="r-row"><span>3.6.9 수당</span><span>${h<4?'미지급':r369.total.toFixed(1)+'만원 ('+r369.per+'×'+h.toFixed(1)+')'}</span></div>
-    <div class="r-row"><span>생산율 수당</span><span>${lv===0||h<7?'미지급':'+'+rP.total.toFixed(1)+'만원 (+'+rP.per+'×'+h.toFixed(1)+')'}</span></div>
-    <div class="r-row r-total"><span>합계</span><span>${tot.toFixed(1)}만원</span></div>`;
-}
+
+function resultHTML(m){ return ''; } // 더 이상 사용 안 함
 function setField(id,field,val){
   const m=members.find(x=>x.id===id);if(!m)return;
   m[field]=Math.max(0,isNaN(val)?0:val);save();refreshResult(m);renderDash();
@@ -602,19 +669,30 @@ function adj(id,field,delta){
   refreshResult(m);renderDash();
 }
 function refreshResult(m){
-  const pct=getProdRate(m),lv=rateLevel(pct);
-  const pctBar=Math.min(100,m.targetCnt>0?Math.round((m.checkCnt/m.targetCnt)*100):0);
-  const lvLabel=lv===0?'미달 (3% 미만)':lv+'% 구간 적용';
-  const rateColor=lv===7?'var(--cw-blue)':lv>=3?'var(--amber)':'var(--red)';
-  const rb=document.getElementById('rateBig');if(rb){rb.textContent=pct.toFixed(1)+'%';rb.style.color=rateColor;}
-  const rl=document.getElementById('rateLv');if(rl)rl.textContent=lvLabel;
-  const pf=document.getElementById('progFill');if(pf){pf.style.width=pctBar+'%';pf.className='progress-fill '+progressColor(pct);}
-  const hint3=m.targetCnt?Math.ceil(m.targetCnt*0.03):'-';
-  const hint5=m.targetCnt?Math.ceil(m.targetCnt*0.05):'-';
-  const hint7=m.targetCnt?Math.ceil(m.targetCnt*0.07):'-';
-  const hs=document.getElementById('hintSub');if(hs)hs.textContent=`3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개`;
-  const tl=document.getElementById('targetLabel');if(tl)tl.textContent=m.targetCnt;
-  const box=document.getElementById('resultBox');if(box)box.innerHTML=resultHTML(m);
+  const h=hwansan(m),pct=getProdRate(m),lv=rateLevel(pct);
+  const r369=calc369(h),rP=calcProd(h,lv),tot=r369.total+rP.total;
+
+  const hint3=m.targetCnt?(m.targetCnt*0.03).toFixed(1):'-';
+  const hint5=m.targetCnt?(m.targetCnt*0.05).toFixed(1):'-';
+  const hint7=m.targetCnt?(m.targetCnt*0.07).toFixed(1):'-';
+  const hs=document.getElementById('hintSub');
+  if(hs)hs.textContent=`3%=${hint3}개 / 5%=${hint5}개 / 7%=${hint7}개`;
+
+  const prodOK=lv>0&&h>=7;
+  const pa=document.getElementById('prodAmt');
+  const ps=document.getElementById('prodSub');
+  const lvTxt=lv===0?'미달':lv+'%단가';
+  if(pa){pa.textContent=prodOK?rP.total.toFixed(1)+'만원':'미지급';pa.style.color=prodOK?'var(--cw-blue)':'var(--sub2)';}
+  if(ps)ps.textContent=prodOK?`(${h.toFixed(1)}건×${rP.per}만)`:h<7?'(환산7건 미만)':'(생산율3%미만)';
+
+  const d369OK=h>=4;
+  const da=document.getElementById('d369Amt');
+  const ds=document.getElementById('d369Sub');
+  if(da){da.textContent=d369OK?r369.total.toFixed(1)+'만원':'미지급';da.style.color=d369OK?'var(--cw-blue)':'var(--sub2)';}
+  if(ds)ds.textContent=d369OK?`(${h.toFixed(1)}건×${r369.per}만)`:'(환산4건 미만)';
+
+  const ta=document.getElementById('totalAmt');
+  if(ta)ta.textContent=tot.toFixed(1)+'만원';
 }
 function openPanel(id){
   openMemberId=id;renderPanel();
