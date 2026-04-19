@@ -1,441 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>점프UP MANAGER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* [기존 스타일 유지하되 모바일 최적화 추가] */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --blue: #1565C0; --green: #2E7D32;
+            --orange: #E65100; --red: #C62828; --purple: #6A1B9A; --teal: #00695C;
+            --gray-bg: #F5F5F5; --gray-border: #E0E0E0; --text: #212121; --text-muted: #9E9E9E;
+        }
+        body { background: var(--gray-bg); }
+        .app { max-width: 520px; margin: 0 auto; background: var(--gray-bg); min-height: 100vh; position: relative; }
+        .header { background: #1A73E8; color: white; padding: 11px 14px; display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 100; }
+        .header-title { font-size: 17px; font-weight: 700; flex: 1; }
+        .header-date { font-size: 13px; color: rgba(255,255,255,0.8); }
+        .tab-bar { background: white; border-bottom: 1px solid var(--gray-border); display: flex; position: sticky; top: 45px; z-index: 99; }
+        .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 16px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; }
+        .tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 700; }
+        .hidden { display: none !important; }
 
+        /* 컨트롤 바 */
+        .ctrl-row { background: white; display: flex; align-items: center; padding: 10px 8px; gap: 4px; border-bottom: 1px solid var(--gray-border); overflow-x: auto; }
+        .ctrl-label { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+        .month-group { display: flex; gap: 4px; flex-shrink: 0; }
+        .mo-btn { border: 1.5px solid #C5CAE9; border-radius: 5px; padding: 5px 8px; font-size: 12px; font-weight: 700; color: var(--text-muted); background: white; white-space: nowrap; }
+        .mo-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+        
+        .thr-inp { border: 1.5px solid var(--orange); border-radius: 5px; padding: 3px; font-size: 13px; font-weight: 700; color: var(--orange); width: 40px; text-align: center; }
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
-:root {
-  --blue: #1565C0; --green: #2E7D32;
-  --orange: #E65100; --red: #C62828; --purple: #6A1B9A; --teal: #00695C;
-  --gray-bg: #F5F5F5; --gray-border: #E0E0E0; --text: #212121; --text-muted: #9E9E9E;
-}
-.app { max-width: 520px; margin: 0 auto; background: var(--gray-bg); min-height: 100vh; }
-.header { background: #1A73E8; color: white; padding: 11px 14px; display: flex; align-items: center; gap: 8px; }
-.header-title { font-size: 17px; font-weight: 700; flex: 1; }
-.header-date { font-size: 13px; color: rgba(255,255,255,0.8); }
-.tab-bar { background: white; border-bottom: 1px solid var(--gray-border); display: flex; }
-.tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 18px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; }
-.tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 700; }
-.hidden { display: none; }
+        .mgmt-tip { background: #FFF8E1; border-left: 3px solid #FFB300; padding: 8px 10px; font-size: 13px; font-weight: 700; color: #5D4037; }
+        
+        /* 테이블 스타일 보정 */
+        .tbl-wrap { background: white; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 480px; }
+        .sy-table th { font-weight: 700; font-size: 11px; padding: 8px 2px; background: #f8f9fa; border-bottom: 1px solid #ddd; }
+        .sy-table td { padding: 6px 2px; text-align: center; border-bottom: 0.5px solid var(--gray-border); font-size: 13px; }
+        
+        /* 입력란 모바일 최적화 */
+        .n-inp { width: 42px; height: 30px; border: 1.5px solid #1565C0; border-radius: 4px; text-align: center; font-size: 14px; font-weight: 700; color: #0D47A1; -webkit-appearance: none; }
+        .n-inp.m { width: 50px; border-color: var(--orange); color: var(--orange); }
 
-/* 컨트롤 바 */
-.ctrl-row {
-  background: white; display: flex; align-items: center;
-  padding: 7px 8px; gap: 4px; border-bottom: 1px solid var(--gray-border);
-}
-.ctrl-label { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; flex-shrink: 0; }
-.month-group { display: flex; gap: 2px; flex-shrink: 0; }
-.mo-btn {
-  border: 1.5px solid #C5CAE9; border-radius: 5px;
-  padding: 3px 5px; font-size: 12px; font-weight: 700;
-  color: var(--text-muted); background: white; cursor: pointer;
-  white-space: nowrap; line-height: 1; flex-shrink: 0;
-}
-.mo-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
-.divider { width: 1px; height: 16px; background: var(--gray-border); flex-shrink: 0; margin: 0 3px; }
-.ctrl-label-sm { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; flex-shrink: 0; }
-/* 핵심: 부족기준 입력 고정 크기, flex-grow 없음 */
-.thr-inp {
-  border: 1.5px solid var(--orange); border-radius: 5px;
-  padding: 3px 2px; font-size: 13px; font-weight: 700;
-  color: var(--orange); width: 30px; min-width: 30px; max-width: 30px;
-  text-align: center; background: white;
-  -moz-appearance: textfield; flex-shrink: 0; flex-grow: 0;
-}
-.thr-inp::-webkit-outer-spin-button, .thr-inp::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.ctrl-pct { font-size: 12px; color: var(--orange); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
-.btn-edit-ctrl {
-  margin-left: auto; background: white; color: var(--blue);
-  border: 1.5px solid var(--blue); border-radius: 5px;
-  padding: 3px 7px; font-size: 12px; font-weight: 700;
-  cursor: pointer; white-space: nowrap; flex-shrink: 0;
-}
-
-.mgmt-tip { background: #FFF8E1; border-left: 3px solid #FFB300; padding: 6px 10px; font-size: 15px; font-weight: 700; color: #5D4037; }
-.panel { background: #F8F9FA; border: 1.5px solid #C5CAE9; border-radius: 10px; margin: 8px; padding: 14px; }
-.panel-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-.panel-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 0 4px; }
-.edit-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid var(--gray-border); }
-.edit-row:last-child { border-bottom: none; }
-.edit-idx { font-size: 12px; color: var(--text-muted); width: 18px; text-align: center; }
-.name-inp { flex: 1; border: 1.5px solid var(--gray-border); border-radius: 6px; padding: 6px 8px; font-size: 14px; color: var(--text); background: white; }
-.name-inp:focus { outline: none; border-color: var(--blue); }
-.btn-del { background: none; border: 1px solid #FFCDD2; color: var(--red); border-radius: 4px; font-size: 12px; font-weight: 700; cursor: pointer; padding: 3px 7px; }
-.add-row { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gray-border); }
-.new-inp { flex: 1; border: 1.5px solid #C5CAE9; border-radius: 6px; padding: 6px 8px; font-size: 14px; color: var(--text); background: white; }
-.new-inp:focus { outline: none; border-color: var(--blue); }
-.btn-add-confirm { background: var(--blue); color: white; border: none; border-radius: 6px; padding: 6px 14px; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-.panel-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
-.btn-cancel { background: white; border: 1.5px solid var(--gray-border); color: var(--text-muted); border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer; }
-.btn-save { background: var(--blue); color: white; border: none; border-radius: 6px; padding: 6px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
-
-.tbl-wrap { background: white; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.sy-table th { font-weight: 700; font-size: 12px; border-bottom: 1px solid #CFD8DC; white-space: nowrap; line-height: 1.3; padding: 6px 2px; text-align: center; }
-.sy-table th.col-name { background: #CFD8DC; color: var(--text); width: 40px; }
-.sy-table th.col-mgmt { background: #FFF8E1; color: #F57F17; font-size: 14px; }
-.sy-table th.col-in { background: #E8EAF6; color: var(--blue); }
-.sy-table th.col-out { background: #ECEFF1; color: var(--text-muted); font-size: 12px; font-weight: 700; }
-.sy-table th.col-pay { background: #E8F5E9; color: var(--green); font-size: 12px; font-weight: 700; }
-.sy-table td { padding: 4px 2px; text-align: center; border-bottom: 0.5px solid var(--gray-border); vertical-align: middle; }
-.sy-table td.name { font-weight: 700; color: var(--text); background: #FAFAFA; text-align: center; font-size: 13px; }
-.sy-table td.dash { color: #BDBDBD; font-size: 12px; }
-.sy-table td.nb { color: var(--blue); font-weight: 700; font-size: 14px; }
-.sy-table td.ng { color: var(--green); font-weight: 700; font-size: 14px; }
-.sy-table td.pw { color: var(--orange); font-weight: 700; font-size: 14px; }
-.sy-table td.pg { color: var(--green); font-weight: 700; font-size: 14px; }
-.sy-table td.gneg { color: var(--red); font-weight: 700; font-size: 14px; }
-.sy-table td.gpos { color: var(--green); font-weight: 700; font-size: 14px; }
-.sy-table td.pay-cell { color: var(--green); font-weight: 700; font-size: 12px; }
-.sy-table td.no-pay-cell { color: #BDBDBD; font-size: 10px; }
-tr.total-row td { background: #E8F5E9 !important; font-weight: 700; font-size: 14px; padding: 5px 2px; }
-tr.total-row td.name { background: #C8E6C9 !important; color: var(--green); }
-
-.n-inp { width: 36px; border: 1.5px solid #1565C0; border-radius: 4px; padding: 2px 2px; text-align: center; font-size: 13px; font-weight: 700; color: #0D47A1; background: white; -moz-appearance: textfield; display: block; min-width: 0; }
-.n-inp:focus { outline: 2px solid #1565C0; background: #E3F2FD; }
-.n-inp::-webkit-outer-spin-button, .n-inp::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.n-inp.r { border-color: #2E7D32; color: #1B5E20; }
-.n-inp.r:focus { outline-color: #2E7D32; background: #E8F5E9; }
-.n-inp.s { border-color: #00695C; color: #004D40; }
-.n-inp.s:focus { outline-color: #00695C; background: #E0F2F1; }
-.n-inp.m { width: 46px; border-color: #E65100; color: #BF360C; font-size: 13px; }
-.n-inp.m:focus { outline-color: #E65100; background: #FFF3E0; }
-
-.promo-box { background: white; margin: 8px; border-radius: 8px; border: 1px solid var(--gray-border); overflow: hidden; }
-.promo-box-title { background: var(--blue); color: white; padding: 8px 12px; font-size: 14px; font-weight: 700; }
-.promo-tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
-.promo-tbl th { background: #CFD8DC; padding: 7px 6px; text-align: center; font-weight: 700; border-bottom: 1px solid #B0BEC5; color: var(--text); }
-.promo-tbl td { padding: 7px 8px; text-align: center; border-bottom: 0.5px solid var(--gray-border); }
-.promo-tbl td:first-child { text-align: left; font-weight: 700; padding-left: 20px; }
-.pay { color: var(--orange); font-weight: 700; }
-.nopay { color: var(--text-muted); }
-.promo-note { padding: 8px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.8; border-top: 0.5px solid var(--gray-border); }
-.promo-note b { color: var(--text); font-weight: 700; }
-</style>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+        /* 수정 패널 */
+        .panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 1000; padding: 16px; }
+        .panel-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+    </style>
+</head>
+<body>
 
 <div class="app">
-  <div class="header">
-    <span style="font-size:18px;">⚡</span>
-    <span class="header-title">점프UP MANAGER</span>
-    <span class="header-date">2026.04.19</span>
-  </div>
-  <div class="tab-bar">
-    <div class="tab active" onclick="showTab('sy')" id="tab-sy">📋 생산율</div>
-    <div class="tab" onclick="showTab('369')" id="tab-369">📊 3.6.9</div>
-  </div>
-
-  <!-- 생산율 탭 -->
-  <div id="view-sy">
-    <div class="ctrl-row">
-      <span class="ctrl-label">월</span>
-      <div class="month-group" id="mg-sy">
-        <button class="mo-btn" onclick="setMo('sy',4)" data-mo="4">4월</button>
-        <button class="mo-btn active" onclick="setMo('sy',5)" data-mo="5">5월</button>
-        <button class="mo-btn" onclick="setMo('sy',6)" data-mo="6">6월</button>
-        <button class="mo-btn" onclick="setMo('sy',7)" data-mo="7">7월</button>
-      </div>
-      <div class="divider"></div>
-      <span class="ctrl-label-sm">부족기준</span>
-      <input class="thr-inp" type="number" id="thr-sy" value="3" min="0" max="100"
-        onchange="updateSYResults()" onblur="updateSYResults()"/>
-      <span class="ctrl-pct">%</span>
-      <button class="btn-edit-ctrl" onclick="togglePanel()">✏️수정</button>
+    <div class="header">
+        <span>⚡</span>
+        <span class="header-title">점프UP MANAGER</span>
+        <span class="header-date">2026.04.19</span>
     </div>
 
-    <div class="mgmt-tip">💛 <b>관리계정</b>: 팀장 입력</div>
-
-    <div class="panel hidden" id="member-panel">
-      <div class="panel-title">직원 관리 <button class="panel-close" onclick="togglePanel()">×</button></div>
-      <div id="edit-list"></div>
-      <div class="add-row">
-        <input class="new-inp" type="text" id="new-name-inp" placeholder="새 직원 이름 입력"/>
-        <button class="btn-add-confirm" onclick="addMember()">＋ 추가</button>
-      </div>
-      <div class="panel-footer">
-        <button class="btn-cancel" onclick="togglePanel()">닫기</button>
-        <button class="btn-save" onclick="savePanel()">저장</button>
-      </div>
+    <div class="tab-bar">
+        <div class="tab active" onclick="showTab('sy')" id="tab-sy">📋 생산율</div>
+        <div class="tab" onclick="showTab('369')" id="tab-369">📊 3.6.9</div>
     </div>
 
-    <div class="tbl-wrap">
-      <table class="sy-table">
-        <colgroup>
-          <col style="width:40px"/><col style="width:46px"/>
-          <col style="width:36px"/><col style="width:36px"/><col style="width:36px"/>
-          <col style="width:38px"/><col style="width:32px"/>
-          <col style="width:34px"/><col style="width:46px"/>
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="col-name">이름</th>
-            <th class="col-mgmt">관리<br>계정</th>
-            <th class="col-in" style="color:var(--blue);">신규</th>
-            <th class="col-in" style="color:var(--green);">재랜탈</th>
-            <th class="col-in" style="color:var(--teal);">자가<br>재랜탈</th>
-            <th class="col-out">환산<br>생산율</th>
-            <th class="col-out">환산<br>건수</th>
-            <th class="col-out">부족</th>
-            <th class="col-pay">지급금액</th>
-          </tr>
-        </thead>
-        <tbody id="sy-tbody"></tbody>
-        <tfoot id="sy-tfoot"></tfoot>
-      </table>
+    <div id="view-sy">
+        <div class="ctrl-row">
+            <span class="ctrl-label">월</span>
+            <div class="month-group" id="mg-sy">
+                <button class="mo-btn" onclick="setMo('sy',4)" data-mo="4">4월</button>
+                <button class="mo-btn active" onclick="setMo('sy',5)" data-mo="5">5월</button>
+                <button class="mo-btn" onclick="setMo('sy',6)" data-mo="6">6월</button>
+                <button class="mo-btn" onclick="setMo('sy',7)" data-mo="7">7월</button>
+            </div>
+            <div style="flex:1"></div>
+            <span class="ctrl-label">기준</span>
+            <input class="thr-inp" type="number" id="thr-sy" value="3" inputmode="decimal" oninput="updateSYResults()"/>
+            <button class="mo-btn" style="border-color:var(--blue); color:var(--blue)" onclick="togglePanel(true)">✏️직원</button>
+        </div>
+
+        <div class="mgmt-tip">💛 관리계정: 팀장 직접 입력</div>
+
+        <div class="tbl-wrap">
+            <table class="sy-table">
+                <thead>
+                    <tr>
+                        <th style="width:50px">이름</th>
+                        <th style="color:var(--orange)">관리</th>
+                        <th style="color:var(--blue)">신규</th>
+                        <th style="color:var(--green)">재랜탈</th>
+                        <th style="color:var(--teal)">자가</th>
+                        <th>생산율</th>
+                        <th>건수</th>
+                        <th>부족</th>
+                        <th>지급액</th>
+                    </tr>
+                </thead>
+                <tbody id="sy-tbody"></tbody>
+                <tfoot id="sy-tfoot"></tfoot>
+            </table>
+        </div>
     </div>
 
-    <div class="promo-box">
-      <div class="promo-box-title">💰 생산율 프로모션 기준표</div>
-      <table class="promo-tbl">
-        <thead><tr><th>환산 건수</th><th>환산생산율 3%</th><th>5%</th><th>7%</th></tr></thead>
-        <tbody>
-          <tr><td>0건 이상</td><td class="nopay" colspan="3" style="text-align:center;">미지급</td></tr>
-          <tr><td>4건 이상</td><td class="nopay" colspan="3" style="text-align:center;">미지급</td></tr>
-          <tr><td>7건 이상</td><td class="pay">+2.0만/건</td><td class="pay">+3.5만/건</td><td class="pay">+4.5만/건</td></tr>
-          <tr><td>11건 이상</td><td class="pay">+2.0만/건</td><td class="pay">+3.5만/건</td><td class="pay">+4.5만/건</td></tr>
-          <tr><td>15건 이상</td><td class="pay">+2.0만/건</td><td class="pay">+3.5만/건</td><td class="pay">+4.5만/건</td></tr>
-          <tr><td>20건 이상</td><td class="pay">+2.0만/건</td><td class="pay">+3.5만/건</td><td class="pay">+4.5만/건</td></tr>
-        </tbody>
-      </table>
-      <div class="promo-note">
-        <b>환산건수 = 신규×1.0 + 재랜탈×0.5 + 자가재랜탈×1.0</b><br>
-        <b>환산생산율(%) = 환산건수 ÷ 관리계정 × 100</b><br>
-        <b>지급금액 = 환산건수 × 건당단가 (환산건수 7건↑, 환산생산율 3%/5%/7% 달성 시)</b>
-      </div>
-    </div>
-  </div>
+    <div id="view-369" class="hidden">
+        </div>
 
-  <!-- 3.6.9 탭 -->
-  <div id="view-369" class="hidden">
-    <div class="ctrl-row">
-      <span class="ctrl-label">월</span>
-      <div class="month-group" id="mg-369">
-        <button class="mo-btn" onclick="setMo('369',4)" data-mo="4">4월</button>
-        <button class="mo-btn active" onclick="setMo('369',5)" data-mo="5">5월</button>
-        <button class="mo-btn" onclick="setMo('369',6)" data-mo="6">6월</button>
-        <button class="mo-btn" onclick="setMo('369',7)" data-mo="7">7월</button>
-      </div>
+    <div id="panel-root" class="hidden">
+        <div class="panel-backdrop" onclick="togglePanel(false)"></div>
+        <div class="panel">
+            <h3 style="margin-bottom:12px">직원 관리</h3>
+            <div id="edit-list" style="max-height: 300px; overflow-y: auto;"></div>
+            <div style="display:flex; gap:5px; margin-top:10px">
+                <input id="new-name-inp" class="n-inp" style="flex:1; width:auto; text-align:left; padding-left:10px" placeholder="이름 입력">
+                <button class="mo-btn active" onclick="addMember()">추가</button>
+            </div>
+            <div style="margin-top:15px; text-align:right">
+                <button class="mo-btn" onclick="togglePanel(false)">닫기</button>
+                <button class="mo-btn active" onclick="savePanel()">저장하기</button>
+            </div>
+        </div>
     </div>
-    <div class="tbl-wrap">
-      <table class="sy-table">
-        <colgroup>
-          <col style="width:44px"/><col style="width:36px"/><col style="width:36px"/><col style="width:36px"/>
-          <col style="width:36px"/><col style="width:36px"/><col style="width:44px"/>
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="col-name">이름</th>
-            <th class="col-in" style="color:var(--blue);">신규</th>
-            <th class="col-in" style="color:var(--green);">재랜탈</th>
-            <th class="col-in" style="color:var(--teal);">자가<br>재랜탈</th>
-            <th class="col-out">환산</th>
-            <th class="col-out">단가</th>
-            <th class="col-out">금액</th>
-          </tr>
-        </thead>
-        <tbody id="p369-tbody"></tbody>
-        <tfoot id="p369-tfoot"></tfoot>
-      </table>
-    </div>
-    <div class="promo-box">
-      <div class="promo-box-title">💰 3.6.9 프로모션 기준표</div>
-      <table class="promo-tbl">
-        <thead><tr><th>환산 건수</th><th>건당 단가</th></tr></thead>
-        <tbody>
-          <tr><td>0건 이상</td><td class="nopay">–</td></tr>
-          <tr><td>4건 이상</td><td class="pay">2.7만원</td></tr>
-          <tr><td>7건 이상</td><td class="pay">3.3만원</td></tr>
-          <tr><td>11건 이상</td><td class="pay">3.9만원</td></tr>
-          <tr><td>15건 이상</td><td class="pay">4.5만원</td></tr>
-          <tr><td>20건 이상</td><td class="pay">5.0만원</td></tr>
-        </tbody>
-      </table>
-      <div class="promo-note"><b>신규계약 ×1.0 &nbsp;|&nbsp; 재랜탈 ×0.5 &nbsp;|&nbsp; 자가재랜탈 ×1.0 (상향)</b></div>
-    </div>
-  </div>
 </div>
 
 <script>
-let members = ['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
-const mkD = () => ({mgmt:0,n:0,r:0,s:0});
-const db = {
-  4: members.map(mkD),
-  5: [
-    {mgmt:236,n:3,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
-    {mgmt:239,n:0,r:5,s:0},{mgmt:234,n:0,r:3,s:0},{mgmt:228,n:10,r:6,s:0},
-    {mgmt:146,n:7,r:2,s:0},{mgmt:275,n:13,r:7,s:0}
-  ],
-  6: members.map(mkD), 7: members.map(mkD)
-};
+    // 1. 초기 데이터 설정
+    let members = ['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
+    const mkD = () => ({mgmt:0, n:0, r:0, s:0});
 
-let curMoSY=5, curMo369=5;
+    // DB 초기화 시 깊은 복사 처리
+    let db = {
+        4: members.map(() => mkD()),
+        5: [
+            {mgmt:236,n:3,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
+            {mgmt:239,n:0,r:5,s:0},{mgmt:234,n:0,r:3,s:0},{mgmt:228,n:10,r:6,s:0},
+            {mgmt:146,n:7,r:2,s:0},{mgmt:275,n:13,r:7,s:0}
+        ],
+        6: members.map(() => mkD()), 
+        7: members.map(() => mkD())
+    };
 
-function setMo(tab,mo){
-  if(tab==='sy'){
-    curMoSY=mo;
-    document.querySelectorAll('#mg-sy .mo-btn').forEach(b=>b.classList.toggle('active',+b.dataset.mo===mo));
-    renderSY();
-  } else {
-    curMo369=mo;
-    document.querySelectorAll('#mg-369 .mo-btn').forEach(b=>b.classList.toggle('active',+b.dataset.mo===mo));
-    render369();
-  }
-}
+    let curMoSY = 5;
 
-function calcHW(n,r,s){ return n*1.0+r*0.5+s*1.0; }
-function calcSY(mgmt,n,r,s){ return mgmt?calcHW(n,r,s)/mgmt*100:0; }
-function getSYLv(sy){ return sy>=7?3:sy>=5?2:sy>=3?1:0; }
-function getSYBonus(hw,syLv){ if(hw<7)return 0; return {1:2.0,2:3.5,3:4.5}[syLv]||0; }
-function p369Price(h){ if(h>=20)return 5;if(h>=15)return 4.5;if(h>=11)return 3.9;if(h>=7)return 3.3;if(h>=4)return 2.7;return 0; }
-
-function updateSYResults(){
-  const mo=curMoSY, thr=+document.getElementById('thr-sy').value||3, data=db[mo];
-  let tN=0,tR=0,tS=0,tM=0,tPay=0;
-  members.forEach((_,i)=>{
-    const {mgmt,n,r,s}=data[i];
-    const hw=calcHW(n,r,s),sy=calcSY(mgmt,n,r,s),syLv=getSYLv(sy);
-    tN+=n;tR+=r;tS+=s;tM+=mgmt;
-    let syTx='-',syCl='dash';
-    if(mgmt&&(n||r||s)){syTx=sy.toFixed(2)+'%';syCl=syLv>=3?'pg':syLv>=2?'nb':syLv>=1?'pw':'gneg';}
-    let hwTx='-',hwCl='dash';
-    if(n||r||s){hwTx=hw.toFixed(1);hwCl='nb';}
-    let gTx='-',gCl='dash';
-    if(mgmt&&(n||r||s)){
-      const diff=sy-thr;
-      if(diff>0){gTx='+'+diff.toFixed(1)+'%';gCl='gpos';}
-      else if(diff<0){gTx=diff.toFixed(1)+'%';gCl='gneg';}
-      else{gTx='±0%';gCl='nb';}
+    // 2. 핵심 계산 함수 (방어 코드 추가)
+    const calcHW = (n, r, s) => (Number(n)||0) * 1.0 + (Number(r)||0) * 0.5 + (Number(s)||0) * 1.0;
+    const calcSY = (mgmt, hw) => (mgmt > 0) ? (hw / mgmt * 100) : 0;
+    
+    function getSYBonus(hw, sy) {
+        if (hw < 7) return 0;
+        if (sy >= 7) return 4.5;
+        if (sy >= 5) return 3.5;
+        if (sy >= 3) return 2.0;
+        return 0;
     }
-    const bonus=getSYBonus(hw,syLv),payAmt=bonus>0?hw*bonus:0;
-    tPay+=payAmt;
-    let payTx='-',payCl='no-pay-cell';
-    if(n||r||s){
-      if(payAmt>0){payTx=Math.round(payAmt*10000).toLocaleString()+'원';payCl='pay-cell';}
-      else if(hw>=7&&syLv===0){payTx='생산율미달';}
-      else{payTx='건수미달';}
+
+    // 3. 렌더링 함수
+    function renderSY() {
+        const data = db[curMoSY];
+        let html = '';
+        members.forEach((name, i) => {
+            const d = data[i] || mkD();
+            html += `
+                <tr>
+                    <td style="font-weight:700">${name}</td>
+                    <td><input type="number" class="n-inp m" value="${d.mgmt||''}" oninput="updDB(${i},'mgmt',this.value)" inputmode="decimal"></td>
+                    <td><input type="number" class="n-inp" value="${d.n||''}" oninput="updDB(${i},'n',this.value)" inputmode="decimal"></td>
+                    <td><input type="number" class="n-inp" style="border-color:var(--green)" value="${d.r||''}" oninput="updDB(${i},'r',this.value)" inputmode="decimal"></td>
+                    <td><input type="number" class="n-inp" style="border-color:var(--teal)" value="${d.s||''}" oninput="updDB(${i},'s',this.value)" inputmode="decimal"></td>
+                    <td id="sy-val-${i}">-</td>
+                    <td id="hw-val-${i}">-</td>
+                    <td id="gap-val-${i}">-</td>
+                    <td id="pay-val-${i}" style="font-size:10px">-</td>
+                </tr>`;
+        });
+        document.getElementById('sy-tbody').innerHTML = html;
+        updateSYResults();
     }
-    const row=document.getElementById('sy-row-'+i);
-    if(row){
-      row.cells[5].className=syCl;row.cells[5].textContent=syTx;
-      row.cells[6].className=hwCl;row.cells[6].textContent=hwTx;
-      row.cells[7].className=gCl;row.cells[7].textContent=gTx;
-      row.cells[8].className=payCl;row.cells[8].style.fontSize='11px';row.cells[8].textContent=payTx;
+
+    function updDB(idx, field, val) {
+        db[curMoSY][idx][field] = parseFloat(val) || 0;
+        updateSYResults();
     }
-  });
-  const tPayStr=tPay>0?Math.round(tPay*10000).toLocaleString()+'원':'-';
-  document.getElementById('sy-tfoot').innerHTML=`<tr class="total-row">
-    <td class="name">팀합계</td>
-    <td style="color:var(--purple);">${tM||'-'}</td>
-    <td>${tN}</td><td>${tR}</td><td>${tS}</td>
-    <td></td><td></td><td></td>
-    <td class="${tPay>0?'pay-cell':'no-pay-cell'}">${tPayStr}</td>
-  </tr>`;
-}
 
-function renderSY(){
-  const mo=curMoSY,data=db[mo];
-  let html='';
-  members.forEach((name,i)=>{
-    const {mgmt,n,r,s}=data[i];
-    html+=`<tr id="sy-row-${i}">
-      <td class="name">${name}</td>
-      <td style="padding:2px;text-align:center;"><input class="n-inp m" type="number" min="0" value="${mgmt||''}" placeholder="0" onchange="updDB(${i},'mgmt',this.value,'sy')" onblur="updDB(${i},'mgmt',this.value,'sy')"/></td>
-      <td><input class="n-inp" type="number" min="0" value="${n||''}" placeholder="0" onchange="updDB(${i},'n',this.value,'sy')" onblur="updDB(${i},'n',this.value,'sy')"/></td>
-      <td><input class="n-inp r" type="number" min="0" value="${r||''}" placeholder="0" onchange="updDB(${i},'r',this.value,'sy')" onblur="updDB(${i},'r',this.value,'sy')"/></td>
-      <td><input class="n-inp s" type="number" min="0" value="${s||''}" placeholder="0" onchange="updDB(${i},'s',this.value,'sy')" onblur="updDB(${i},'s',this.value,'sy')"/></td>
-      <td class="dash">-</td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td>
-    </tr>`;
-  });
-  document.getElementById('sy-tbody').innerHTML=html;
-  updateSYResults();
-}
+    function updateSYResults() {
+        const thr = parseFloat(document.getElementById('thr-sy').value) || 0;
+        let tM=0, tN=0, tR=0, tS=0, tPay=0;
 
-function update369Results(){
-  const mo=curMo369,data=db[mo];
-  let tN=0,tR=0,tS=0;
-  members.forEach((_,i)=>{
-    const {n,r,s}=data[i];
-    const hw=calcHW(n,r,s),tot=n+r+s,price=p369Price(hw),amt=price>0?hw*price:0;
-    tN+=n;tR+=r;tS+=s;
-    const row=document.getElementById('p369-row-'+i);
-    if(row){
-      row.cells[4].className=tot?'nb':'dash';row.cells[4].textContent=tot?hw.toFixed(1):'-';
-      row.cells[5].className=price>0?'pay':'dash';row.cells[5].textContent=price>0?price.toFixed(1)+'만':'-';
-      row.cells[6].className=amt>0?'ng':'dash';row.cells[6].style.fontWeight='700';row.cells[6].textContent=amt>0?amt.toFixed(1)+'만':'-';
+        members.forEach((_, i) => {
+            const d = db[curMoSY][i];
+            const hw = calcHW(d.n, d.r, d.s);
+            const sy = calcSY(d.mgmt, hw);
+            const bonus = getSYBonus(hw, sy);
+            const pay = hw * bonus;
+
+            tM += d.mgmt; tN += d.n; tR += d.r; tS += d.s; tPay += pay;
+
+            document.getElementById(`sy-val-${i}`).textContent = d.mgmt ? sy.toFixed(1) + '%' : '-';
+            document.getElementById(`hw-val-${i}`).textContent = hw ? hw.toFixed(1) : '-';
+            
+            const gap = sy - thr;
+            const gapEl = document.getElementById(`gap-val-${i}`);
+            gapEl.textContent = d.mgmt ? (gap > 0 ? '+' : '') + gap.toFixed(1) + '%' : '-';
+            gapEl.style.color = gap >= 0 ? 'var(--green)' : 'var(--red)';
+
+            const payEl = document.getElementById(`pay-val-${i}`);
+            payEl.textContent = pay > 0 ? Math.round(pay*10000).toLocaleString() + '원' : (hw >= 7 ? '생산율미달' : '-');
+            payEl.style.color = pay > 0 ? 'var(--green)' : '#999';
+        });
+
+        // 합계 영역 업데이트 (생략 가능하나 기능 유지를 위해 구현)
+        const tHW = calcHW(tN, tR, tS);
+        document.getElementById('sy-tfoot').innerHTML = `
+            <tr style="background:#E8F5E9; font-weight:700">
+                <td>팀합계</td><td>${tM}</td><td>${tN}</td><td>${tR}</td><td>${tS}</td>
+                <td>-</td><td>${tHW.toFixed(1)}</td><td>-</td><td>${Math.round(tPay*10000).toLocaleString()}원</td>
+            </tr>`;
     }
-  });
-  const tHW=calcHW(tN,tR,tS),tPrice=p369Price(tHW),tAmt=tPrice>0?tHW*tPrice:0;
-  document.getElementById('p369-tfoot').innerHTML=`<tr class="total-row">
-    <td class="name">팀합계</td><td>${tN}</td><td>${tR}</td><td>${tS}</td>
-    <td></td><td></td>
-    <td class="${tAmt>0?'ng':'dash'}" style="font-weight:700;">${tAmt>0?tAmt.toFixed(1)+'만':'-'}</td>
-  </tr>`;
-}
 
-function render369(){
-  const mo=curMo369,data=db[mo];
-  let html='';
-  members.forEach((name,i)=>{
-    const {n,r,s}=data[i];
-    html+=`<tr id="p369-row-${i}">
-      <td class="name">${name}</td>
-      <td><input class="n-inp" type="number" min="0" value="${n||''}" placeholder="0" onchange="updDB(${i},'n',this.value,'369')" onblur="updDB(${i},'n',this.value,'369')"/></td>
-      <td><input class="n-inp r" type="number" min="0" value="${r||''}" placeholder="0" onchange="updDB(${i},'r',this.value,'369')" onblur="updDB(${i},'r',this.value,'369')"/></td>
-      <td><input class="n-inp s" type="number" min="0" value="${s||''}" placeholder="0" onchange="updDB(${i},'s',this.value,'369')" onblur="updDB(${i},'s',this.value,'369')"/></td>
-      <td class="dash">-</td><td class="dash">-</td><td class="dash">-</td>
-    </tr>`;
-  });
-  document.getElementById('p369-tbody').innerHTML=html;
-  update369Results();
-}
+    // 4. 모달 및 탭 제어
+    function showTab(tab) {
+        document.getElementById('view-sy').classList.toggle('hidden', tab !== 'sy');
+        document.getElementById('view-369').classList.toggle('hidden', tab !== '369');
+        document.getElementById('tab-sy').classList.toggle('active', tab === 'sy');
+        document.getElementById('tab-369').classList.toggle('active', tab === '369');
+    }
 
-function updDB(i,field,val,tab){
-  const mo=tab==='sy'?curMoSY:curMo369;
-  db[mo][i][field]=Math.max(0,parseInt(val)||0);
-  tab==='sy'?updateSYResults():update369Results();
-}
-function togglePanel(){
-  const panel=document.getElementById('member-panel');
-  if(panel.classList.contains('hidden')){buildEditList();panel.classList.remove('hidden');}
-  else{panel.classList.add('hidden');}
-}
-function buildEditList(){
-  const list=document.getElementById('edit-list');
-  list.innerHTML='';
-  members.forEach((name,i)=>{
-    const div=document.createElement('div');
-    div.className='edit-row';
-    div.innerHTML=`<span class="edit-idx">${i+1}</span><input class="name-inp" type="text" value="${name}" data-idx="${i}"/><button class="btn-del" onclick="delMember(${i})">삭제</button>`;
-    list.appendChild(div);
-  });
-  document.getElementById('new-name-inp').value='';
-}
-function addMember(){
-  const inp=document.getElementById('new-name-inp');
-  const name=inp.value.trim();
-  if(!name)return;
-  members.push(name);
-  [4,5,6,7].forEach(mo=>db[mo].push(mkD()));
-  inp.value='';buildEditList();
-}
-function delMember(idx){
-  if(members.length<=1)return;
-  members.splice(idx,1);
-  [4,5,6,7].forEach(mo=>db[mo].splice(idx,1));
-  buildEditList();
-}
-function savePanel(){
-  document.querySelectorAll('#edit-list .name-inp').forEach((inp,i)=>{
-    const v=inp.value.trim();if(v)members[i]=v;
-  });
-  document.getElementById('member-panel').classList.add('hidden');
-  renderSY();render369();
-}
-function showTab(tab){
-  document.getElementById('view-sy').classList.toggle('hidden',tab!=='sy');
-  document.getElementById('view-369').classList.toggle('hidden',tab!=='369');
-  document.getElementById('tab-sy').classList.toggle('active',tab==='sy');
-  document.getElementById('tab-369').classList.toggle('active',tab==='369');
-  if(tab==='369')render369();
-}
-renderSY();
+    function setMo(tab, mo) {
+        curMoSY = mo;
+        document.querySelectorAll('#mg-sy .mo-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.mo) === mo));
+        renderSY();
+    }
+
+    function togglePanel(show) {
+        document.getElementById('panel-root').classList.toggle('hidden', !show);
+        if(show) {
+            const list = document.getElementById('edit-list');
+            list.innerHTML = members.map((m, i) => `
+                <div style="display:flex; align-items:center; margin-bottom:8px">
+                    <input class="n-inp" style="flex:1; width:auto; text-align:left; padding-left:10px" value="${m}" onchange="members[${i}]=this.value">
+                    <button onclick="delMember(${i})" style="color:red; background:none; border:none; margin-left:10px">삭제</button>
+                </div>
+            `).join('');
+        }
+    }
+
+    function addMember() {
+        const name = document.getElementById('new-name-inp').value.trim();
+        if(name) {
+            members.push(name);
+            [4,5,6,7].forEach(m => db[m].push(mkD()));
+            document.getElementById('new-name-inp').value = '';
+            togglePanel(true);
+        }
+    }
+
+    function delMember(i) {
+        members.splice(i, 1);
+        [4,5,6,7].forEach(m => db[m].splice(i, 1));
+        togglePanel(true);
+    }
+
+    function savePanel() {
+        togglePanel(false);
+        renderSY();
+    }
+
+    // 초기 실행
+    window.onload = renderSY;
 </script>
+
+</body>
+</html>
