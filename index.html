@@ -1,5 +1,10 @@
-
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>점프UP MANAGER</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
 :root {
@@ -7,48 +12,71 @@
   --purple:#6A1B9A; --teal:#00695C; --gray-bg:#F5F5F5; --gray-border:#E0E0E0;
   --text:#212121; --text-muted:#9E9E9E;
 }
-.app { max-width:480px; margin:0 auto; background:var(--gray-bg); min-height:100vh; }
+html, body { height: 100%; overflow-x: hidden; }
+.app { max-width:480px; margin:0 auto; background:var(--gray-bg); min-height:100vh; position:relative; }
 .header { background:#1A73E8; color:white; padding:11px 14px; display:flex; align-items:center; gap:8px; }
 .header-title { font-size:17px; font-weight:700; flex:1; }
 .header-date { font-size:13px; color:rgba(255,255,255,0.8); }
 .tab-bar { background:white; border-bottom:1px solid var(--gray-border); display:flex; }
-.tab { flex:1; padding:10px 4px; text-align:center; font-size:18px; color:var(--text-muted); cursor:pointer; border-bottom:3px solid transparent; }
+.tab { flex:1; padding:10px 4px; text-align:center; font-size:18px; color:var(--text-muted); cursor:pointer; border-bottom:3px solid transparent; -webkit-tap-highlight-color: transparent; }
 .tab.active { color:var(--blue); border-bottom-color:var(--blue); font-weight:700; }
-.hidden { display:none; }
+.hidden { display:none !important; }
 
 .ctrl-row { background:white; display:flex; align-items:center; padding:7px 10px; gap:8px; border-bottom:1px solid var(--gray-border); }
 .ctrl-label-sm { font-size:14px; font-weight:700; color:var(--text); white-space:nowrap; flex-shrink:0; }
-.thr-inp { border:1.5px solid var(--orange); border-radius:5px; padding:4px; font-size:15px; font-weight:700; color:var(--orange); width:45px; min-width:45px; max-width:45px; text-align:center; background:white; -moz-appearance:textfield; flex-shrink:0; }
+.thr-inp {
+  border:1.5px solid var(--orange); border-radius:5px; padding:4px;
+  font-size:15px; font-weight:700; color:var(--orange);
+  width:48px; min-width:48px; max-width:48px;
+  text-align:center; background:white;
+  -moz-appearance:textfield; flex-shrink:0;
+  /* 모바일 숫자패드 */
+  inputmode: numeric;
+}
 .thr-inp::-webkit-outer-spin-button,.thr-inp::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
 .ctrl-pct { font-size:14px; color:var(--orange); font-weight:700; white-space:nowrap; flex-shrink:0; }
-.btn-edit-ctrl { margin-left:auto; background:white; color:var(--blue); border:1.5px solid var(--blue); border-radius:5px; padding:4px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+.btn-edit-ctrl { margin-left:auto; background:white; color:var(--blue); border:1.5px solid var(--blue); border-radius:5px; padding:6px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; flex-shrink:0; -webkit-tap-highlight-color: transparent; min-height: 36px; }
 
 .mgmt-tip { background:#FFF8E1; border-left:3px solid #FFB300; padding:6px 10px; font-size:15px; font-weight:700; color:#5D4037; }
 
 /* 직원 관리 패널 */
-.panel { background:#F8F9FA; border:1.5px solid #C5CAE9; border-radius:10px; margin:8px; padding:10px 10px 12px 12px; max-width:260px; }
+.panel {
+  background:#F8F9FA; border:1.5px solid #C5CAE9; border-radius:10px;
+  margin:8px; padding:10px 10px 12px 12px;
+  /* 모바일: 패널 너비 고정하지 않고 자동으로 */
+  width: calc(100% - 16px);
+  max-width: 340px;
+  position: relative;
+  z-index: 10;
+}
 .panel-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; align-items:center; justify-content:space-between; }
-.panel-close { background:none; border:none; font-size:18px; color:var(--text-muted); cursor:pointer; padding:0 2px; }
-.edit-row { display:flex; align-items:center; gap:5px; padding:1px 0; }
+.panel-close { background:none; border:none; font-size:22px; color:var(--text-muted); cursor:pointer; padding:0 4px; min-width:32px; min-height:32px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color: transparent; }
+.edit-row { display:flex; align-items:center; gap:5px; padding:3px 0; }
 .edit-idx { font-size:15px; color:var(--text-muted); width:16px; text-align:center; flex-shrink:0; }
-.name-inp { flex:1; border:1.5px solid var(--gray-border); border-radius:5px; padding:4px 6px; font-size:13px; color:var(--text); background:white; min-width:0; }
+.name-inp { flex:1; border:1.5px solid var(--gray-border); border-radius:5px; padding:6px 6px; font-size:13px; color:var(--text); background:white; min-width:0; min-height:34px; }
 .name-inp:focus { outline:none; border-color:var(--blue); }
-.btn-del { background:none; border:1px solid #FFCDD2; color:var(--red); border-radius:4px; font-size:11px; font-weight:700; cursor:pointer; padding:2px 5px; flex-shrink:0; }
+.btn-del { background:none; border:1px solid #FFCDD2; color:var(--red); border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; padding:4px 7px; flex-shrink:0; min-height:32px; -webkit-tap-highlight-color: transparent; }
 .add-row { display:flex; gap:5px; margin-top:6px; padding-top:6px; border-top:1px solid var(--gray-border); }
-.new-inp { flex:1; border:1.5px solid #C5CAE9; border-radius:5px; padding:4px 6px; font-size:13px; color:var(--text); background:white; min-width:0; }
+.new-inp { flex:1; border:1.5px solid #C5CAE9; border-radius:5px; padding:6px 6px; font-size:13px; color:var(--text); background:white; min-width:0; min-height:36px; }
 .new-inp:focus { outline:none; border-color:var(--blue); }
-.btn-add-confirm { background:var(--blue); color:white; border:none; border-radius:5px; padding:4px 8px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
-.panel-footer { display:flex; justify-content:flex-end; gap:5px; margin-top:6px; }
-.btn-cancel { background:white; border:1.5px solid var(--gray-border); color:var(--text-muted); border-radius:5px; padding:3px 10px; font-size:13px; cursor:pointer; }
-.btn-save { background:var(--blue); color:white; border:none; border-radius:5px; padding:3px 10px; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-add-confirm { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; min-height:36px; -webkit-tap-highlight-color: transparent; }
+.panel-footer { display:flex; justify-content:flex-end; gap:5px; margin-top:8px; }
+.btn-cancel { background:white; border:1.5px solid var(--gray-border); color:var(--text-muted); border-radius:5px; padding:6px 12px; font-size:13px; cursor:pointer; min-height:36px; -webkit-tap-highlight-color: transparent; }
+.btn-save { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 12px; font-size:13px; font-weight:700; cursor:pointer; min-height:36px; -webkit-tap-highlight-color: transparent; }
 
-/* 테이블 */
-.tbl-wrap { background:white; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-table { border-collapse:collapse; font-size:13px; white-space:nowrap; }
+/* 테이블 래퍼 — iOS Safari sticky 버그 방지 */
+.tbl-wrap {
+  background:white;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* iOS에서 overflow+sticky 버그 우회 */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+table { border-collapse:collapse; font-size:13px; white-space:nowrap; width: max-content; min-width: 100%; }
 
 .sy-table th { font-weight:700; font-size:12px; border-bottom:1px solid #CFD8DC; line-height:1.3; padding:5px 2px; text-align:center; vertical-align:middle; }
 .sy-table th.col-name { background:#CFD8DC; color:var(--text); width:46px; position:sticky; left:0; z-index:2; }
-/* 2) 모든 입력컬럼 동일 너비 — 재랜탈 기준 48px */
 .sy-table th.col-mgmt { background:#FFF8E1; color:#F57F17; width:48px; }
 .sy-table th.col-in   { background:#E8EAF6; color:var(--blue); width:48px; }
 .sy-table th.col-out  { background:#ECEFF1; color:var(--text-muted); font-weight:700; width:52px; }
@@ -68,15 +96,20 @@ table { border-collapse:collapse; font-size:13px; white-space:nowrap; }
 tr.total-row td { background:#E8F5E9 !important; font-weight:700; font-size:13px; }
 tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
 
-/* 3) 입력박스 — 모두 동일 너비 42px, 숫자 잘림 없게 충분한 padding */
+/* 숫자 입력 — 모바일 터치 최적화 */
 .n-inp {
   width:42px; min-width:42px; max-width:42px;
   border:1.5px solid #1565C0; border-radius:4px;
-  padding:3px 1px;
+  padding:5px 1px;
   text-align:center; font-size:13px; font-weight:700;
   color:#0D47A1; background:white;
-  -moz-appearance:textfield; display:inline-block;
-  overflow:hidden;
+  -moz-appearance:textfield;
+  display:inline-block;
+  /* 터치 영역 확보 */
+  min-height:32px;
+  /* 모바일 숫자 키패드 */
+  inputmode: numeric;
+  /* iOS 자동 확대 방지 (font-size 16px 미만이면 자동 줌됨 — JS로 보완) */
 }
 .n-inp:focus { outline:2px solid #1565C0; background:#E3F2FD; }
 .n-inp::-webkit-outer-spin-button,.n-inp::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
@@ -98,25 +131,24 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
 .promo-note { padding:8px 12px; font-size:12px; color:var(--text-muted); line-height:1.8; border-top:0.5px solid var(--gray-border); }
 .promo-note b { color:var(--text); font-weight:700; }
 </style>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-
+</head>
+<body>
 <div class="app">
   <div class="header">
     <span style="font-size:18px;">⚡</span>
     <span class="header-title">점프UP MANAGER</span>
-    <span class="header-date">2026.04.19</span>
+    <span class="header-date" id="today-date"></span>
   </div>
   <div class="tab-bar">
-    <div class="tab active" onclick="showTab('sy')" id="tab-sy">📋 생산율</div>
-    <div class="tab" onclick="showTab('369')" id="tab-369">📊 3.6.9</div>
+    <div class="tab active" id="tab-sy" onclick="showTab('sy')">📋 생산율</div>
+    <div class="tab" id="tab-369" onclick="showTab('369')">📊 3.6.9</div>
   </div>
 
   <div id="view-sy">
     <div class="ctrl-row">
       <span class="ctrl-label-sm">부족기준</span>
-      <input class="thr-inp" type="number" id="thr-sy" value="3" min="0" max="100"
-        onchange="updateSYResults()" onblur="updateSYResults()"/>
+      <input class="thr-inp" type="number" id="thr-sy" value="3" min="0" max="100" inputmode="numeric"
+        oninput="debounceSY()" onblur="updateSYResults()"/>
       <span class="ctrl-pct">%</span>
       <button class="btn-edit-ctrl" onclick="togglePanel()">✏️ 수정/추가</button>
     </div>
@@ -146,7 +178,6 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
             <th class="col-mgmt">관리<br>계정</th>
             <th class="col-in" style="color:var(--blue);">신규</th>
             <th class="col-in" style="color:var(--green);">재랜탈</th>
-            <!-- 1) 자가재랜탈 두 줄 -->
             <th class="col-in" style="color:var(--teal);">자가<br>재랜탈</th>
             <th class="col-out">환산<br>생산율</th>
             <th class="col-out">환산<br>건수</th>
@@ -217,7 +248,28 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
 </div>
 
 <script>
+/* ── 오늘 날짜 ── */
+(function(){
+  const d=new Date();
+  const s=d.getFullYear()+'.'+(d.getMonth()+1).toString().padStart(2,'0')+'.'+d.getDate().toString().padStart(2,'0');
+  document.getElementById('today-date').textContent=s;
+})();
+
+/* ── iOS 자동 줌 방지: font-size<16px 입력요소에 포커스 시 meta viewport 조정 ── */
+(function(){
+  function disableZoom(){
+    const m=document.querySelector('meta[name=viewport]');
+    if(m) m.content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+  }
+  document.addEventListener('touchstart',disableZoom,{passive:true});
+})();
+
+/* ── 데이터 ── */
 let members=['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
+
+// 안전하게 정수 파싱 (빈값·NaN → 0, 음수 → 0)
+function safeInt(v){ const n=parseInt(v,10); return (isNaN(n)||n<0)?0:n; }
+
 const mkD=()=>({mgmt:0,n:0,r:0,s:0});
 const db={5:[
   {mgmt:236,n:3,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
@@ -225,84 +277,243 @@ const db={5:[
   {mgmt:146,n:7,r:2,s:0},{mgmt:275,n:13,r:7,s:0}
 ]};
 
-function calcHW(n,r,s){return n+r*0.5+s;}
-function calcSY(mgmt,n,r,s){return mgmt?calcHW(n,r,s)/mgmt*100:0;}
-function getSYLv(sy){return sy>=7?3:sy>=5?2:sy>=3?1:0;}
-function getSYBonus(hw,syLv){if(hw<7)return 0;return{1:2.0,2:3.5,3:4.5}[syLv]||0;}
-function p369Price(h){if(h>=20)return 5;if(h>=15)return 4.5;if(h>=11)return 3.9;if(h>=7)return 3.3;if(h>=4)return 2.7;return 0;}
+/* ── 계산 ── */
+function calcHW(n,r,s){ return n + r*0.5 + s; }
+function calcSY(mgmt,n,r,s){ return mgmt ? calcHW(n,r,s)/mgmt*100 : 0; }
+function getSYLv(sy){ return sy>=7?3 : sy>=5?2 : sy>=3?1 : 0; }
+function getSYBonus(hw,syLv){ if(hw<7) return 0; return {1:2.0,2:3.5,3:4.5}[syLv]||0; }
+function p369Price(h){ if(h>=20)return 5; if(h>=15)return 4.5; if(h>=11)return 3.9; if(h>=7)return 3.3; if(h>=4)return 2.7; return 0; }
 
+/* ── debounce (부족기준 입력용) ── */
+let _syTimer=null;
+function debounceSY(){ clearTimeout(_syTimer); _syTimer=setTimeout(updateSYResults,300); }
+
+/* ── 생산율 탭 ── */
 function updateSYResults(){
-  const thr=+document.getElementById('thr-sy').value||3,data=db[5];
+  const thr = safeInt(document.getElementById('thr-sy').value) || 3;
+  const data = db[5];
   let tN=0,tR=0,tS=0,tM=0,tPay=0;
-  members.forEach((_,i)=>{
-    const {mgmt,n,r,s}=data[i],hw=calcHW(n,r,s),sy=calcSY(mgmt,n,r,s),syLv=getSYLv(sy);
-    tN+=n;tR+=r;tS+=s;tM+=mgmt;
-    let syTx='-',syCl='dash';
-    if(mgmt&&(n||r||s)){syTx=sy.toFixed(2)+'%';syCl=syLv>=3?'pg':syLv>=2?'nb':syLv>=1?'pw':'gneg';}
-    let hwTx='-',hwCl='dash';
-    if(n||r||s){hwTx=hw.toFixed(1);hwCl='nb';}
-    let gTx='-',gCl='dash';
-    if(mgmt&&(n||r||s)){const diff=sy-thr;if(diff>0){gTx='+'+diff.toFixed(1)+'%';gCl='gpos';}else if(diff<0){gTx=diff.toFixed(1)+'%';gCl='gneg';}else{gTx='±0%';gCl='nb';}}
-    const bonus=getSYBonus(hw,syLv),payAmt=bonus>0?hw*bonus:0;
+
+  members.forEach(function(_,i){
+    const d=data[i];
+    if(!d) return;
+    const mgmt=d.mgmt, n=d.n, r=d.r, s=d.s;
+    const hw=calcHW(n,r,s), sy=calcSY(mgmt,n,r,s), syLv=getSYLv(sy);
+    tN+=n; tR+=r; tS+=s; tM+=mgmt;
+
+    const hasInput=(n||r||s);
+
+    // 환산생산율
+    let syTx='-', syCl='dash';
+    if(mgmt && hasInput){
+      syTx=sy.toFixed(2)+'%';
+      syCl=syLv>=3?'pg':syLv>=2?'nb':syLv>=1?'pw':'gneg';
+    }
+
+    // 환산건수
+    let hwTx='-', hwCl='dash';
+    if(hasInput){ hwTx=hw.toFixed(1); hwCl='nb'; }
+
+    // 부족
+    let gTx='-', gCl='dash';
+    if(mgmt && hasInput){
+      const diff=sy-thr;
+      if(diff>0){ gTx='+'+diff.toFixed(1)+'%'; gCl='gpos'; }
+      else if(diff<0){ gTx=diff.toFixed(1)+'%'; gCl='gneg'; }
+      else { gTx='±0%'; gCl='nb'; }
+    }
+
+    // 지급금액
+    const bonus=getSYBonus(hw,syLv), payAmt=bonus>0?hw*bonus:0;
     tPay+=payAmt;
-    let payTx='-',payCl='no-pay-cell';
-    if(n||r||s){if(payAmt>0){payTx=Math.round(payAmt*10000).toLocaleString()+'원';payCl='pay-cell';}else if(hw>=7&&syLv===0){payTx='생산율미달';}else{payTx='건수미달';}}
+    let payTx='-', payCl='no-pay-cell';
+    if(hasInput){
+      if(payAmt>0){ payTx=Math.round(payAmt*10000).toLocaleString()+'원'; payCl='pay-cell'; }
+      else if(hw>=7&&syLv===0){ payTx='생산율미달'; }
+      else { payTx='건수미달'; }
+    }
+
     const row=document.getElementById('sy-row-'+i);
-    if(row){row.cells[5].className=syCl;row.cells[5].textContent=syTx;row.cells[6].className=hwCl;row.cells[6].textContent=hwTx;row.cells[7].className=gCl;row.cells[7].textContent=gTx;row.cells[8].className=payCl;row.cells[8].textContent=payTx;}
+    if(row){
+      setCellClass(row.cells[5], syCl, syTx);
+      setCellClass(row.cells[6], hwCl, hwTx);
+      setCellClass(row.cells[7], gCl, gTx);
+      setCellClass(row.cells[8], payCl, payTx);
+    }
   });
+
   const tPayStr=tPay>0?Math.round(tPay*10000).toLocaleString()+'원':'-';
-  document.getElementById('sy-tfoot').innerHTML=`<tr class="total-row"><td class="name">팀합계</td><td style="color:var(--purple);font-weight:700;">${tM}</td><td>${tN}</td><td>${tR}</td><td>${tS}</td><td></td><td></td><td></td><td class="${tPay>0?'pay-cell':'no-pay-cell'}">${tPayStr}</td></tr>`;
+  document.getElementById('sy-tfoot').innerHTML=
+    '<tr class="total-row">'+
+    '<td class="name">팀합계</td>'+
+    '<td style="color:var(--purple);font-weight:700;">'+tM+'</td>'+
+    '<td>'+tN+'</td><td>'+tR+'</td><td>'+tS+'</td>'+
+    '<td></td><td></td><td></td>'+
+    '<td class="'+(tPay>0?'pay-cell':'no-pay-cell')+'">'+tPayStr+'</td>'+
+    '</tr>';
+}
+
+function setCellClass(cell, cls, text){
+  if(!cell) return;
+  cell.className=cls;
+  cell.textContent=text;
 }
 
 function renderSY(){
-  const data=db[5];let html='';
-  members.forEach((name,i)=>{
-    const {mgmt,n,r,s}=data[i];
-    html+=`<tr id="sy-row-${i}">
-      <td class="name">${name}</td>
-      <td><input class="n-inp m" type="number" min="0" value="${mgmt||''}" placeholder="0" onchange="updDB(${i},'mgmt',this.value,'sy')" onblur="updDB(${i},'mgmt',this.value,'sy')"/></td>
-      <td><input class="n-inp" type="number" min="0" value="${n||''}" placeholder="0" onchange="updDB(${i},'n',this.value,'sy')" onblur="updDB(${i},'n',this.value,'sy')"/></td>
-      <td><input class="n-inp r" type="number" min="0" value="${r||''}" placeholder="0" onchange="updDB(${i},'r',this.value,'sy')" onblur="updDB(${i},'r',this.value,'sy')"/></td>
-      <td><input class="n-inp s" type="number" min="0" value="${s||''}" placeholder="0" onchange="updDB(${i},'s',this.value,'sy')" onblur="updDB(${i},'s',this.value,'sy')"/></td>
-      <td class="dash">-</td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td>
-    </tr>`;
+  const data=db[5]; let html='';
+  members.forEach(function(name,i){
+    const d=data[i]||mkD();
+    html+='<tr id="sy-row-'+i+'">'+
+      '<td class="name">'+escHtml(name)+'</td>'+
+      '<td>'+mkInp(i,'mgmt',d.mgmt,'m','sy')+'</td>'+
+      '<td>'+mkInp(i,'n',d.n,'','sy')+'</td>'+
+      '<td>'+mkInp(i,'r',d.r,'r','sy')+'</td>'+
+      '<td>'+mkInp(i,'s',d.s,'s','sy')+'</td>'+
+      '<td class="dash">-</td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td>'+
+      '</tr>';
   });
   document.getElementById('sy-tbody').innerHTML=html;
   updateSYResults();
 }
 
+/* ── 3.6.9 탭 ── */
 function update369Results(){
-  const data=db[5];let tN=0,tR=0,tS=0;
-  members.forEach((_,i)=>{
-    const {n,r,s}=data[i],hw=calcHW(n,r,s),tot=n+r+s,price=p369Price(hw),amt=price>0?hw*price:0;
-    tN+=n;tR+=r;tS+=s;
+  const data=db[5]; let tN=0,tR=0,tS=0;
+  members.forEach(function(_,i){
+    const d=data[i];
+    if(!d) return;
+    const n=d.n,r=d.r,s=d.s;
+    const hw=calcHW(n,r,s), tot=n+r+s;
+    const price=p369Price(hw), amt=price>0?hw*price:0;
+    tN+=n; tR+=r; tS+=s;
     const row=document.getElementById('p369-row-'+i);
-    if(row){row.cells[4].className=tot?'nb':'dash';row.cells[4].textContent=tot?hw.toFixed(1):'-';row.cells[5].className=price>0?'pay':'dash';row.cells[5].textContent=price>0?price.toFixed(1)+'만':'-';row.cells[6].className=amt>0?'pay-cell':'no-pay-cell';row.cells[6].style.fontWeight='700';row.cells[6].textContent=amt>0?amt.toFixed(1)+'만':'-';}
+    if(row){
+      setCellClass(row.cells[4], tot?'nb':'dash', tot?hw.toFixed(1):'-');
+      setCellClass(row.cells[5], price>0?'pay':'dash', price>0?price.toFixed(1)+'만':'-');
+      const ac=row.cells[6];
+      if(ac){ ac.className=amt>0?'pay-cell':'no-pay-cell'; ac.style.fontWeight='700'; ac.textContent=amt>0?amt.toFixed(1)+'만':'-'; }
+    }
   });
-  const tHW=calcHW(tN,tR,tS),tPrice=p369Price(tHW),tAmt=tPrice>0?tHW*tPrice:0;
-  document.getElementById('p369-tfoot').innerHTML=`<tr class="total-row"><td class="name">팀합계</td><td>${tN}</td><td>${tR}</td><td>${tS}</td><td></td><td></td><td class="${tAmt>0?'pay-cell':'no-pay-cell'}" style="font-weight:700;">${tAmt>0?tAmt.toFixed(1)+'만':'-'}</td></tr>`;
+  const tHW=calcHW(tN,tR,tS), tPrice=p369Price(tHW), tAmt=tPrice>0?tHW*tPrice:0;
+  document.getElementById('p369-tfoot').innerHTML=
+    '<tr class="total-row">'+
+    '<td class="name">팀합계</td>'+
+    '<td>'+tN+'</td><td>'+tR+'</td><td>'+tS+'</td>'+
+    '<td></td><td></td>'+
+    '<td class="'+(tAmt>0?'pay-cell':'no-pay-cell')+'" style="font-weight:700;">'+(tAmt>0?tAmt.toFixed(1)+'만':'-')+'</td>'+
+    '</tr>';
 }
 
 function render369(){
-  const data=db[5];let html='';
-  members.forEach((name,i)=>{
-    const {n,r,s}=data[i];
-    html+=`<tr id="p369-row-${i}"><td class="name">${name}</td><td><input class="n-inp" type="number" min="0" value="${n||''}" placeholder="0" onchange="updDB(${i},'n',this.value,'369')" onblur="updDB(${i},'n',this.value,'369')"/></td><td><input class="n-inp r" type="number" min="0" value="${r||''}" placeholder="0" onchange="updDB(${i},'r',this.value,'369')" onblur="updDB(${i},'r',this.value,'369')"/></td><td><input class="n-inp s" type="number" min="0" value="${s||''}" placeholder="0" onchange="updDB(${i},'s',this.value,'369')" onblur="updDB(${i},'s',this.value,'369')"/></td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td></tr>`;
+  const data=db[5]; let html='';
+  members.forEach(function(name,i){
+    const d=data[i]||mkD();
+    html+='<tr id="p369-row-'+i+'">'+
+      '<td class="name">'+escHtml(name)+'</td>'+
+      '<td>'+mkInp(i,'n',d.n,'','369')+'</td>'+
+      '<td>'+mkInp(i,'r',d.r,'r','369')+'</td>'+
+      '<td>'+mkInp(i,'s',d.s,'s','369')+'</td>'+
+      '<td class="dash">-</td><td class="dash">-</td><td class="dash">-</td>'+
+      '</tr>';
   });
   document.getElementById('p369-tbody').innerHTML=html;
   update369Results();
 }
 
-function updDB(i,field,val,tab){db[5][i][field]=Math.max(0,parseInt(val)||0);tab==='sy'?updateSYResults():update369Results();}
-function togglePanel(){const p=document.getElementById('member-panel');if(p.classList.contains('hidden')){buildEditList();p.classList.remove('hidden');}else{p.classList.add('hidden');}}
+/* ── 입력 헬퍼 ── */
+function mkInp(i, field, val, cls, tab){
+  const c='n-inp'+(cls?' '+cls:'');
+  const v=(val&&val!==0)?val:'';
+  return '<input class="'+c+'" type="number" min="0" inputmode="numeric" '+
+    'value="'+v+'" placeholder="0" '+
+    'oninput="updDB('+i+',\''+field+'\',this.value,\''+tab+'\')" '+
+    'onblur="updDB('+i+',\''+field+'\',this.value,\''+tab+'\')" '+
+    'onfocus="this.select()"/>';  // 포커스 시 전체 선택 → 모바일 수정 편리
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ── DB 업데이트 (중복 호출 방지) ── */
+let _lastUpd={};
+function updDB(i, field, val, tab){
+  const key=i+'-'+field+'-'+tab;
+  const v=safeInt(val);
+  if(_lastUpd[key]===v) return;  // 값 변화 없으면 skip
+  _lastUpd[key]=v;
+  if(!db[5][i]) db[5][i]=mkD();
+  db[5][i][field]=v;
+  tab==='sy' ? updateSYResults() : update369Results();
+}
+
+/* ── 직원 관리 패널 ── */
+function togglePanel(){
+  const p=document.getElementById('member-panel');
+  if(p.classList.contains('hidden')){
+    buildEditList();
+    p.classList.remove('hidden');
+    // 패널 위치로 스크롤
+    setTimeout(function(){ p.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
+  } else {
+    p.classList.add('hidden');
+  }
+}
+
 function buildEditList(){
-  const list=document.getElementById('edit-list');list.innerHTML='';
-  members.forEach((name,i)=>{const div=document.createElement('div');div.className='edit-row';div.innerHTML=`<span class="edit-idx">${i+1}</span><input class="name-inp" type="text" value="${name}" data-idx="${i}"/><button class="btn-del" onclick="delMember(${i})">삭제</button>`;list.appendChild(div);});
+  const list=document.getElementById('edit-list');
+  list.innerHTML='';
+  members.forEach(function(name,i){
+    const div=document.createElement('div');
+    div.className='edit-row';
+    div.innerHTML=
+      '<span class="edit-idx">'+(i+1)+'</span>'+
+      '<input class="name-inp" type="text" value="'+escHtml(name)+'" data-idx="'+i+'"/>'+
+      '<button class="btn-del" onclick="delMember('+i+')">삭제</button>';
+    list.appendChild(div);
+  });
   document.getElementById('new-name-inp').value='';
 }
-function addMember(){const inp=document.getElementById('new-name-inp'),name=inp.value.trim();if(!name)return;members.push(name);db[5].push(mkD());inp.value='';buildEditList();}
-function delMember(idx){if(members.length<=1)return;members.splice(idx,1);db[5].splice(idx,1);buildEditList();}
-function savePanel(){document.querySelectorAll('#edit-list .name-inp').forEach((inp,i)=>{const v=inp.value.trim();if(v)members[i]=v;});document.getElementById('member-panel').classList.add('hidden');renderSY();render369();}
-function showTab(tab){document.getElementById('view-sy').classList.toggle('hidden',tab!=='sy');document.getElementById('view-369').classList.toggle('hidden',tab!=='369');document.getElementById('tab-sy').classList.toggle('active',tab==='sy');document.getElementById('tab-369').classList.toggle('active',tab==='369');if(tab==='369')render369();}
+
+function addMember(){
+  const inp=document.getElementById('new-name-inp');
+  const name=inp.value.trim();
+  if(!name) return;
+  members.push(name);
+  db[5].push(mkD());
+  inp.value='';
+  buildEditList();
+}
+
+function delMember(idx){
+  if(members.length<=1){ alert('최소 1명은 있어야 합니다.'); return; }
+  members.splice(idx,1);
+  db[5].splice(idx,1);
+  // _lastUpd 초기화 (인덱스 변경으로 캐시 오염 방지)
+  _lastUpd={};
+  buildEditList();
+}
+
+function savePanel(){
+  document.querySelectorAll('#edit-list .name-inp').forEach(function(inp,i){
+    const v=inp.value.trim();
+    if(v && i<members.length) members[i]=v;
+  });
+  _lastUpd={};  // 이름 변경 후 캐시 초기화
+  document.getElementById('member-panel').classList.add('hidden');
+  renderSY();
+  render369();
+}
+
+/* ── 탭 전환 ── */
+function showTab(tab){
+  document.getElementById('view-sy').classList.toggle('hidden', tab!=='sy');
+  document.getElementById('view-369').classList.toggle('hidden', tab!=='369');
+  document.getElementById('tab-sy').classList.toggle('active', tab==='sy');
+  document.getElementById('tab-369').classList.toggle('active', tab==='369');
+  if(tab==='369') render369();
+}
+
+/* ── 초기 렌더 ── */
 renderSY();
 </script>
+</body>
+</html>
