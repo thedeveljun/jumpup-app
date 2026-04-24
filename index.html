@@ -24,57 +24,35 @@ html, body { height: 100%; overflow-x: hidden; }
 
 .ctrl-row { background:white; display:flex; align-items:center; padding:7px 10px; gap:8px; border-bottom:1px solid var(--gray-border); }
 .ctrl-label-sm { font-size:14px; font-weight:700; color:var(--text); white-space:nowrap; flex-shrink:0; }
-.thr-inp {
-  border:1.5px solid var(--orange); border-radius:5px; padding:4px;
-  font-size:15px; font-weight:700; color:var(--orange);
-  width:48px; min-width:48px; max-width:48px;
-  text-align:center; background:white;
-  -moz-appearance:textfield; flex-shrink:0;
-  /* 모바일 숫자패드 */
-  inputmode: numeric;
-}
+.thr-inp { border:1.5px solid var(--orange); border-radius:5px; padding:4px; font-size:15px; font-weight:700; color:var(--orange); width:48px; min-width:48px; max-width:48px; text-align:center; background:white; -moz-appearance:textfield; flex-shrink:0; }
 .thr-inp::-webkit-outer-spin-button,.thr-inp::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
 .ctrl-pct { font-size:14px; color:var(--orange); font-weight:700; white-space:nowrap; flex-shrink:0; }
 .btn-edit-ctrl { margin-left:auto; background:white; color:var(--blue); border:1.5px solid var(--blue); border-radius:5px; padding:6px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; flex-shrink:0; -webkit-tap-highlight-color: transparent; min-height: 36px; }
 
 .mgmt-tip { background:#FFF8E1; border-left:3px solid #FFB300; padding:6px 10px; font-size:15px; font-weight:700; color:#5D4037; }
 
-/* 직원 관리 패널 */
-.panel {
-  background:#F8F9FA; border:1.5px solid #C5CAE9; border-radius:10px;
-  margin:8px; padding:10px 10px 12px 12px;
-  /* 모바일: 패널 너비 고정하지 않고 자동으로 */
-  width: calc(100% - 16px);
-  max-width: 340px;
-  position: relative;
-  z-index: 10;
-}
+.panel { background:#F8F9FA; border:1.5px solid #C5CAE9; border-radius:10px; margin:8px; padding:10px 10px 12px 12px; width: calc(100% - 16px); max-width: 340px; position: relative; z-index: 10; }
 .panel-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; align-items:center; justify-content:space-between; }
-.panel-close { background:none; border:none; font-size:22px; color:var(--text-muted); cursor:pointer; padding:0 4px; min-width:32px; min-height:32px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color: transparent; }
+.panel-close { background:none; border:none; font-size:22px; color:var(--text-muted); cursor:pointer; padding:0 4px; min-width:32px; min-height:32px; display:flex; align-items:center; justify-content:center; }
 .edit-row { display:flex; align-items:center; gap:5px; padding:3px 0; }
 .edit-idx { font-size:15px; color:var(--text-muted); width:16px; text-align:center; flex-shrink:0; }
 .name-inp { flex:1; border:1.5px solid var(--gray-border); border-radius:5px; padding:6px 6px; font-size:13px; color:var(--text); background:white; min-width:0; min-height:34px; }
 .name-inp:focus { outline:none; border-color:var(--blue); }
-.btn-del { background:none; border:1px solid #FFCDD2; color:var(--red); border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; padding:4px 7px; flex-shrink:0; min-height:32px; -webkit-tap-highlight-color: transparent; }
+.btn-del { background:none; border:1px solid #FFCDD2; color:var(--red); border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; padding:4px 7px; flex-shrink:0; min-height:32px; }
 .add-row { display:flex; gap:5px; margin-top:6px; padding-top:6px; border-top:1px solid var(--gray-border); }
 .new-inp { flex:1; border:1.5px solid #C5CAE9; border-radius:5px; padding:6px 6px; font-size:13px; color:var(--text); background:white; min-width:0; min-height:36px; }
 .new-inp:focus { outline:none; border-color:var(--blue); }
-.btn-add-confirm { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; min-height:36px; -webkit-tap-highlight-color: transparent; }
+.btn-add-confirm { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 10px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; min-height:36px; }
 .panel-footer { display:flex; justify-content:flex-end; gap:5px; margin-top:8px; }
-.btn-cancel { background:white; border:1.5px solid var(--gray-border); color:var(--text-muted); border-radius:5px; padding:6px 12px; font-size:13px; cursor:pointer; min-height:36px; -webkit-tap-highlight-color: transparent; }
-.btn-save { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 12px; font-size:13px; font-weight:700; cursor:pointer; min-height:36px; -webkit-tap-highlight-color: transparent; }
+.btn-cancel { background:white; border:1.5px solid var(--gray-border); color:var(--text-muted); border-radius:5px; padding:6px 12px; font-size:13px; cursor:pointer; min-height:36px; }
+.btn-save { background:var(--blue); color:white; border:none; border-radius:5px; padding:6px 12px; font-size:13px; font-weight:700; cursor:pointer; min-height:36px; }
 
-/* 테이블 래퍼 — iOS Safari sticky 버그 방지 */
-.tbl-wrap {
-  background:white;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-/* 생산율 테이블: 컬럼 많아서 가로 스크롤 허용 */
+/* 저장 알림 토스트 */
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:rgba(30,30,30,0.88); color:white; padding:10px 22px; border-radius:20px; font-size:14px; font-weight:700; z-index:999; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast.show { opacity:1; }
+
+.tbl-wrap { background:white; overflow-x: auto; -webkit-overflow-scrolling: touch; transform: translateZ(0); }
 #view-sy .tbl-wrap table { border-collapse:collapse; font-size:13px; white-space:nowrap; width: max-content; min-width: 100%; }
-/* 3.6.9 테이블: 한 화면에 딱 맞게 */
 #view-369 .tbl-wrap { overflow-x: hidden; }
 #view-369 .tbl-wrap table { border-collapse:collapse; font-size:13px; white-space:nowrap; width:100%; table-layout:fixed; }
 
@@ -99,21 +77,7 @@ html, body { height: 100%; overflow-x: hidden; }
 tr.total-row td { background:#E8F5E9 !important; font-weight:700; font-size:13px; }
 tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
 
-/* 숫자 입력 — 모바일 터치 최적화 */
-.n-inp {
-  width:42px; min-width:42px; max-width:42px;
-  border:1.5px solid #1565C0; border-radius:4px;
-  padding:5px 1px;
-  text-align:center; font-size:13px; font-weight:700;
-  color:#0D47A1; background:white;
-  -moz-appearance:textfield;
-  display:inline-block;
-  /* 터치 영역 확보 */
-  min-height:32px;
-  /* 모바일 숫자 키패드 */
-  inputmode: numeric;
-  /* iOS 자동 확대 방지 (font-size 16px 미만이면 자동 줌됨 — JS로 보완) */
-}
+.n-inp { width:42px; min-width:42px; max-width:42px; border:1.5px solid #1565C0; border-radius:4px; padding:5px 1px; text-align:center; font-size:13px; font-weight:700; color:#0D47A1; background:white; -moz-appearance:textfield; display:inline-block; min-height:32px; }
 .n-inp:focus { outline:2px solid #1565C0; background:#E3F2FD; }
 .n-inp::-webkit-outer-spin-button,.n-inp::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
 .n-inp.r { border-color:#2E7D32; color:#1B5E20; }
@@ -123,8 +87,8 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
 .n-inp.m { border-color:#E65100; color:#BF360C; }
 .n-inp.m:focus { outline-color:#E65100; background:#FFF3E0; }
 
-/* 3.6.9 전용 입력 — 컬럼 꽉 채우기 */
 #view-369 .n-inp { width:calc(90% - 4px); min-width:unset; max-width:unset; font-size:12px; padding:4px 1px; }
+
 .promo-box { background:white; margin:8px; border-radius:8px; border:1px solid var(--gray-border); overflow:hidden; }
 .promo-box-title { background:var(--blue); color:white; padding:8px 12px; font-size:14px; font-weight:700; }
 .promo-tbl { width:100%; border-collapse:collapse; table-layout:fixed; }
@@ -181,9 +145,9 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
           <tr>
             <th class="col-name">이름</th>
             <th class="col-mgmt">관리<br>계정</th>
-            <th class="col-in" style="color:var(--blue);">신규</th>
-            <th class="col-in" style="color:var(--green);">재랜탈</th>
-            <th class="col-in" style="color:var(--teal);">자가<br>재랜탈</th>
+            <th class="col-in" style="color:#1565C0;">신규</th>
+            <th class="col-in" style="color:#2E7D32;">재랜탈</th>
+            <th class="col-in" style="color:#00695C;">자가<br>재랜탈</th>
             <th class="col-out">환산<br>생산율</th>
             <th class="col-out">환산<br>건수</th>
             <th class="col-out">부족</th>
@@ -220,20 +184,20 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
     <div class="tbl-wrap">
       <table class="sy-table">
         <colgroup>
-          <col style="width:15%"/><!-- 이름 -->
-          <col style="width:16%"/><!-- 신규 -->
-          <col style="width:16%"/><!-- 재랜탈 -->
-          <col style="width:16%"/><!-- 자가재랜탈 -->
-          <col style="width:13%"/><!-- 환산 -->
-          <col style="width:12%"/><!-- 단가 -->
-          <col style="width:12%"/><!-- 금액 -->
+          <col style="width:15%"/>
+          <col style="width:16%"/>
+          <col style="width:16%"/>
+          <col style="width:16%"/>
+          <col style="width:13%"/>
+          <col style="width:12%"/>
+          <col style="width:12%"/>
         </colgroup>
         <thead>
           <tr>
             <th class="col-name">이름</th>
-            <th class="col-in" style="color:var(--blue);">신규</th>
-            <th class="col-in" style="color:var(--green);">재랜탈</th>
-            <th class="col-in" style="color:var(--teal);">자가<br>재랜탈</th>
+            <th class="col-in" style="color:#1565C0;">신규</th>
+            <th class="col-in" style="color:#2E7D32;">재랜탈</th>
+            <th class="col-in" style="color:#00695C;">자가<br>재랜탈</th>
             <th class="col-out">환산</th>
             <th class="col-out">단가</th>
             <th class="col-pay">금액</th>
@@ -261,6 +225,9 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
   </div>
 </div>
 
+<!-- 저장 토스트 -->
+<div class="toast" id="toast">💾 저장되었습니다</div>
+
 <script>
 /* ── 오늘 날짜 ── */
 (function(){
@@ -269,7 +236,7 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
   document.getElementById('today-date').textContent=s;
 })();
 
-/* ── iOS 자동 줌 방지: font-size<16px 입력요소에 포커스 시 meta viewport 조정 ── */
+/* ── iOS 자동 줌 방지 ── */
 (function(){
   function disableZoom(){
     const m=document.querySelector('meta[name=viewport]');
@@ -278,18 +245,66 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
   document.addEventListener('touchstart',disableZoom,{passive:true});
 })();
 
-/* ── 데이터 ── */
-let members=['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
+/* ═══════════════════════════════════════════════════
+   localStorage 키
+═══════════════════════════════════════════════════ */
+const LS_MEMBERS = 'jump_members';
+const LS_DB      = 'jump_db';
+const LS_THR     = 'jump_thr';
 
-// 안전하게 정수 파싱 (빈값·NaN → 0, 음수 → 0)
-function safeInt(v){ const n=parseInt(v,10); return (isNaN(n)||n<0)?0:n; }
-
-const mkD=()=>({mgmt:0,n:0,r:0,s:0});
-const db={5:[
+/* ── 기본 데이터 ── */
+const DEFAULT_MEMBERS = ['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
+const DEFAULT_DB = [
   {mgmt:236,n:3,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
   {mgmt:239,n:0,r:5,s:0},{mgmt:234,n:0,r:3,s:0},{mgmt:228,n:10,r:6,s:0},
   {mgmt:146,n:7,r:2,s:0},{mgmt:275,n:13,r:7,s:0}
-]};
+];
+
+/* ── localStorage에서 불러오기 ── */
+function loadData(){
+  try {
+    const m = localStorage.getItem(LS_MEMBERS);
+    const d = localStorage.getItem(LS_DB);
+    const t = localStorage.getItem(LS_THR);
+    members = m ? JSON.parse(m) : DEFAULT_MEMBERS.slice();
+    dbData  = d ? JSON.parse(d) : DEFAULT_DB.map(x=>Object.assign({},x));
+    // 부족기준 불러오기
+    if(t !== null){
+      document.getElementById('thr-sy').value = t;
+    }
+    // 멤버 수만큼 db 맞추기
+    while(dbData.length < members.length) dbData.push(mkD());
+  } catch(e){
+    members = DEFAULT_MEMBERS.slice();
+    dbData  = DEFAULT_DB.map(x=>Object.assign({},x));
+  }
+}
+
+/* ── localStorage에 저장 ── */
+function saveData(){
+  try {
+    localStorage.setItem(LS_MEMBERS, JSON.stringify(members));
+    localStorage.setItem(LS_DB,      JSON.stringify(dbData));
+    localStorage.setItem(LS_THR,     document.getElementById('thr-sy').value);
+    showToast();
+  } catch(e){
+    console.warn('localStorage 저장 실패:', e);
+  }
+}
+
+/* ── 토스트 알림 ── */
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 1500);
+}
+
+/* ── 변수 선언 ── */
+let members = [];
+let dbData  = [];
+
+function mkD(){ return {mgmt:0,n:0,r:0,s:0}; }
+function safeInt(v){ const n=parseInt(v,10); return (isNaN(n)||n<0)?0:n; }
 
 /* ── 계산 ── */
 function calcHW(n,r,s){ return n + r*0.5 + s; }
@@ -298,37 +313,45 @@ function getSYLv(sy){ return sy>=7?3 : sy>=5?2 : sy>=3?1 : 0; }
 function getSYBonus(hw,syLv){ if(hw<7) return 0; return {1:2.0,2:3.5,3:4.5}[syLv]||0; }
 function p369Price(h){ if(h>=20)return 5; if(h>=15)return 4.5; if(h>=11)return 3.9; if(h>=7)return 3.3; if(h>=4)return 2.7; return 0; }
 
-/* ── debounce (부족기준 입력용) ── */
+/* ── debounce ── */
 let _syTimer=null;
 function debounceSY(){ clearTimeout(_syTimer); _syTimer=setTimeout(updateSYResults,300); }
 
-/* ── 생산율 탭 ── */
+/* ── DB 업데이트: 입력 즉시 저장 ── */
+let _lastUpd={};
+function updDB(i, field, val, tab){
+  const key=i+'-'+field+'-'+tab;
+  const v=safeInt(val);
+  if(_lastUpd[key]===v) return;
+  _lastUpd[key]=v;
+  if(!dbData[i]) dbData[i]=mkD();
+  dbData[i][field]=v;
+  /* ★ 핵심: 숫자 입력할 때마다 localStorage에 저장 */
+  try { localStorage.setItem(LS_DB, JSON.stringify(dbData)); } catch(e){}
+  tab==='sy' ? updateSYResults() : update369Results();
+}
+
+/* ── 생산율 결과 갱신 ── */
 function updateSYResults(){
   const thr = safeInt(document.getElementById('thr-sy').value) || 3;
-  const data = db[5];
-  let tN=0,tR=0,tS=0,tM=0,tPay=0;
+  /* 부족기준도 즉시 저장 */
+  try { localStorage.setItem(LS_THR, document.getElementById('thr-sy').value); } catch(e){}
 
+  let tN=0,tR=0,tS=0,tM=0,tPay=0;
   members.forEach(function(_,i){
-    const d=data[i];
+    const d=dbData[i];
     if(!d) return;
-    const mgmt=d.mgmt, n=d.n, r=d.r, s=d.s;
+    const mgmt=d.mgmt||0, n=d.n||0, r=d.r||0, s=d.s||0;
     const hw=calcHW(n,r,s), sy=calcSY(mgmt,n,r,s), syLv=getSYLv(sy);
     tN+=n; tR+=r; tS+=s; tM+=mgmt;
-
     const hasInput=(n||r||s);
 
-    // 환산생산율
     let syTx='-', syCl='dash';
-    if(mgmt && hasInput){
-      syTx=sy.toFixed(2)+'%';
-      syCl=syLv>=3?'pg':syLv>=2?'nb':syLv>=1?'pw':'gneg';
-    }
+    if(mgmt && hasInput){ syTx=sy.toFixed(2)+'%'; syCl=syLv>=3?'pg':syLv>=2?'nb':syLv>=1?'pw':'gneg'; }
 
-    // 환산건수
     let hwTx='-', hwCl='dash';
     if(hasInput){ hwTx=hw.toFixed(1); hwCl='nb'; }
 
-    // 부족
     let gTx='-', gCl='dash';
     if(mgmt && hasInput){
       const diff=sy-thr;
@@ -337,7 +360,6 @@ function updateSYResults(){
       else { gTx='±0%'; gCl='nb'; }
     }
 
-    // 지급금액
     const bonus=getSYBonus(hw,syLv), payAmt=bonus>0?hw*bonus:0;
     tPay+=payAmt;
     let payTx='-', payCl='no-pay-cell';
@@ -349,10 +371,10 @@ function updateSYResults(){
 
     const row=document.getElementById('sy-row-'+i);
     if(row){
-      setCellClass(row.cells[5], syCl, syTx);
-      setCellClass(row.cells[6], hwCl, hwTx);
-      setCellClass(row.cells[7], gCl, gTx);
-      setCellClass(row.cells[8], payCl, payTx);
+      setCell(row.cells[5],syCl,syTx);
+      setCell(row.cells[6],hwCl,hwTx);
+      setCell(row.cells[7],gCl,gTx);
+      setCell(row.cells[8],payCl,payTx);
     }
   });
 
@@ -367,16 +389,13 @@ function updateSYResults(){
     '</tr>';
 }
 
-function setCellClass(cell, cls, text){
-  if(!cell) return;
-  cell.className=cls;
-  cell.textContent=text;
-}
+function setCell(cell,cls,text){ if(!cell)return; cell.className=cls; cell.textContent=text; }
 
+/* ── 생산율 테이블 렌더 ── */
 function renderSY(){
-  const data=db[5]; let html='';
+  let html='';
   members.forEach(function(name,i){
-    const d=data[i]||mkD();
+    const d=dbData[i]||mkD();
     html+='<tr id="sy-row-'+i+'">'+
       '<td class="name">'+escHtml(name)+'</td>'+
       '<td>'+mkInp(i,'mgmt',d.mgmt,'m','sy')+'</td>'+
@@ -390,20 +409,20 @@ function renderSY(){
   updateSYResults();
 }
 
-/* ── 3.6.9 탭 ── */
+/* ── 3.6.9 결과 갱신 ── */
 function update369Results(){
-  const data=db[5]; let tN=0,tR=0,tS=0;
+  let tN=0,tR=0,tS=0;
   members.forEach(function(_,i){
-    const d=data[i];
+    const d=dbData[i];
     if(!d) return;
-    const n=d.n,r=d.r,s=d.s;
+    const n=d.n||0,r=d.r||0,s=d.s||0;
     const hw=calcHW(n,r,s), tot=n+r+s;
     const price=p369Price(hw), amt=price>0?hw*price:0;
     tN+=n; tR+=r; tS+=s;
     const row=document.getElementById('p369-row-'+i);
     if(row){
-      setCellClass(row.cells[4], tot?'nb':'dash', tot?hw.toFixed(1):'-');
-      setCellClass(row.cells[5], price>0?'pay':'dash', price>0?price.toFixed(1)+'만':'-');
+      setCell(row.cells[4], tot?'nb':'dash', tot?hw.toFixed(1):'-');
+      setCell(row.cells[5], price>0?'pay':'dash', price>0?price.toFixed(1)+'만':'-');
       const ac=row.cells[6];
       if(ac){ ac.className=amt>0?'pay-cell':'no-pay-cell'; ac.style.fontWeight='700'; ac.style.fontSize='11px'; ac.textContent=amt>0?amt.toFixed(1)+'만':'-'; }
     }
@@ -418,10 +437,11 @@ function update369Results(){
     '</tr>';
 }
 
+/* ── 3.6.9 테이블 렌더 ── */
 function render369(){
-  const data=db[5]; let html='';
+  let html='';
   members.forEach(function(name,i){
-    const d=data[i]||mkD();
+    const d=dbData[i]||mkD();
     html+='<tr id="p369-row-'+i+'">'+
       '<td class="name">'+escHtml(name)+'</td>'+
       '<td>'+mkInp(i,'n',d.n,'','369')+'</td>'+
@@ -435,29 +455,17 @@ function render369(){
 }
 
 /* ── 입력 헬퍼 ── */
-function mkInp(i, field, val, cls, tab){
+function mkInp(i,field,val,cls,tab){
   const c='n-inp'+(cls?' '+cls:'');
   const v=(val&&val!==0)?val:'';
   return '<input class="'+c+'" type="number" min="0" inputmode="numeric" '+
     'value="'+v+'" placeholder="0" '+
     'oninput="updDB('+i+',\''+field+'\',this.value,\''+tab+'\')" '+
     'onblur="updDB('+i+',\''+field+'\',this.value,\''+tab+'\')" '+
-    'onfocus="this.select()"/>';  // 포커스 시 전체 선택 → 모바일 수정 편리
+    'onfocus="this.select()"/>';
 }
 
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* ── DB 업데이트 (중복 호출 방지) ── */
-let _lastUpd={};
-function updDB(i, field, val, tab){
-  const key=i+'-'+field+'-'+tab;
-  const v=safeInt(val);
-  if(_lastUpd[key]===v) return;  // 값 변화 없으면 skip
-  _lastUpd[key]=v;
-  if(!db[5][i]) db[5][i]=mkD();
-  db[5][i][field]=v;
-  tab==='sy' ? updateSYResults() : update369Results();
-}
 
 /* ── 직원 관리 패널 ── */
 function togglePanel(){
@@ -465,7 +473,6 @@ function togglePanel(){
   if(p.classList.contains('hidden')){
     buildEditList();
     p.classList.remove('hidden');
-    // 패널 위치로 스크롤
     setTimeout(function(){ p.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
   } else {
     p.classList.add('hidden');
@@ -492,7 +499,7 @@ function addMember(){
   const name=inp.value.trim();
   if(!name) return;
   members.push(name);
-  db[5].push(mkD());
+  dbData.push(mkD());
   inp.value='';
   buildEditList();
 }
@@ -500,19 +507,21 @@ function addMember(){
 function delMember(idx){
   if(members.length<=1){ alert('최소 1명은 있어야 합니다.'); return; }
   members.splice(idx,1);
-  db[5].splice(idx,1);
-  // _lastUpd 초기화 (인덱스 변경으로 캐시 오염 방지)
+  dbData.splice(idx,1);
   _lastUpd={};
   buildEditList();
 }
 
+/* ── 저장 버튼: 직원명 변경 + localStorage 저장 ── */
 function savePanel(){
   document.querySelectorAll('#edit-list .name-inp').forEach(function(inp,i){
     const v=inp.value.trim();
     if(v && i<members.length) members[i]=v;
   });
-  _lastUpd={};  // 이름 변경 후 캐시 초기화
+  _lastUpd={};
   document.getElementById('member-panel').classList.add('hidden');
+  /* ★ localStorage 저장 */
+  saveData();
   renderSY();
   render369();
 }
@@ -526,7 +535,8 @@ function showTab(tab){
   if(tab==='369') render369();
 }
 
-/* ── 초기 렌더 ── */
+/* ── 초기화 ── */
+loadData();
 renderSY();
 </script>
 </body>
