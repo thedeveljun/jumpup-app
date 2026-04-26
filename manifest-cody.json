@@ -3,12 +3,12 @@
   "short_name": "코디앱",
   "description": "코웨이 코디 개인 실적 관리",
   "start_url": "/jumpup-app/coway_cody_app.html",
-  "scope": "/jumpup-app/coway_cody_app.html",
+  "scope": "/jumpup-app/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F5F5F5",
   "theme_color": "#1A73E8",
-  "id": "jumpup-cody-app",
+  "id": "jumpup-cody-app-v2",
   "icons": [
     {
       "src": "icon-192.png",
