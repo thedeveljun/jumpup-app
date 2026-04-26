@@ -231,19 +231,19 @@ html,body { height:100%; overflow-x:hidden; }
       <div class="card">
         <div class="card-label" style="color:var(--blue);">🔵 신규</div>
         <input class="card-inp" type="number" id="inp-n2" inputmode="numeric"
-          placeholder="0" oninput="calc369()" onblur="calc369()" onfocus="this.select()"/>
+          placeholder="0" oninput="calc369(true)" onblur="calc369(true)" onfocus="this.select()"/>
         <div class="card-sub">× 1.0건 환산</div>
       </div>
       <div class="card">
         <div class="card-label" style="color:var(--green);">🟢 재랜탈</div>
         <input class="card-inp r" type="number" id="inp-r2" inputmode="numeric"
-          placeholder="0" oninput="calc369()" onblur="calc369()" onfocus="this.select()"/>
+          placeholder="0" oninput="calc369(true)" onblur="calc369(true)" onfocus="this.select()"/>
         <div class="card-sub">× 0.5건 환산</div>
       </div>
       <div class="card">
         <div class="card-label" style="color:var(--teal);">🔷 자가재랜탈</div>
         <input class="card-inp s" type="number" id="inp-s2" inputmode="numeric"
-          placeholder="0" oninput="calc369()" onblur="calc369()" onfocus="this.select()"/>
+          placeholder="0" oninput="calc369(true)" onblur="calc369(true)" onfocus="this.select()"/>
         <div class="card-sub">× 1.0건 (상향)</div>
       </div>
     </div>
@@ -375,6 +375,11 @@ function calcSY() {
   const hw   = calcHW(n, r, s);
   const hasInput = (n || r || s);
 
+  /* 2) 생산율 입력값 → 3.6.9 탭에 연동 */
+  document.getElementById('inp-n2').value = n || '';
+  document.getElementById('inp-r2').value = r || '';
+  document.getElementById('inp-s2').value = s || '';
+
   /* 환산건수 */
   setText('res-hw', hasInput ? hw.toFixed(1) + '건' : '-', 'v-blue');
 
@@ -385,10 +390,14 @@ function calcSY() {
     const clr  = syLv >= 3 ? 'v-green' : syLv >= 2 ? 'v-blue' : syLv >= 1 ? 'v-orange' : 'v-red';
     setText('res-sy', sy.toFixed(2) + '%', clr);
 
-    /* 부족 */
-    const diff = sy - thr;
-    if (diff >= 0) setText('res-short', '+' + diff.toFixed(1) + '%', 'v-green');
-    else           setText('res-short', diff.toFixed(1) + '%', 'v-red');
+    /* 1) 부족건수: 목표환산건수 - 현재환산건수 (건 단위) */
+    const targetHW = mgmt * (thr / 100);  /* 목표 환산건수 */
+    const diffHW   = targetHW - hw;       /* 부족 건수 (양수=부족, 음수=초과) */
+    if (diffHW <= 0) {
+      setText('res-short', '+' + Math.abs(diffHW).toFixed(1) + '건 초과', 'v-green');
+    } else {
+      setText('res-short', diffHW.toFixed(1) + '건 부족', 'v-red');
+    }
 
     /* 지급금액 */
     const bonus  = getSYBonus(hw, syLv);
@@ -406,11 +415,22 @@ function calcSY() {
     setText('res-pay',   '-', 'v-gray');
   }
 
+  /* 3.6.9 결과도 함께 갱신 */
+  calc369(false);
   saveAll();
 }
 
 /* ── 3.6.9 계산 & 화면 갱신 ── */
-function calc369() {
+function calc369(doSync) {
+  /* 2) 3.6.9 입력값 → 생산율 탭에 연동 (doSync===true 일 때만) */
+  if (doSync !== false) {
+    const n2 = si('inp-n2'), r2 = si('inp-r2'), s2 = si('inp-s2');
+    document.getElementById('inp-n').value = n2 || '';
+    document.getElementById('inp-r').value = r2 || '';
+    document.getElementById('inp-s').value = s2 || '';
+    calcSY();
+    return;
+  }
   const n = si('inp-n2'), r = si('inp-r2'), s = si('inp-s2');
   const hw = calcHW(n, r, s);
   const hasInput = (n || r || s);
@@ -457,7 +477,7 @@ function showToast(msg) {
 /* ── 초기화 ── */
 loadAll();
 calcSY();
-calc369();
+calc369(false);
 </script>
 </body>
 </html>
