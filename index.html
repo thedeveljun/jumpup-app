@@ -1,9 +1,10 @@
-
-<html lang="ko"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>점프UP MANAGER</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; }
 :root {
@@ -106,17 +107,18 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
   <div class="header">
     <span style="font-size:18px;">⚡</span>
     <span class="header-title">점프UP MANAGER</span>
-    <span class="header-date" id="today-date">2026.04.25</span>
+    <span class="header-date" id="today-date"></span>
   </div>
   <div class="tab-bar">
     <div class="tab active" id="tab-sy" onclick="showTab('sy')">📋 생산율</div>
     <div class="tab" id="tab-369" onclick="showTab('369')">📊 3.6.9</div>
   </div>
 
-  <div id="view-sy" class="">
+  <div id="view-sy">
     <div class="ctrl-row">
       <span class="ctrl-label-sm">부족기준</span>
-      <input class="thr-inp" type="number" id="thr-sy" value="7" min="0" max="100" inputmode="numeric" oninput="debounceSY()" onblur="updateSYResults()">
+      <input class="thr-inp" type="number" id="thr-sy" value="3" min="0" max="100" inputmode="numeric"
+        oninput="debounceSY()" onblur="updateSYResults()"/>
       <span class="ctrl-pct">%</span>
       <button class="btn-edit-ctrl" onclick="togglePanel()">✏️ 수정/추가</button>
     </div>
@@ -129,7 +131,7 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
       </div>
       <div id="edit-list"></div>
       <div class="add-row">
-        <input class="new-inp" type="text" id="new-name-inp" placeholder="이름 입력">
+        <input class="new-inp" type="text" id="new-name-inp" placeholder="이름 입력"/>
         <button class="btn-add-confirm" onclick="addMember()">＋추가</button>
       </div>
       <div class="panel-footer">
@@ -149,12 +151,12 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
             <th class="col-in" style="color:#00695C;">자가<br>재랜탈</th>
             <th class="col-out">환산<br>생산율</th>
             <th class="col-out">환산<br>건수</th>
-            <th class="col-out">부족<br>건수</th>
+            <th class="col-out">부족</th>
             <th class="col-pay">지급금액</th>
           </tr>
         </thead>
-        <tbody id="sy-tbody"><tr id="sy-row-0"><td class="name">박행신</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="236" placeholder="0" oninput="updDB(0,'mgmt',this.value,'sy')" onblur="updDB(0,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="3" placeholder="0" oninput="updDB(0,'n',this.value,'sy')" onblur="updDB(0,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="6" placeholder="0" oninput="updDB(0,'r',this.value,'sy')" onblur="updDB(0,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(0,'s',this.value,'sy')" onblur="updDB(0,'s',this.value,'sy')" onfocus="this.select()"></td><td class="gneg">2.54%</td><td class="nb">6.0</td><td class="gneg">-4.5%</td><td class="no-pay-cell">건수미달</td></tr><tr id="sy-row-1"><td class="name">강승임</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="250" placeholder="0" oninput="updDB(1,'mgmt',this.value,'sy')" onblur="updDB(1,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="10" placeholder="0" oninput="updDB(1,'n',this.value,'sy')" onblur="updDB(1,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="2" placeholder="0" oninput="updDB(1,'r',this.value,'sy')" onblur="updDB(1,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(1,'s',this.value,'sy')" onblur="updDB(1,'s',this.value,'sy')" onfocus="this.select()"></td><td class="pw">4.40%</td><td class="nb">11.0</td><td class="gneg">-2.6%</td><td class="pay-cell">220,000원</td></tr><tr id="sy-row-2"><td class="name">박일녀</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="283" placeholder="0" oninput="updDB(2,'mgmt',this.value,'sy')" onblur="updDB(2,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="17" placeholder="0" oninput="updDB(2,'n',this.value,'sy')" onblur="updDB(2,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="15" placeholder="0" oninput="updDB(2,'r',this.value,'sy')" onblur="updDB(2,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(2,'s',this.value,'sy')" onblur="updDB(2,'s',this.value,'sy')" onfocus="this.select()"></td><td class="pg">8.66%</td><td class="nb">24.5</td><td class="gpos">+1.7%</td><td class="pay-cell">1,102,500원</td></tr><tr id="sy-row-3"><td class="name">임병순</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="239" placeholder="0" oninput="updDB(3,'mgmt',this.value,'sy')" onblur="updDB(3,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(3,'n',this.value,'sy')" onblur="updDB(3,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="5" placeholder="0" oninput="updDB(3,'r',this.value,'sy')" onblur="updDB(3,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(3,'s',this.value,'sy')" onblur="updDB(3,'s',this.value,'sy')" onfocus="this.select()"></td><td class="gneg">1.05%</td><td class="nb">2.5</td><td class="gneg">-6.0%</td><td class="no-pay-cell">건수미달</td></tr><tr id="sy-row-4"><td class="name">김태효</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="234" placeholder="0" oninput="updDB(4,'mgmt',this.value,'sy')" onblur="updDB(4,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(4,'n',this.value,'sy')" onblur="updDB(4,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="3" placeholder="0" oninput="updDB(4,'r',this.value,'sy')" onblur="updDB(4,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(4,'s',this.value,'sy')" onblur="updDB(4,'s',this.value,'sy')" onfocus="this.select()"></td><td class="gneg">0.64%</td><td class="nb">1.5</td><td class="gneg">-6.4%</td><td class="no-pay-cell">건수미달</td></tr><tr id="sy-row-5"><td class="name">전숙경</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="228" placeholder="0" oninput="updDB(5,'mgmt',this.value,'sy')" onblur="updDB(5,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="10" placeholder="0" oninput="updDB(5,'n',this.value,'sy')" onblur="updDB(5,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="6" placeholder="0" oninput="updDB(5,'r',this.value,'sy')" onblur="updDB(5,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(5,'s',this.value,'sy')" onblur="updDB(5,'s',this.value,'sy')" onfocus="this.select()"></td><td class="nb">5.70%</td><td class="nb">13.0</td><td class="gneg">-1.3%</td><td class="pay-cell">455,000원</td></tr><tr id="sy-row-6"><td class="name">이은이</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="146" placeholder="0" oninput="updDB(6,'mgmt',this.value,'sy')" onblur="updDB(6,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="7" placeholder="0" oninput="updDB(6,'n',this.value,'sy')" onblur="updDB(6,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="2" placeholder="0" oninput="updDB(6,'r',this.value,'sy')" onblur="updDB(6,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(6,'s',this.value,'sy')" onblur="updDB(6,'s',this.value,'sy')" onfocus="this.select()"></td><td class="nb">5.48%</td><td class="nb">8.0</td><td class="gneg">-1.5%</td><td class="pay-cell">280,000원</td></tr><tr id="sy-row-7"><td class="name">우영미</td><td><input class="n-inp m" type="number" min="0" inputmode="numeric" value="275" placeholder="0" oninput="updDB(7,'mgmt',this.value,'sy')" onblur="updDB(7,'mgmt',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="13" placeholder="0" oninput="updDB(7,'n',this.value,'sy')" onblur="updDB(7,'n',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="7" placeholder="0" oninput="updDB(7,'r',this.value,'sy')" onblur="updDB(7,'r',this.value,'sy')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(7,'s',this.value,'sy')" onblur="updDB(7,'s',this.value,'sy')" onfocus="this.select()"></td><td class="nb">6.00%</td><td class="nb">16.5</td><td class="gneg">-1.0%</td><td class="pay-cell">577,500원</td></tr></tbody>
-        <tfoot id="sy-tfoot"><tr class="total-row"><td class="name">팀합계</td><td style="color:var(--purple);font-weight:700;">1891</td><td>60</td><td>46</td><td>0</td><td></td><td></td><td></td><td class="pay-cell">2,635,000원</td></tr></tfoot>
+        <tbody id="sy-tbody"></tbody>
+        <tfoot id="sy-tfoot"></tfoot>
       </table>
     </div>
 
@@ -183,13 +185,13 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
     <div class="tbl-wrap">
       <table class="sy-table">
         <colgroup>
-          <col style="width:15%">
-          <col style="width:16%">
-          <col style="width:16%">
-          <col style="width:16%">
-          <col style="width:13%">
-          <col style="width:12%">
-          <col style="width:12%">
+          <col style="width:15%"/>
+          <col style="width:16%"/>
+          <col style="width:16%"/>
+          <col style="width:16%"/>
+          <col style="width:13%"/>
+          <col style="width:12%"/>
+          <col style="width:12%"/>
         </colgroup>
         <thead>
           <tr>
@@ -202,8 +204,8 @@ tr.total-row td.name { background:#C8E6C9 !important; color:var(--green); }
             <th class="col-pay">금액</th>
           </tr>
         </thead>
-        <tbody id="p369-tbody"><tr id="p369-row-0"><td class="name">박행신</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="3" placeholder="0" oninput="updDB(0,'n',this.value,'369')" onblur="updDB(0,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="6" placeholder="0" oninput="updDB(0,'r',this.value,'369')" onblur="updDB(0,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(0,'s',this.value,'369')" onblur="updDB(0,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">6.0</td><td class="pay">2.7만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">16.2만</td></tr><tr id="p369-row-1"><td class="name">강승임</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="10" placeholder="0" oninput="updDB(1,'n',this.value,'369')" onblur="updDB(1,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="2" placeholder="0" oninput="updDB(1,'r',this.value,'369')" onblur="updDB(1,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(1,'s',this.value,'369')" onblur="updDB(1,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">11.0</td><td class="pay">3.9만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">42.9만</td></tr><tr id="p369-row-2"><td class="name">박일녀</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="17" placeholder="0" oninput="updDB(2,'n',this.value,'369')" onblur="updDB(2,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="15" placeholder="0" oninput="updDB(2,'r',this.value,'369')" onblur="updDB(2,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(2,'s',this.value,'369')" onblur="updDB(2,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">24.5</td><td class="pay">5.0만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">122.5만</td></tr><tr id="p369-row-3"><td class="name">임병순</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(3,'n',this.value,'369')" onblur="updDB(3,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="5" placeholder="0" oninput="updDB(3,'r',this.value,'369')" onblur="updDB(3,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(3,'s',this.value,'369')" onblur="updDB(3,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">2.5</td><td class="dash">-</td><td class="no-pay-cell" style="font-weight: 700; font-size: 11px;">-</td></tr><tr id="p369-row-4"><td class="name">김태효</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(4,'n',this.value,'369')" onblur="updDB(4,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="3" placeholder="0" oninput="updDB(4,'r',this.value,'369')" onblur="updDB(4,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(4,'s',this.value,'369')" onblur="updDB(4,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">1.5</td><td class="dash">-</td><td class="no-pay-cell" style="font-weight: 700; font-size: 11px;">-</td></tr><tr id="p369-row-5"><td class="name">전숙경</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="10" placeholder="0" oninput="updDB(5,'n',this.value,'369')" onblur="updDB(5,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="6" placeholder="0" oninput="updDB(5,'r',this.value,'369')" onblur="updDB(5,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(5,'s',this.value,'369')" onblur="updDB(5,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">13.0</td><td class="pay">3.9만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">50.7만</td></tr><tr id="p369-row-6"><td class="name">이은이</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="7" placeholder="0" oninput="updDB(6,'n',this.value,'369')" onblur="updDB(6,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="2" placeholder="0" oninput="updDB(6,'r',this.value,'369')" onblur="updDB(6,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(6,'s',this.value,'369')" onblur="updDB(6,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">8.0</td><td class="pay">3.3만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">26.4만</td></tr><tr id="p369-row-7"><td class="name">우영미</td><td><input class="n-inp" type="number" min="0" inputmode="numeric" value="13" placeholder="0" oninput="updDB(7,'n',this.value,'369')" onblur="updDB(7,'n',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp r" type="number" min="0" inputmode="numeric" value="7" placeholder="0" oninput="updDB(7,'r',this.value,'369')" onblur="updDB(7,'r',this.value,'369')" onfocus="this.select()"></td><td><input class="n-inp s" type="number" min="0" inputmode="numeric" value="" placeholder="0" oninput="updDB(7,'s',this.value,'369')" onblur="updDB(7,'s',this.value,'369')" onfocus="this.select()"></td><td class="nb">16.5</td><td class="pay">4.5만</td><td class="pay-cell" style="font-weight: 700; font-size: 11px;">74.3만</td></tr></tbody>
-        <tfoot id="p369-tfoot"><tr class="total-row"><td class="name">팀합계</td><td>60</td><td>46</td><td>0</td><td></td><td></td><td class="pay-cell" style="font-weight:700;">415.0만</td></tr></tfoot>
+        <tbody id="p369-tbody"></tbody>
+        <tfoot id="p369-tfoot"></tfoot>
       </table>
     </div>
     <div class="promo-box">
@@ -254,7 +256,7 @@ const LS_THR     = 'jump_thr';
 /* ── 기본 데이터 ── */
 const DEFAULT_MEMBERS = ['박행신','강승임','박일녀','임병순','김태효','전숙경','이은이','우영미'];
 const DEFAULT_DB = [
-  {mgmt:236,n:4,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
+  {mgmt:236,n:3,r:6,s:0},{mgmt:250,n:10,r:2,s:0},{mgmt:283,n:17,r:15,s:0},
   {mgmt:239,n:0,r:5,s:0},{mgmt:234,n:0,r:3,s:0},{mgmt:228,n:10,r:6,s:0},
   {mgmt:146,n:7,r:2,s:0},{mgmt:275,n:13,r:7,s:0}
 ];
@@ -270,8 +272,6 @@ function loadData(){
     // 부족기준 불러오기
     if(t !== null){
       document.getElementById('thr-sy').value = t;
-    } else {
-      document.getElementById('thr-sy').value = 7;
     }
     // 멤버 수만큼 db 맞추기
     while(dbData.length < members.length) dbData.push(mkD());
@@ -355,11 +355,10 @@ function updateSYResults(){
 
     let gTx='-', gCl='dash';
     if(mgmt && hasInput){
-      // 목표계정수 = ceil(관리계정 × thr%), 부족건수 = 목표계정수 - 환산건수
-      const targetHW = Math.ceil(mgmt * (thr/100));
-      const diff = targetHW - hw;
-      if(diff <= 0){ gTx='+'+Math.abs(diff).toFixed(1)+'건'; gCl='gpos'; }
-      else { gTx=diff.toFixed(1)+'건'; gCl='gneg'; }
+      const diff=sy-thr;
+      if(diff>0){ gTx='+'+diff.toFixed(1)+'%'; gCl='gpos'; }
+      else if(diff<0){ gTx=diff.toFixed(1)+'%'; gCl='gneg'; }
+      else { gTx='±0%'; gCl='nb'; }
     }
 
     const bonus=getSYBonus(hw,syLv), payAmt=bonus>0?hw*bonus:0;
@@ -541,6 +540,5 @@ function showTab(tab){
 loadData();
 renderSY();
 </script>
-
-
-</body></html>
+</body>
+</html>
