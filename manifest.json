@@ -1,12 +1,14 @@
 {
-  "name": "점프UP 관리",
-  "short_name": "점프UP",
-  "description": "팀장 전용 수당 계산기",
-  "start_url": "./index.html",
+  "name": "점프UP MANAGER",
+  "short_name": "팀장앱",
+  "description": "코웨이 팀장 실적 관리",
+  "start_url": "/jumpup-app/",
+  "scope": "/jumpup-app/",
   "display": "standalone",
-  "background_color": "#0F6FBF",
-  "theme_color": "#0F6FBF",
   "orientation": "portrait",
+  "background_color": "#F5F5F5",
+  "theme_color": "#1A73E8",
+  "id": "jumpup-manager-app",
   "icons": [
     {
       "src": "icon-192.png",
