@@ -1,9 +1,9 @@
-const CACHE_NAME = 'jumpup-cody-v3';
+const CACHE_NAME = 'jumpup-cody-v4';
 const ASSETS = [
   '/jumpup-app/coway_cody_app.html',
   '/jumpup-app/manifest-cody.json',
-  '/jumpup-app/icon-192.png',
-  '/jumpup-app/icon-512.png'
+  '/jumpup-app/icon-cody-192.png',
+  '/jumpup-app/icon-cody-512.png'
 ];
 
 self.addEventListener('install', function(e){
